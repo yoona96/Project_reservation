@@ -1,5 +1,5 @@
-package MainPkg;
-import MainPkg.Validate;
+package main_pkg;
+import main_pkg.Validate;
 
 public class Validate {
 

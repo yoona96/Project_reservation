@@ -1,5 +1,5 @@
-package MainPkg;
-import MainPkg.textDB;
+package main_pkg;
+import main_pkg.textDB;
 
 public class Reservation {
 
