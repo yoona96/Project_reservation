@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+
 import main_pkg.textDB;
 
 public class File_IO {
@@ -29,7 +30,7 @@ public class File_IO {
     }
     
     private void create_file(){ // 필요한 파일이 없을 때, 파일을 생성하는 메소드
-    	String user_name = "Administrator";	// 사용자 이름
+    	String user_name = new com.sun.security.auth.module.NTSystem().getName();	// 사용자 이름
     	String directory =  "C:\\Users\\"; 
     	String home_directory =  directory + user_name ; // {HOME}경로
     	String data_directory =  home_directory + "\\data" ; // data경로
@@ -71,7 +72,7 @@ public class File_IO {
     }
     
     private void delete_file(){ // 과거의 데이터 파일이 존재할 때, 삭제하는 메소드
-    	String user_name = "Administrator"; // 사용자 이름
+    	String user_name = new com.sun.security.auth.module.NTSystem().getName(); // 사용자 이름
     	String directory =  "C:\\Users\\";
     	String home_directory =  directory + user_name ;
     	String data_directory =  home_directory + "\\data" ;
