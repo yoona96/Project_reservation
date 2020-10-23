@@ -28,12 +28,11 @@ public class File_IO {
 
     }
 
-    void create_file(){
-//    	String user_name = "konkuk";
-//    	String directory =  "C:\\Users\\";
-//    	String home_directory =  directory + user_name ;
-//    	String data_directory =  home_directory + "\\data" ;
-    	String data_directory =  "data\\" ;
+    private void create_file(){
+    	String user_name = "Administrator";
+    	String directory =  "C:\\Users\\";
+    	String home_directory =  directory + user_name ;
+    	String data_directory =  home_directory + "\\data" ;
     		
     	String days[] = new String[3];
 		days[0] = get_date(0);
@@ -41,7 +40,7 @@ public class File_IO {
 		days[2] = get_date(2);
 		
 		for(int k = 0; k<3; k++) {
-			String filename = days[k]+".txt";
+			String filename = "\\"+days[k]+".txt";
 			File file = new File(data_directory+filename);
 			boolean file_is_exist = file.exists();
 			
@@ -68,17 +67,15 @@ public class File_IO {
 					e.printStackTrace();
 				}
 			}
-	}
-			
-	
-
+		}
     }
-    void delete_file(){
-//    	String user_name = "konkuk";
-//    	String directory =  "C:\\Users\\";
-//    	String home_directory =  directory + user_name ;
-//    	String data_directory =  home_directory + "\\data" ;
-    	String data_directory =  "data\\" ;
+    
+    private void delete_file(){
+    	String user_name = "Administrator";
+    	String directory =  "C:\\Users\\";
+    	String home_directory =  directory + user_name ;
+    	String data_directory =  home_directory + "\\data" ;
+    
     	String str_today = get_date(0);
     	int int_today = Integer.parseInt(str_today);
     	
@@ -91,7 +88,7 @@ public class File_IO {
             int file_date = Integer.parseInt(file_name);
             
             if(file_date<int_today) {
-            	File file_ = new File(data_directory+files[i]);
+            	File file_ = new File(data_directory+"\\"+files[i]);
             	file_.delete();
             	System.out.println("데이터 경로에 과거의 <예약 정보 파일 : "+files[i]+">이 존재합니다. 해당 데이터를 삭제합니다.");
              }

@@ -4,8 +4,6 @@ public class Main {
 
 
     public static void main(String[] args) {
-    	File_IO f = new File_IO();
-    	f.delete_file();
 
     }
 
