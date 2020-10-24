@@ -6,7 +6,7 @@ public class File_IO {
 
     textDB tb = new textDB();
     /*파일을 읽어 textDB에 저장합니다*/
-    public void read_file(String date,int dateType){
+    public void read_file(String date){
 
         try{
             /*"date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다.*/
@@ -39,22 +39,9 @@ public class File_IO {
                     /*time을 1증가시켜 다음 시간대의 정보를 기록하도록 합니다.*/
                     time++;
                 }
-
             }
-            /*dateType이 0일경우 오늘, 1일경우 내일, 2일경우 내일 모레의 db에 기록해줍니다.*/
-            switch (dateType) {
-                case 0:
-                    tb.setToday(temp);
-                    break;
-                case 1:
-                    tb.setTomorrow(temp);
-                    break;
-                case 2:
-                    tb.setDay_after_tomorrow(temp);
-                    break;
-                default:
-                    System.out.println("올바르지 않은 날짜 타입입니다. 데이터를 저장하는데 실패하였습니다.");
-            }
+            /*textDB에 저장합니다.*/
+            tb.setday(temp);
             /*모든 작업을 끝내고 버퍼를 닫습니다.*/
             buffered_reader.close();
         }catch (FileNotFoundException e) {
@@ -64,53 +51,43 @@ public class File_IO {
         }
     }
     /*textDB의 내용을 파일에 덮어씌웁니다.특정 시간, 테이블이 들어간 줄만 바꿉니다.*/
-    private void write_file(String date, int dateType,int time, int table) {
-
+    public void write_file(String date,int time, int table) {
+        /*"date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다.*/
         try{
             File file = new File("src/data/"+date+".txt");
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
-
+            /*position+1 줄에 존재하는 라인의 인덱스입니다*/
             int position = (11*(table-1)+(time-10));
 
             String line="";
             String temp="";
             String change_line="";
-
-            switch (dateType) {
-                case 0:
-                    for (int i= 0; i<11; i++){
-                        change_line += tb.getToday()[i][time][table];
-                    }
-                    break;
-                case 1:
-                    for (int i= 0; i<11; i++){
-                        change_line += tb.getTomorrow()[i][time][table];
-                    }
-                    break;
-                case 2:
-                    for (int i= 0; i<11; i++){
-                        change_line += tb.getDay_after_tomorrow()[i][time][table];
-                    }
-                    break;
-                default:
-                    System.out.println("올바르지 않은 날짜 타입입니다. 데이터를 저장하는데 실패하였습니다.");
+            /*textDB에 저장합니다.*/
+            for (int i= 0; i<11; i++){
+                change_line += tb.getday()[i][time][table]+" ";
             }
-
+            change_line += "\r\n";
+            /*position 줄 이전까지의 내용을 임시 String에 저장합니다.*/
             for(int i=0;i<position;i++){
                 buffered_reader.readLine();
                 temp += (line +"\r\n");
             }
-
+            /*임시 String에 position 줄을 읽어서 지나칩니다.*/
+            buffered_reader.readLine();
             temp += change_line;
-
+            /*그 이후 줄을 읽고 임시 String에 저장합니다.*/
             while ((line = buffered_reader.readLine()) != null){
                 temp += (line +"\r\n");
             }
+            file_reader.close();
+            buffered_reader.close();
 
+            /*해당 file에 임시 String을 덮어 씌웁니다.*/
             FileWriter file_writer = new FileWriter(file);
             file_writer.write(temp);
 
+            file_writer.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
