@@ -2,33 +2,16 @@ package main_pkg;
 
 public class textDB {
 
-    public String[][][] getToday() {
-        return today;
+    public String[][][] getday() {
+        return day;
     }
 
-    public void setToday(String[][][] today) {
-        this.today = today;
+    public void setday(String[][][] today) {
+        this.day = today;
     }
 
-    public String[][][] getTomorrow() {
-        return tomorrow;
-    }
+    private String[][][] day  = new String[11][11][20];
 
-    public void setTomorrow(String[][][] tomorrow) {
-        this.tomorrow = tomorrow;
-    }
-
-    public String[][][] getDay_after_tomorrow() {
-        return day_after_tomorrow;
-    }
-
-    public void setDay_after_tomorrow(String[][][] day_after_tomorrow) {
-        this.day_after_tomorrow = day_after_tomorrow;
-    }
-
-    String[][][] today  = new String[11][11][20];
-    String[][][] tomorrow = new String[11][11][20];
-    String[][][] day_after_tomorrow = new String[11][11][20];
 
     public String[][] getMenu() {
         return menu;
