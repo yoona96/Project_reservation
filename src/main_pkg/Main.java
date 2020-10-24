@@ -5,10 +5,11 @@ public class Main {
 
     public static void main(String[] args) {
 
+        /*file_write 사용예제*/
+
         File_IO fi = new File_IO();
         String date = "20201024";
         fi.read_file(date);
-        System.out.println(fi.tb.getday()[0][0][0]);
         String[][][] temp = fi.tb.getday();
         temp[5][0][0] = "010-1111-1111";
         fi.tb.setday(temp);
