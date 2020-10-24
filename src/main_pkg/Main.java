@@ -7,9 +7,12 @@ public class Main {
 
         File_IO fi = new File_IO();
         String date = "20201024";
-        fi.read_file(date,0);
-
-        System.out.println(fi.tb.today[5][0][0]);
+        fi.read_file(date);
+        System.out.println(fi.tb.getday()[0][0][0]);
+        String[][][] temp = fi.tb.getday();
+        temp[5][0][0] = "010-1111-1111";
+        fi.tb.setday(temp);
+        fi.write_file(date,0,0);
     }
 
     public void call_menu() {

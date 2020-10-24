@@ -171,12 +171,8 @@ public class File_IO {
             file_name = file_name.replace(".txt", ""); // 파일의 이름(날짜)를 현재 날짜와 비교하기 위해 형변환을 진행
             int file_date = Integer.parseInt(file_name);
 
-            if(file_date<int_today) { // 만약 과거의 데이터 파일이 존재한다면,
-            	System.out.println(("데이터 경로에 과거의 <예약 정보 파일 : "+files[i]+">이 존재합니다. 해당 데이터를 삭제합니다."));
-            	File file_ = new File(data_directory+"\\"+files[i]);
-            	file_.delete(); // 파일을 삭제한다.
-             }
-        }
+    }
+    private void delete_file(){
 
     }
 }
