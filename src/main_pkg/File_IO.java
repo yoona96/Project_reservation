@@ -101,8 +101,39 @@ public class File_IO {
         }
     }
 
+    public void read_menu(){
+        try {
+            /*"date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다.*/
+            File file = new File("src/data/menu.txt");
+            FileReader file_reader = new FileReader(file);
+            BufferedReader buffered_reader = new BufferedReader(file_reader);
+            String line = " ";
+            String[][] temp = new String[5][5];
+            int menu_num = 0;
+            /*빈라인이(null)이 나타날 때까지 한줄 씩읽어 버퍼에 저장합니다*/
+            while ((line = buffered_reader.readLine()) != null) {
+                /*읽은 라인을 공백(" ")을 기준으로 분할하여 line_split[]에 넣어줍니다*/
+                String[] line_split = line.split(" ");
+                for (int i=0;i<line_split.length;i++){
+                    temp[i][menu_num] = line_split[i];
+                }
+                menu_num++;
+            }
+            /*textDB에 저장합니다.*/
+            tb.setMenu(temp);
+            /*모든 작업을 끝내고 버퍼를 닫습니다.*/
+            buffered_reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+
+    }
+
     // 현재 날짜로부터 n일 뒤의 날짜를 구하는 메소드
-    private String get_date(int n) {
+    public String get_date(int n) {
         SimpleDateFormat new_format = new SimpleDateFormat("yyyyMMdd");
         Calendar cal = Calendar.getInstance();
         Date today = new Date(System.currentTimeMillis());
@@ -112,7 +143,7 @@ public class File_IO {
         return date;
     }
 
-    private void create_file() { // 필요한 파일이 없을 때, 파일을 생성하는 메소드
+    public void create_file() { // 필요한 파일이 없을 때, 파일을 생성하는 메소드
         String user_name = new com.sun.security.auth.module.NTSystem().getName();    // 사용자 이름
         String directory = "C:\\Users\\";
         String home_directory = directory + user_name; // {HOME}경로
@@ -153,7 +184,7 @@ public class File_IO {
         }
     }
 
-    private void delete_file() { // 과거의 데이터 파일이 존재할 때, 삭제하는 메소드
+    public void delete_file() { // 과거의 데이터 파일이 존재할 때, 삭제하는 메소드
         String user_name = new com.sun.security.auth.module.NTSystem().getName(); // 사용자 이름
         String directory = "C:\\Users\\";
         String home_directory = directory + user_name;
