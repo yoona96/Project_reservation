@@ -1,7 +1,7 @@
-package MainPkg;
-import MainPkg.Validate;
+package main_pkg;
 
-public class Validate {
+
+public class validate {
 
     private boolean validate_file_exist() {
 

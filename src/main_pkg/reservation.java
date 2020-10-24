@@ -1,7 +1,7 @@
-package MainPkg;
-import MainPkg.textDB;
+package main_pkg;
+import main_pkg.textDB;
 
-public class Reservation {
+public class reservation {
 
     private static String count;
     private static String date;

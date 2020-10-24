@@ -1,11 +1,15 @@
 package main_pkg;
-
+import main_pkg.File_IO;
 public class Main {
 
 
     public static void main(String[] args) {
 
+        File_IO fi = new File_IO();
+        String date = "20201024";
+        fi.read_file(date,0);
 
+        System.out.println(fi.tb.today[5][0][0]);
     }
 
     public void call_menu() {
