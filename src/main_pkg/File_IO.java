@@ -15,7 +15,7 @@ public class File_IO {
 
         try {
             /*"date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다.*/
-            File file = new File("src/data/" + date + ".txt");
+            File file = new File("src/data/" + date +".txt");
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = " ";
@@ -24,7 +24,7 @@ public class File_IO {
             /*빈라인이(null)이 나타날 때까지 한줄 씩읽어 버퍼에 저장합니다*/
             while ((line = buffered_reader.readLine()) != null) {
                 /*읽은 라인을 공백(" ")을 기준으로 분할하여 line_split[]에 넣어줍니다*/
-                String[] line_split = line.split(" ");
+                String[] line_split = line.split("\t");
                 /*time이 10보다 커지면,(20시까지 모두 정보를 채웠다면) 다음 table을 1증가시킵니다.*/
                 if (time > 10) {
                     time = 0;
@@ -71,7 +71,7 @@ public class File_IO {
             String change_line = "";
             /*textDB에 저장합니다.*/
             for (int i = 0; i < 11; i++) {
-                change_line += tb.getday()[i][time][table] + " ";
+                change_line += tb.getday()[i][time][table] + "\t";
             }
             change_line += "\r\n";
             /*position 줄 이전까지의 내용을 임시 String에 저장합니다.*/
@@ -113,7 +113,7 @@ public class File_IO {
             /*빈라인이(null)이 나타날 때까지 한줄 씩읽어 버퍼에 저장합니다*/
             while ((line = buffered_reader.readLine()) != null) {
                 /*읽은 라인을 공백(" ")을 기준으로 분할하여 line_split[]에 넣어줍니다*/
-                String[] line_split = line.split(" ");
+                String[] line_split = line.split("\t");
                 for (int i=0;i<line_split.length;i++){
                     temp[i][menu_num] = line_split[i];
                 }
