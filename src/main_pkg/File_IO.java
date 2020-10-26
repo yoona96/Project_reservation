@@ -171,7 +171,7 @@ public class File_IO {
             String temp = "";
             String change_line = "";
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 change_line += tb.getMenu()[i][menu_num] + "\t";
             }
             change_line += "\r\n";
