@@ -155,76 +155,118 @@ public class Reservation {
 	private void menu_confirm() {
 
 		Scanner scan1 = new Scanner(System.in);
+		String patterns0 = "^[가-힣]*";
+		String patterns1 = "[0-9]";
+		String patterns2 = "[a-zA-Z]";
+		String patterns3 = "\t";
 
-		System.out.println("[메뉴]\t[가격]\t[주문 수량]");
-		for (int i = 0; i < menu.length; i++) {
-			System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
-			price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
-		}
-		System.out.println();
-
-		System.out.println("결제 예정 금액: " + price);
-		System.out.print("주문 내역을 확정하고 주문을 완료하시겠습니까?(y/n) :");
-		String menu_confirm = scan1.next();
-
-		if (menu_confirm.contains(" ") || menu_confirm.contains("")) {
-			yorn_value = menu_confirm.trim().split(" ");
-		}
-
-		if (yorn_value[0].contains("y")) {
-			String str = "";
+		while (true) {
+			System.out.println("[메뉴]\t[가격]\t[주문 수량]");
 			for (int i = 0; i < menu.length; i++) {
-				if (int_menu_num[i] != 0) {
-					str += menu[0][i] + " ";
-				}
+				System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
+				price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
 			}
-			System.out.println(str + "를(을) 주문합니다.");
-			reservation_confirm();
-		} else {
-			choose_menu();
+			System.out.println();
+
+			System.out.println("결제 예정 금액: " + price);
+			System.out.print("주문 내역을 확정하고 주문을 완료하시겠습니까?(y/n) :");
+			String menu_confirm = scan1.next();
+
+			if (menu_confirm.contains(" ") || menu_confirm.contains("")) {
+				yorn_value = menu_confirm.trim().split(" ");
+			}
+			// 문법 규칙 위배시
+			if (menu_confirm.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1
+					+ patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns3 + patterns3 + patterns1
+					+ patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1)) {
+				System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
+				continue;
+			}
+
+			if (yorn_value[0].contains("y")) {
+				String str = "";
+				for (int i = 0; i < menu.length; i++) {
+					if (int_menu_num[i] != 0) {
+						str += menu[0][i] + " ";
+					}
+				}
+				System.out.println(str + "를(을) 주문합니다.");
+				reservation_confirm();
+			} else {
+				choose_menu();
+			}
 		}
+
 	}
 
 	private void reservation_confirm() {
 
 		Scanner scan2 = new Scanner(System.in);
-		System.out.println("\n예약 내용을 확인하겠습니다.\n");
-		System.out.println("예약자 이름: " + this.name);
-		System.out.println("전화번호: " + this.phone);
-		System.out.println("예약 시간: ");
-		System.out.println("인원 수: ");
-		System.out.println("예약 좌석: ");
-		System.out.print("주문 메뉴: ");
-		for (int i = 0; i < menu.length; i++) {
-			if (int_menu_num[i] != 0) {
-				System.out.print(menu[0][i] + ": " + int_menu_num[i] + "  ");
+		String patterns0 = "^[가-힣]*";
+		String patterns1 = "[0-9]";
+		String patterns2 = "[a-zA-Z]";
+		String patterns3 = "\t";
+
+		while (true) {
+			System.out.println("\n예약 내용을 확인하겠습니다.\n");
+			System.out.println("예약자 이름: " + this.name);
+			System.out.println("전화번호: " + this.phone);
+			System.out.println("예약 시간: ");
+			System.out.println("인원 수: ");
+			System.out.println("예약 좌석: ");
+			System.out.print("주문 메뉴: ");
+			for (int i = 0; i < menu.length; i++) {
+				if (int_menu_num[i] != 0) {
+					System.out.print(menu[0][i] + ": " + int_menu_num[i] + "  ");
+				}
+			}
+			System.out.println();
+
+			System.out.println("결제 예정 금액: \\" + price + "\n");
+			System.out.print("예약을 확정하시겠습니까?(y/n): ");
+			String reservation_confirm = scan2.next();
+			if (reservation_confirm.contains(" ") || reservation_confirm.contains("")) {
+				yorn_value = reservation_confirm.trim().split(" ");
+			}
+			// 문법 규칙 위배시
+			if (reservation_confirm.matches(
+					patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3
+							+ patterns1 + patterns3 + patterns1 + "|" + patterns3 + patterns3 + patterns1 + patterns3
+							+ patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1)) {
+				System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
+				continue;
+			}
+
+			if (yorn_value[0].contains("y")) {
+				System.out.println("예약이 완료되었습니다.");
+				out_reservation_data();
+			} else {
+				reservation_cancle_confirm();
 			}
 		}
-		System.out.println();
 
-		System.out.println("결제 예정 금액: \\" + price + "\n");
-		System.out.print("예약을 확정하시겠습니까?(y/n): ");
-		String reservation_confirm = scan2.next();
-		if (reservation_confirm.contains(" ") || reservation_confirm.contains("")) {
-			yorn_value = reservation_confirm.trim().split(" ");
-		}
-
-		if (yorn_value[0].contains("y")) {
-			System.out.println("예약이 완료되었습니다.");
-			out_reservation_data();
-		} else {
-			reservation_cancle_confirm();
-		}
 	}
 
 	private void reservation_cancle_confirm() {
 		Scanner scan3 = new Scanner(System.in);
+		String patterns0 = "^[가-힣]*";
+		String patterns1 = "[0-9]";
+		String patterns2 = "[a-zA-Z]";
+		String patterns3 = "\t";
+
 		System.out.println("예약 취소시, 모든 예약 정보가 삭제됩니다.");
 		System.out.println("정말 예약을 취소하시겠습니까?(y/n): ");
 
-		String reservation_cancle = scan3.next();
-		if (reservation_cancle.contains(" ") || reservation_cancle.contains("")) {
-			yorn_value = reservation_cancle.trim().split(" ");
+		String reservation_cancel = scan3.next();
+		if (reservation_cancel.contains(" ") || reservation_cancel.contains("")) {
+			yorn_value = reservation_cancel.trim().split(" ");
+		}
+		// 문법 규칙 위배시
+		if (reservation_cancel.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3
+				+ patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns3 + patterns3 + patterns1
+				+ patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1)) {
+			System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
+			
 		}
 
 		if (yorn_value[0].contains("y")) {
