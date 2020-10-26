@@ -8,7 +8,6 @@ public class Validate {
 
 	File_IO fi = new File_IO();
 	private String date;
-	private String home = fi.get_home_directory();
 	private static int two, four, six = 0;
 	private ArrayList<String> menu_list = new ArrayList();
 	
@@ -186,16 +185,16 @@ public class Validate {
 
 		// 문법 검사 및 수정
 		File file = new File(directory);
-		BufferedReader buf_reader;
 		try {
 			FileReader file_reader = new FileReader(file);
-			buf_reader = new BufferedReader(file_reader);
+			BufferedReader buf_reader = new BufferedReader(file_reader);
 			String line = "";
 			while ((line = buf_reader.readLine()) != null) {
 				if (line.trim().length() == 0) // 빈 줄이면 무시
 					continue;
 				menu_list.add(line.trim());
 			}
+			file_reader.close();
 			buf_reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("데이터 경로에 <메뉴 정보 파일>이 존재하지 않습니다.");
