@@ -15,11 +15,6 @@ public class Reservation {
     private String phone;
     private String st_num0;
     private String st_num1;
-    private String menu1_num;
-    private String menu2_num;
-    private String menu3_num;
-    private String menu4_num;
-    private String menu5_num;
 
 	private String[][] menu = new String[5][5];
 	private String[] str_menu_num = new String[5];
@@ -45,9 +40,9 @@ public class Reservation {
     	Scanner scanner = new Scanner(System.in);
 
     	while(true) {
-    		System.out.println("¿¹¾à Á¢¼öÀÏ: " + today);
-    		System.out.println("¿¹¾à Èñ¸Á ÀÏÀÚ¿Í ½Ã°£, ±×¸®°í ¹æ¹®ÇÏ´Â ÀÎ¿ø¼ö¸¦ Â÷·Ê´ë·Î ÀÔ·ÂÇÏ¼¼¿ä.");
-    		System.out.print("¡æ");
+    		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: " + today);
+    		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½Ã°ï¿½, ï¿½×¸ï¿½ï¿½ï¿½ ï¿½æ¹®ï¿½Ï´ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê´ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
+    		System.out.print("ï¿½ï¿½");
 
     		String reservation_input = scanner.nextLine();
 
@@ -59,27 +54,27 @@ public class Reservation {
     			//for the format of input String
     			input_value = reservation_input.trim().split("	");
     		}else {
-    			System.out.println("ÀÔ·ÂÇÏ½Å ¹®ÀÚ¿­ÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù. <¿¹¾à Èñ¸ÁÀÏ> + <tab> 1°³ + <½Ã°£> + <tab> 1°³ + <ÀÎ¿ø¼ö>¿¡ ¾Ë¸ÂÀº Çü½ÄÀ¸·Î ¹®ÀÚ¿­À» ÀÔ·ÂÇØÁÖ¼¼¿ä!\n");
+    			System.out.println("ï¿½Ô·ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. <ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½> + <tab> 1ï¿½ï¿½ + <ï¿½Ã°ï¿½> + <tab> 1ï¿½ï¿½ + <ï¿½Î¿ï¿½ï¿½ï¿½>ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½!\n");
     			continue;
     		}
     		if(input_value[0].matches("[0-9]{4,4}"+"-"+"[0-9]{2,2}"+"-"+"[0-9]{2,2}") || input_value[0].matches("[0-9]{8,8}")) {
     			//for the format of reservation date
     			reserv_date = input_value[0];
     		}else {
-    			System.out.println("ÀÔ·ÂÇÏ½Å ¹®ÀÚ¿­ÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù. <¿¹¾à Èñ¸ÁÀÏ> + <tab> 1°³ + <½Ã°£> + <tab> 1°³ + <ÀÎ¿ø¼ö>¿¡ ¾Ë¸ÂÀº Çü½ÄÀ¸·Î ¹®ÀÚ¿­À» ÀÔ·ÂÇØÁÖ¼¼¿ä!\n");
+    			System.out.println("ï¿½Ô·ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. <ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½> + <tab> 1ï¿½ï¿½ + <ï¿½Ã°ï¿½> + <tab> 1ï¿½ï¿½ + <ï¿½Î¿ï¿½ï¿½ï¿½>ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½!\n");
     			continue;
     		}
-    		if(input_value[1].matches("[0-9][0-9]") || input_value[1].matches("[0-9][0-9]:00") || input_value[1].matches("[0-9][0-9]½Ã")) {
+    		if(input_value[1].matches("[0-9][0-9]") || input_value[1].matches("[0-9][0-9]:00") || input_value[1].matches("[0-9][0-9]ï¿½ï¿½")) {
     			//for the format of reservation time
     			reserv_time = input_value[1];
     		}else {
-    			System.out.println("ÀÔ·ÂÇÏ½Å ¹®ÀÚ¿­ÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù. <¿¹¾à Èñ¸ÁÀÏ> + <tab> 1°³ + <½Ã°£> + <tab> 1°³ + <ÀÎ¿ø¼ö>¿¡ ¾Ë¸ÂÀº Çü½ÄÀ¸·Î ¹®ÀÚ¿­À» ÀÔ·ÂÇØÁÖ¼¼¿ä!\n");
+    			System.out.println("ï¿½Ô·ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. <ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½> + <tab> 1ï¿½ï¿½ + <ï¿½Ã°ï¿½> + <tab> 1ï¿½ï¿½ + <ï¿½Î¿ï¿½ï¿½ï¿½>ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½!\n");
     			continue;
     		}
     		if(input_value[2].matches("[0-9]{1,2}")) { //for the format of reservation count
     			reserv_count = input_value[2];
     		}else {
-    			System.out.println("ÀÔ·ÂÇÏ½Å ¹®ÀÚ¿­ÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù. <¿¹¾à Èñ¸ÁÀÏ> + <tab> 1°³ + <½Ã°£> + <tab> 1°³ + <ÀÎ¿ø¼ö>¿¡ ¾Ë¸ÂÀº Çü½ÄÀ¸·Î ¹®ÀÚ¿­À» ÀÔ·ÂÇØÁÖ¼¼¿ä!\n");
+    			System.out.println("ï¿½Ô·ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. <ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½> + <tab> 1ï¿½ï¿½ + <ï¿½Ã°ï¿½> + <tab> 1ï¿½ï¿½ + <ï¿½Î¿ï¿½ï¿½ï¿½>ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½!\n");
     			continue;
     		}
 
@@ -96,11 +91,11 @@ public class Reservation {
     				//check if value inputed is available for reservation
         			break;
     			}else {
-    				System.out.println("ÀÔ·ÂÇÏ½Å ½Ã°£´ë¿¡ ÇØ´ç ÀÎ¿ø¼ö°¡ ¾ÉÀ» ¼ö ÀÖ´Â ÁÂ¼®ÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. ´Ù¸¥ ½Ã°£´ë¸¦ ÀÔ·ÂÇØÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.\n");
+    				System.out.println("ï¿½Ô·ï¿½ï¿½Ï½ï¿½ ï¿½Ã°ï¿½ï¿½ë¿¡ ï¿½Ø´ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Â¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. ï¿½Ù¸ï¿½ ï¿½Ã°ï¿½ï¿½ë¸¦ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö½Ã±ï¿½ ï¿½Ù¶ï¿½ï¿½Ï´ï¿½.\n");
     				continue;
     			}
     		}else {
-    			System.out.println("ÀÔ·ÂÇÏ½Å ¹®ÀÚ¿­ÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.¿¹¾àÀº ¿¹¾àÁ¢¼öÀÏ ´çÀÏÀ» Á¦¿ÜÇÏ°í +2ÀÏ±îÁö °¡´ÉÇÏ¸ç, ÀÔ·Â °¡´ÉÇÑ ½Ã°£Àº 10:00 ~ 20:00ÀÔ´Ï´Ù.\n");
+    			System.out.println("ï¿½Ô·ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ +2ï¿½Ï±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½, ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ 10:00 ~ 20:00ï¿½Ô´Ï´ï¿½.\n");
     			continue;
     		}
     	}
@@ -221,7 +216,7 @@ public class Reservation {
 	
 		file.read_menu();
 		Scanner scan = new Scanner(System.in);
-		String patterns0 = "^[°¡-ÆR]*";
+		String patterns0 = "^[ï¿½ï¿½-ï¿½R]*";
 		String patterns1 = "[0-9]";
 		String patterns2 = "[a-zA-Z]";
 		String patterns3 = "\t";
@@ -230,11 +225,11 @@ public class Reservation {
 
 		menu = file.tb.get_menu();
 		while (true) {
-			// È­¸é Ãâ·Â
-			System.out.println("[¸Þ´º]\t[°¡°Ý]\t[ÁÖ¹® °¡´É ½Ã°£]");
+			// È­ï¿½ï¿½ ï¿½ï¿½ï¿½
+			System.out.println("[ï¿½Þ´ï¿½]\t[ï¿½ï¿½ï¿½ï¿½]\t[ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½]");
 			for (int i = 0; i < menu.length; i++) {
 				System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
-				if (menu[3][i] != null) {// allÀÌ ¾Æ´Ñ°æ¿ì
+				if (menu[3][i] != null) {// allï¿½ï¿½ ï¿½Æ´Ñ°ï¿½ï¿½
 					String[] menu_time = menu[3][i].split("-");
 					System.out.println(menu_time[0] + ":00 ~ " + menu_time[1] + ":00");
 				} else {
@@ -245,8 +240,8 @@ public class Reservation {
 			for (int i = 0; i < menu.length - 1; i++) {
 				System.out.print(menu[0][i] + ", ");
 			}
-			System.out.println(menu[0][menu.length - 1] + "ÀÇ ÁÖ¹® ¼ö·®À» Â÷·Ê´ë·Î ÀÔ·ÂÇÏ¼¼¿ä(ex.\t2\t3\t0\t0\t0)");
-			System.out.print("¡æ");
+			System.out.println(menu[0][menu.length - 1] + "ï¿½ï¿½ ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê´ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½(ex.\t2\t3\t0\t0\t0)");
+			System.out.print("ï¿½ï¿½");
 
 			String temp_num = scan.nextLine();
 
@@ -256,7 +251,7 @@ public class Reservation {
 
 
 			if(temp_num.matches(patterns0+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+"|"+patterns3+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1)){
-				System.out.println("ÁÖ¹®ÀÔ·Â Çü½Ä¿¡ ¿À·ù°¡ ÀÖ½À´Ï´Ù. ÀÔ·Â ¹æ½ÄÀº (ex.\t2\t3\t0\t0\t0) Çü½ÄÀÔ´Ï´Ù ");
+				System.out.println("ï¿½Ö¹ï¿½ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½. ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ (ex.\t2\t3\t0\t0\t0) ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½ ");
 				continue;
 			}
 
@@ -264,22 +259,22 @@ public class Reservation {
 			for (int i = 0; i < menu.length; i++) {
 				int_menu_num[i] = Integer.parseInt(str_menu_num[i]);
 			}
-			// ÀÇ¹Ì ±ÔÄ¢ À§¹è½Ã
-			// 1. ÁÖ¹® ºÒ°¡´ÉÇÑ ½Ã°£´ëÀÏ °æ¿ì
+			// ï¿½Ç¹ï¿½ ï¿½ï¿½Ä¢ ï¿½ï¿½ï¿½ï¿½ï¿½
+			// 1. ï¿½Ö¹ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			for (int i = 0; i < menu.length; i++) {
-				if (int_menu_num[i] != 0) {// ÁÖ¹®ÇÑ ¸Þ´ºÁß
-					if (!menu_time_check(i)) {// ÁÖ¹® °¡´É½Ã°£À» ¹þ¾î³µ´Ù¸é ¿À·ù ¹®±¸ Ãâ·Â
-						System.out.println(menu[0][i] + "À»(¸¦) ÁÖ¹®ÇÒ ¼ö ¾ø½À´Ï´Ù. ÁÖ¹® °¡´É ½Ã°£´ë¸¦ È®ÀÎÇØ ÁÖ¼¼¿ä.");
+				if (int_menu_num[i] != 0) {// ï¿½Ö¹ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½
+					if (!menu_time_check(i)) {// ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½É½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î³µï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+						System.out.println(menu[0][i] + "ï¿½ï¿½(ï¿½ï¿½) ï¿½Ö¹ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ë¸¦ È®ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.");
 						continue;
 					}
 				}
 			}
-			// 2. Àç°í°¡ ºÎÁ·ÇÒ°æ¿ì
+			// 2. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½ï¿½
 			int[] stock_temp = menu_stock_check();
 			if (stock_result_index != 0) {
 				for (int i = 0; i < stock_result_index; i++) {
-					System.out.println(menu[0][stock_temp[i]] + "ÀÇ ¼ö·®ÀÌ ºÎÁ·ÇÕ´Ï´Ù(³²Àº ¼ö·®:"
-							+ menu[2][stock_temp[i]] + "°³)");
+					System.out.println(menu[0][stock_temp[i]] + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½:"
+							+ menu[2][stock_temp[i]] + "ï¿½ï¿½)");
 				}
 				continue;
 			}
@@ -292,7 +287,7 @@ public class Reservation {
 
 		if(menu[3][index]==null) {return true;}
  		int this_menu_time = Integer.parseInt(menu[3][index]);
-		if ((Integer.parseInt(this.time) < this_menu_time) || (this_menu_time + 2 < Integer.parseInt(this.time + 2))) {// ÁÖ¹®°¡´É½Ã°£																						// ¹þ¾î³²
+		if ((Integer.parseInt(this.time) < this_menu_time) || (this_menu_time + 2 < Integer.parseInt(this.time + 2))) {// ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½É½Ã°ï¿½																						// ï¿½ï¿½ï¿½î³²
 			return false;
 		}
 
@@ -304,9 +299,9 @@ public class Reservation {
 		for (int i = 0; i < menu.length; i++) {
 			if(int_menu_num[i]!=0) {
 				int this_menu_stock = Integer.parseInt(menu[2][i]);
-				if (int_menu_num[i] > this_menu_stock) {// ÁÖ¹®¼ö·®ÀÌ Àç°íº¸´Ù ¸¹À»¶§
+				if (int_menu_num[i] > this_menu_stock) {// ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					result[stock_result_index++] = i;
-				} // Àç°í°¡ ºÎÁ·ÇÑ ¸ðµç ¸Þ´º ÀúÀåÇØ¼­ ¹ÝÈ¯
+				} // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½È¯
 			}
 		}
 		return result;
@@ -315,15 +310,15 @@ public class Reservation {
 	private void menu_confirm() {
 		Scanner scan = new Scanner(System.in);
 
-		System.out.println("[¸Þ´º]\t[°¡°Ý]\t[ÁÖ¹® ¼ö·®]");
+		System.out.println("[ï¿½Þ´ï¿½]\t[ï¿½ï¿½ï¿½ï¿½]\t[ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½]");
 		for (int i = 0; i < menu.length; i++) {
 			System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
 			price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
 		}
 		System.out.println();
 
-		System.out.println("°áÁ¦ ¿¹Á¤ ±Ý¾×: " + price);
-		System.out.print("ÁÖ¹® ³»¿ªÀ» È®Á¤ÇÏ°í ÁÖ¹®À» ¿Ï·áÇÏ½Ã°Ú½À´Ï±î?(y/n) :");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¾ï¿½: " + price);
+		System.out.print("ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö¹ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½Ï½Ã°Ú½ï¿½ï¿½Ï±ï¿½?(y/n) :");
 		String menu_confirm = scan.next();
 
 		if (menu_confirm.contains(" ") || menu_confirm.contains("")) {
@@ -337,7 +332,7 @@ public class Reservation {
 					str += menu[0][i] + " ";
 				}
 			}
-			System.out.println("¸¦(À») ÁÖ¹®ÇÕ´Ï´Ù.");
+			System.out.println("ï¿½ï¿½(ï¿½ï¿½) ï¿½Ö¹ï¿½ï¿½Õ´Ï´ï¿½.");
 			reservation_confirm();
 		} else {
 			choose_menu();
@@ -346,13 +341,13 @@ public class Reservation {
 
 	private void reservation_confirm() {
 		Scanner scan = new Scanner(System.in);
-		System.out.println("¿¹¾à ³»¿ëÀ» È®ÀÎÇÏ°Ú½À´Ï´Ù.\n");
-		System.out.println("¿¹¾àÀÚ ÀÌ¸§: " + this.name);
-		System.out.println("ÀüÈ­¹øÈ£: " + this.phone);
-		System.out.println("¿¹¾à ½Ã°£: ");
-		System.out.println("ÀÎ¿ø ¼ö: ");
-		System.out.println("¿¹¾à ÁÂ¼®: ");
-		System.out.print("ÁÖ¹® ¸Þ´º: ");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°Ú½ï¿½ï¿½Ï´ï¿½.\n");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½: " + this.name);
+		System.out.println("ï¿½ï¿½È­ï¿½ï¿½È£: " + this.phone);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½: ");
+		System.out.println("ï¿½Î¿ï¿½ ï¿½ï¿½: ");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Â¼ï¿½: ");
+		System.out.print("ï¿½Ö¹ï¿½ ï¿½Þ´ï¿½: ");
 		for (int i = 0; i < menu.length; i++) {
 			if (int_menu_num[i] != 0) {
 				System.out.print(menu[0][i] + ": " + menu[2][i] + "  ");
@@ -360,15 +355,15 @@ public class Reservation {
 		}
 		System.out.println();
 
-		System.out.println("°áÁ¦ ¿¹Á¤ ±Ý¾×: \\" + price + "\n");
-		System.out.print("¿¹¾àÀ» È®Á¤ÇÏ½Ã°Ú½À´Ï±î?(y/n): ");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¾ï¿½: \\" + price + "\n");
+		System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï½Ã°Ú½ï¿½ï¿½Ï±ï¿½?(y/n): ");
 		String reservation_confirm = scan.next();
 		if (reservation_confirm.contains(" ") || reservation_confirm.contains("")) {
 			input_value = reservation_confirm.trim().split(" ");
 		}
 
 		if (input_value[0] == "y") {
-			System.out.println("¿¹¾àÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			out_reservation_data();
 		} else {
 			reservation_cancle_confirm();
@@ -377,8 +372,8 @@ public class Reservation {
 
 	private void reservation_cancle_confirm() {
 		Scanner scan = new Scanner(System.in);
-		System.out.println("¿¹¾à Ãë¼Ò½Ã, ¸ðµç ¿¹¾à Á¤º¸°¡ »èÁ¦µË´Ï´Ù.");
-		System.out.println("Á¤¸» ¿¹¾àÀ» Ãë¼ÒÇÏ½Ã°Ú½À´Ï±î?(y/n): ");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò½ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï½Ã°Ú½ï¿½ï¿½Ï±ï¿½?(y/n): ");
 
 		String reservation_cancle = scan.next();
 		if (reservation_cancle.contains(" ") || reservation_cancle.contains("")) {
@@ -386,8 +381,8 @@ public class Reservation {
 		}
 
 		if (input_value[0] == "y") {
-			System.out.println("¿¹¾àÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
-			// ÁÖÇÁ·ÒÇÁÆ®·Î, mainÀ¸·Î µ¹¾Æ°¡±â
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ÒµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½, mainï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½
 		} else {
 			reservation_confirm();
 		}
@@ -395,7 +390,7 @@ public class Reservation {
 
 	private void out_reservation_data() {
 		file.write_file(this.date, Integer.parseInt(this.time),5);
-		//¸Þ´ºÆÄÀÏ¿¡¼­ ¸Þ´ºÀÌ¸§¿¡ ÇØ´çÇÏ´Â ¸Þ´ºÀÇ ¸Þ´º Àç°í ÁÖ¹® ¼ö·®¸¸Å­ Á¦¿Ü
+		//ï¿½Þ´ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½
 		for(int i=0;i<menu.length;i++) {
 			if(int_menu_num[i]!=0) {
 				int origin_stock = Integer.parseInt(menu[2][i]);
