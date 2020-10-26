@@ -21,5 +21,5 @@ public class textDB {
         this.menu = menu;
     }
 
-    String[][] menu = new String[5][5];
+    String[][] menu = new String[4][5];
 }

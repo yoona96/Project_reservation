@@ -1,17 +1,13 @@
 package main_pkg;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 import main_pkg.textDB;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+
+
+
 
 public class File_IO {
 
@@ -141,7 +137,7 @@ public class File_IO {
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = " ";
-            String[][] temp = new String[5][5];
+            String[][] temp = new String[4][5];
             int menu_num = 0;
             /* 鍮��쇱�몄��(null)�� ������ ��源�吏� ��以� �⑹�쎌�� 踰��쇱�� ���ν�⑸���� */
             while ((line = buffered_reader.readLine()) != null) {
