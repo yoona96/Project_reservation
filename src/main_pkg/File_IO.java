@@ -77,7 +77,7 @@ public class File_IO {
                 }
             }
             /* textDB�� ���ν�⑸����. */
-            tb.setday(temp);
+            tb.set_day(temp);
             /* 紐⑤�� ������ ���닿� 踰��쇰�� �レ�듬����. */
             buffered_reader.close();
         } catch (FileNotFoundException e) {
@@ -104,7 +104,7 @@ public class File_IO {
             String change_line = "";
             /* textDB�� ���ν�⑸����. */
             for (int i = 0; i < 11; i++) {
-                change_line += tb.getday()[i][time][table] + "\t";
+                change_line += tb.get_day()[i][time][table] + "\t";
             }
             change_line += "\r\n";
             /* position 以� �댁��源�吏��� �댁�⑹�� ���� String�� ���ν�⑸����. */
@@ -153,7 +153,7 @@ public class File_IO {
                 menu_num++;
             }
             /* textDB�� ���ν�⑸����. */
-            tb.setMenu(temp);
+            tb.set_menu(temp);
             /* 紐⑤�� ������ ���닿� 踰��쇰�� �レ�듬����. */
             buffered_reader.close();
         } catch (FileNotFoundException e) {

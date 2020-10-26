@@ -1,13 +1,13 @@
 package main_pkg;
 
-public class validate {
+public class Validate {
 
-    private boolean validate_file_exist() {
+    public boolean validate_file_exist() {
 
         return false;
     }
 
-    private boolean validate_file_grammer() {
+    public boolean validate_file_grammer() {
 
         return false;
     }
