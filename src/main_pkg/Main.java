@@ -11,20 +11,23 @@ public class Main {
 
         File_IO fi = new File_IO();
         
-        fi.create_file();
-        fi.delete_file();
-        
         String date = "20201027";
         fi.read_file(date);
         String[][][] temp = fi.tb.get_day();
-        temp[5][0][0] = "010-1111-1111";
-        fi.tb.set_day(temp);
-        fi.write_file(date, 0, 0);
+        String temp_check ="";
 
-        /* file_create, delete 사용예제*/
+        for (int i =0;i<20 ;i++){
+            for (int k= 0; k<11; k++){
+                for(int j =0;j<11;j++ ){
+                   System.out.println(fi.tb.get_day()[j][k][i]);
+                }
+            }
+        }
+
+
         
-    	Reservation reservation = new Reservation();
-    	Validate validate = new Validate();
+        Reservation reservation = new Reservation();
+        Validate validate = new Validate();
         
        while(true) {
             print_menu();
@@ -63,6 +66,8 @@ public class Main {
         	   continue;
            }
 		}
+
+
     }
 
 

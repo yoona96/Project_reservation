@@ -61,16 +61,17 @@ public class File_IO {
                 /* time이 10보다 커지면,(20시까지 모두 정보를 채웠다면) 다음 table을 1증가시킵니다. */
                 if (time > 10) {
                     time = 0;
-                    table++;
+                    if (table > 19){
+                        table = 19;
+                    }
+                    else{
+                        table++;
+                    }
                 } else {
                     /* time�� 10蹂대�� ���ㅻ㈃,line_split�� temp�� 梨���以�����. */
                     for (int i = 0; i < line_split.length; i++) {
                         /* ���쎌��蹂닿� ���� 移몄�� 諛�����硫� 利��� 猷⑦��瑜� ��異��⑸���� */
-                        if (line_split[i] == null) {
-                            break;
-                        } else {
-                            temp[i][time][table] = line_split[i];
-                        }
+                        temp[i][time][table] = line_split[i];
                     }
                     /* time�� 1利�媛���耳� �ㅼ�� ��媛����� ��蹂대�� 湲곕�����濡� �⑸����. */
                     time++;
