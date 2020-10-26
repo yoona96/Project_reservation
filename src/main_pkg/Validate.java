@@ -11,6 +11,25 @@ public class Validate {
 	private String home = fi.get_home_directory();
 	private static int two, four, six = 0;
 	private ArrayList<String> menu_list = new ArrayList();
+	
+	public String get_directory() { // directory를 반환합니다. 반환받은 문자열에 파일 이름만 추가하면 됩니다.
+		String os_name = System.getProperty("os.name").toLowerCase(); // 사용 중인 컴퓨터의 OS 얻기
+		String user_name = "";
+		String directory = "";
+
+		if (os_name.contains("windows")) { // Windows
+			user_name = new com.sun.security.auth.module.NTSystem().getName();
+			directory = "C:\\Users\\" + user_name + "\\data\\";
+		} else if (os_name.contains("linux")) { // Linux
+			user_name = new com.sun.security.auth.module.UnixSystem().getUsername();
+			directory = "/home/" + user_name + "/data/";
+		} else { // macOS(macOS에서 계정명 얻는 방법을 아직 찾지 못해 아래 함수를 사용, 환경 변수가 위조될 가능성 있어 안좋음)
+			user_name = System.getProperty("user.name");
+			directory = "/Users/" + user_name + "/data/";
+		}
+		
+		return directory;
+	}
 
 	public boolean validate_reservation_file() {
 		String date;
@@ -23,7 +42,7 @@ public class Validate {
 				four = 0;
 				six = 0; // 테이블 수 초기화
 				date = fi.get_date(day);
-				File file = new File(home + "/data/" + date + ".txt");
+				File file = new File(this.get_directory() + date + ".txt");
 				FileReader fr = new FileReader(file);
 				BufferedReader br = new BufferedReader(fr);
 				String line = "";
@@ -163,20 +182,7 @@ public class Validate {
 
 	public boolean validate_menu_file() { // menu.txt 문법 검사 및 수정
 		// 메뉴 정보 파일 경로 얻기
-		String os_name = System.getProperty("os.name").toLowerCase(); // 사용 중인 컴퓨터의 OS 얻기
-		String user_name = "";
-		String directory = "";
-
-		if (os_name.contains("windows")) { // Windows
-			user_name = new com.sun.security.auth.module.NTSystem().getName();
-			directory = "C:\\Users\\" + user_name + "\\data\\menu.txt";
-		} else if (os_name.contains("linux")) { // Linux
-			user_name = new com.sun.security.auth.module.UnixSystem().getUsername();
-			directory = "/home/" + user_name + "/data/menu.txt";
-		} else { // macOS(macOS에서 계정명 얻는 방법을 아직 찾지 못해 아래 함수를 사용, 환경 변수가 위조될 가능성 있어 안좋음)
-			user_name = System.getProperty("user.name");
-			directory = "/Users/" + user_name + "/data/menu.txt";
-		}
+		String directory = this.get_directory() + "menu.txt";
 
 		// 문법 검사 및 수정
 		File file = new File(directory);
