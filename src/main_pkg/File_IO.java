@@ -16,7 +16,7 @@ import java.util.Date;
 public class File_IO {
 
     // 占쏙옙占쏙옙 占쏙옙짜占싸븝옙占쏙옙 n占쏙옙 占쏙옙占쏙옙 占쏙옙짜占쏙옙 占쏙옙占싹댐옙 占쌨소듸옙
-    private String get_date(int n) {
+    public String get_date(int n) {
         SimpleDateFormat new_format = new SimpleDateFormat("yyyyMMdd");
         Calendar cal = Calendar.getInstance();
         Date today = new Date(System.currentTimeMillis());
@@ -26,7 +26,7 @@ public class File_IO {
         return date;
     }
 
-    private String get_home_directory() {
+    public String get_home_directory() {
         String OS = System.getProperty("os.name").toLowerCase();
         String user_name = new com.sun.security.auth.module.NTSystem().getName(); // 占쏙옙占쏙옙占� 占싱몌옙
         String home_directory = "";

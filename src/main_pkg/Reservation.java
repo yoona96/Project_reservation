@@ -1,7 +1,7 @@
 package main_pkg;
 import main_pkg.textDB;
 
-public class reservation {
+public class Reservation {
 
     private static String count;
     private static String date;
