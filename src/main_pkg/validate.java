@@ -7,7 +7,7 @@ public class validate {
 
 	private ArrayList<String> menu_list = new ArrayList();
 
-	public void validate_menu_file() { // menu.txt 문법 검사 및 수정
+	public boolean validate_menu_file() { // menu.txt 문법 검사 및 수정
 		// 메뉴 정보 파일 경로 얻기
 		String os_name = System.getProperty("os.name").toLowerCase(); // 사용 중인 컴퓨터의 OS 얻기
 		String user_name = "";
@@ -56,9 +56,7 @@ public class validate {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-		
-		for(int i = 0; i < menu_list.size(); i++)
-			System.out.println(menu_list.get(i));
+		return true;
 	}
 
 	public void check_menu_overlap() { // 메뉴 중복을 확인하는 함수

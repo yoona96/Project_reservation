@@ -14,6 +14,7 @@ public class Main {
         temp[5][0][0] = "010-1111-1111";
         fi.tb.setday(temp);
         fi.write_file(date,0,0);
+    
     }
 
     public void call_menu() {
