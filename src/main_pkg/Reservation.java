@@ -13,13 +13,13 @@ public class Reservation {
 	private String st_num0;
 	private String st_num1;
 
-	private String[][] menu = new String[5][4];
+	private String[][] menu = new String[4][5];
 	private String[] str_menu_num = new String[5];
 	private int[] int_menu_num = new int[5];
 	private int stock_result_index = 0;
 	private int price = 0;
 	String[] yorn_value = new String[0];
-	File_IO file = new File_IO();
+
 
 	private void user_input(String day, String time, String count) {
 
@@ -53,6 +53,7 @@ public class Reservation {
 	}
 
 	public void choose_menu() {
+		File_IO file = new File_IO();
 		Scanner scan = new Scanner(System.in);
 		// 다시올때 문제!
 		String patterns0 = "^[가-힣]*";
@@ -273,19 +274,20 @@ public class Reservation {
 	}
 
 	private void out_reservation_data() {
+		File_IO file2 = new File_IO();
 		// 예약정보 file에 저장
-		file.write_file(this.date, Integer.parseInt(this.time), Integer.parseInt(this.table));
+		file2.write_file(this.date, Integer.parseInt(this.time), Integer.parseInt(this.table));
 		// 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
-		file.read_menu();
-		menu = file.tb.getMenu();
+		file2.read_menu();
+		menu = file2.tb.getMenu();
 		for (int i = 0; i < 5; i++) {
 			if (int_menu_num[i] != 0) {
 				int origin_stock = Integer.parseInt(menu[2][i]);
 				int new_stock = origin_stock - int_menu_num[i];
 				menu[2][i] = Integer.toString(new_stock);
+				file2.tb.setMenu(menu);
+				file2.write_menu(i);
 			}
-			file.tb.setMenu(menu);
-			file.write_menu(i);
 		}
 	}
 }
