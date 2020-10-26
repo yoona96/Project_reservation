@@ -7,7 +7,7 @@ public class Reservation {
 	private static String count;
 	private static String date;
 	private String time = "13";
-	private String table;
+	private String table = "5";
 	private String name;
 	private String phone;
 	private String st_num0;
@@ -211,9 +211,9 @@ public class Reservation {
 			System.out.println("\n예약 내용을 확인하겠습니다.\n");
 			System.out.println("예약자 이름: " + this.name);
 			System.out.println("전화번호: " + this.phone);
-			System.out.println("예약 시간: ");
-			System.out.println("인원 수: ");
-			System.out.println("예약 좌석: ");
+			System.out.println("예약 시간: "+this.time+":00 ~ "+(Integer.parseInt(this.time)+2)+":00");
+			System.out.println("인원 수: "+this.count);
+			System.out.println("예약 좌석: "+this.table);
 			System.out.print("주문 메뉴: ");
 			for (int i = 0; i < menu.length; i++) {
 				if (int_menu_num[i] != 0) {
@@ -253,7 +253,7 @@ public class Reservation {
 
 		while(true) {
 			System.out.println("예약 취소시, 모든 예약 정보가 삭제됩니다.");
-			System.out.println("정말 예약을 취소하시겠습니까?(y/n): ");
+			System.out.print("정말 예약을 취소하시겠습니까?(y/n): ");
 
 			String reservation_cancel = scan3.next();
 			if (reservation_cancel.contains(" ") || reservation_cancel.contains("")) {
@@ -273,7 +273,8 @@ public class Reservation {
 	}
 
 	private void out_reservation_data() {
-		file.write_file("20201026", 1, 5);
+		//예약정보 file에 저장
+		file.write_file(this.date, Integer.parseInt(this.time),Integer.parseInt(this.table));
 		// 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
 		for (int i = 0; i < menu.length; i++) {
 			if (int_menu_num[i] != 0) {
@@ -283,6 +284,7 @@ public class Reservation {
 			}
 			file.tb.setMenu(menu);
 			file.write_menu(i);
+			
 		}
 	}
 }
