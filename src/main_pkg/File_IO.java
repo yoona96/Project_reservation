@@ -1,4 +1,12 @@
 package main_pkg;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import main_pkg.textDB;
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -7,45 +15,70 @@ import java.util.Date;
 
 public class File_IO {
 
+    // 占쏙옙占쏙옙 占쏙옙짜占싸븝옙占쏙옙 n占쏙옙 占쏙옙占쏙옙 占쏙옙짜占쏙옙 占쏙옙占싹댐옙 占쌨소듸옙
+    private String get_date(int n) {
+        SimpleDateFormat new_format = new SimpleDateFormat("yyyyMMdd");
+        Calendar cal = Calendar.getInstance();
+        Date today = new Date(System.currentTimeMillis());
+        cal.setTime(today);
+        cal.add(Calendar.DATE, n);
+        String date = new_format.format(cal.getTime());
+        return date;
+    }
+
+    private String get_home_directory() {
+        String OS = System.getProperty("os.name").toLowerCase();
+        String user_name = new com.sun.security.auth.module.NTSystem().getName(); // 占쏙옙占쏙옙占� 占싱몌옙
+        String home_directory = "";
+        if (OS.indexOf("win") >= 0)
+            home_directory = "C:\\Users\\";
+        if (OS.indexOf("mac") >= 0)
+            home_directory = "/home/";
+        if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0)
+            home_directory = "/Users/konkuk";
+        home_directory += user_name;
+        return home_directory;
+
+    }
 
     textDB tb = new textDB();
 
-    /*파일을 읽어 textDB에 String[][][]형식으로 저장합니다*/
+    /* ���쇱�� �쎌�� textDB�� String[][][]�����쇰� ���ν�⑸���� */
     public void read_file(String date) {
 
         try {
-            /*"date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다.*/
-            File file = new File("src/data/" + date +".txt");
+            /* "date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다. */
+            File file = new File("src/data/" + date + ".txt");
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = " ";
             String[][][] temp = new String[11][11][20];
             int time = 0, table = 0;
-            /*빈라인이(null)이 나타날 때까지 한줄 씩읽어 버퍼에 저장합니다*/
+            /* 鍮��쇱�몄��(null)�� ������ ��源�吏� ��以� �⑹�쎌�� 踰��쇱�� ���ν�⑸���� */
             while ((line = buffered_reader.readLine()) != null) {
-                /*읽은 라인을 공백(" ")을 기준으로 분할하여 line_split[]에 넣어줍니다*/
+                /* 읽은 라인을 공백(" ")을 기준으로 분할하여 line_split[]에 넣어줍니다 */
                 String[] line_split = line.split("\t");
-                /*time이 10보다 커지면,(20시까지 모두 정보를 채웠다면) 다음 table을 1증가시킵니다.*/
+                /* time이 10보다 커지면,(20시까지 모두 정보를 채웠다면) 다음 table을 1증가시킵니다. */
                 if (time > 10) {
                     time = 0;
                     table++;
                 } else {
-                    /*time이 10보다 작다면,line_split을 temp에 채워줍니다.*/
+                    /* time�� 10蹂대�� ���ㅻ㈃,line_split�� temp�� 梨���以�����. */
                     for (int i = 0; i < line_split.length; i++) {
-                        /*예약정보가 없는 칸이 발생하면 즉시 루프를 탈출합니다*/
+                        /* ���쎌��蹂닿� ���� 移몄�� 諛�����硫� 利��� 猷⑦��瑜� ��異��⑸���� */
                         if (line_split[i] == null) {
                             break;
                         } else {
                             temp[i][time][table] = line_split[i];
                         }
                     }
-                    /*time을 1증가시켜 다음 시간대의 정보를 기록하도록 합니다.*/
+                    /* time�� 1利�媛���耳� �ㅼ�� ��媛����� ��蹂대�� 湲곕�����濡� �⑸����. */
                     time++;
                 }
             }
-            /*textDB에 저장합니다.*/
+            /* textDB�� ���ν�⑸����. */
             tb.setday(temp);
-            /*모든 작업을 끝내고 버퍼를 닫습니다.*/
+            /* 紐⑤�� ������ ���닿� 踰��쇰�� �レ�듬����. */
             buffered_reader.close();
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -54,42 +87,42 @@ public class File_IO {
         }
     }
 
-    /*textDB에 String[][][] today에 변경된 내용을 텍스트 파일에 저장합니다*/
-    /*time은 0~10까지의 값이며 table은 0~19까지의 값입니다*/
+    /* textDB�� String[][][] today�� 蹂�寃쎈�� �댁�⑹�� ���ㅽ�� ���쇱�� ���ν�⑸���� */
+    /* time�� 0~10源�吏��� 媛��대ŉ table�� 0~19源�吏��� 媛������� */
     public void write_file(String date, int time, int table) {
-        /*"date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다.*/
+        /* "date.txt"�쇰�� 紐�移��� ���쇱�� "src/data/"寃쎈����� 濡����⑸����. */
         try {
             File file = new File("src/data/" + date + ".txt");
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
-            /*position+1 줄에 존재하는 라인의 인덱스입니다*/
+            /* position+1 以��� 議댁�ы���� �쇱�몄�� �몃�깆�ㅼ������ */
 
             int position = (11 * (table) + (time));
 
             String line = "";
             String temp = "";
             String change_line = "";
-            /*textDB에 저장합니다.*/
+            /* textDB�� ���ν�⑸����. */
             for (int i = 0; i < 11; i++) {
                 change_line += tb.getday()[i][time][table] + "\t";
             }
             change_line += "\r\n";
-            /*position 줄 이전까지의 내용을 임시 String에 저장합니다.*/
+            /* position 以� �댁��源�吏��� �댁�⑹�� ���� String�� ���ν�⑸����. */
             for (int i = 0; i < position; i++) {
                 buffered_reader.readLine();
                 temp += (line + "\r\n");
             }
-            /*임시 String에 position 줄을 읽어서 지나칩니다.*/
+            /* ���� String�� position 以��� �쎌�댁�� 吏���移⑸����. */
             buffered_reader.readLine();
             temp += change_line;
-            /*그 이후 줄을 읽고 임시 String에 저장합니다.*/
+            /* 洹� �댄�� 以��� �쎄� ���� String�� ���ν�⑸����. */
             while ((line = buffered_reader.readLine()) != null) {
                 temp += (line + "\r\n");
             }
             file_reader.close();
             buffered_reader.close();
 
-            /*해당 file에 임시 String을 덮어 씌웁니다.*/
+            /* �대�� file�� ���� String�� ���� ��������. */
             FileWriter file_writer = new FileWriter(file);
             file_writer.write(temp);
 
@@ -101,108 +134,108 @@ public class File_IO {
         }
     }
 
-    public void read_menu(){
+    public void read_menu() {
         try {
-            /*"date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다.*/
+            /* "date.txt"�쇰�� 紐�移��� ���쇱�� "src/data/"寃쎈����� 濡����⑸����. */
             File file = new File("src/data/menu.txt");
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = " ";
             String[][] temp = new String[5][5];
             int menu_num = 0;
-            /*빈라인이(null)이 나타날 때까지 한줄 씩읽어 버퍼에 저장합니다*/
+            /* 鍮��쇱�몄��(null)�� ������ ��源�吏� ��以� �⑹�쎌�� 踰��쇱�� ���ν�⑸���� */
             while ((line = buffered_reader.readLine()) != null) {
-                /*읽은 라인을 공백(" ")을 기준으로 분할하여 line_split[]에 넣어줍니다*/
+                /* 읽은 라인을 공백(" ")을 기준으로 분할하여 line_split[]에 넣어줍니다 */
                 String[] line_split = line.split("\t");
-                for (int i=0;i<line_split.length;i++){
+                for (int i = 0; i < line_split.length; i++) {
                     temp[i][menu_num] = line_split[i];
                 }
                 menu_num++;
             }
-            /*textDB에 저장합니다.*/
+            /* textDB�� ���ν�⑸����. */
             tb.setMenu(temp);
-            /*모든 작업을 끝내고 버퍼를 닫습니다.*/
+            /* 紐⑤�� ������ ���닿� 踰��쇰�� �レ�듬����. */
             buffered_reader.close();
         } catch (FileNotFoundException e) {
             System.out.println(e);
         } catch (IOException e) {
             System.out.println(e);
         }
-
-
     }
 
-    // 현재 날짜로부터 n일 뒤의 날짜를 구하는 메소드
-    public String get_date(int n) {
-        SimpleDateFormat new_format = new SimpleDateFormat("yyyyMMdd");
-        Calendar cal = Calendar.getInstance();
-        Date today = new Date(System.currentTimeMillis());
-        cal.setTime(today);
-        cal.add(Calendar.DATE, n);
-        String date = new_format.format(cal.getTime());
-        return date;
-    }
+    public void create_file() { // 占십울옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹댐옙 占쌨소듸옙
 
-    public void create_file() { // 필요한 파일이 없을 때, 파일을 생성하는 메소드
-        String user_name = new com.sun.security.auth.module.NTSystem().getName();    // 사용자 이름
-        String directory = "C:\\Users\\";
-        String home_directory = directory + user_name; // {HOME}경로
-        String data_directory = home_directory + "\\data"; // data경로
+        // String home_directory = get_home_directory(); // {HOME}占쏙옙占�
+        // String data_directory = home_directory + "\\data" ; // data占쏙옙占�
+        String data_directory = "src/data/";
 
-        String days[] = new String[3]; // 현재 날짜로부터 3일까지를 생성하여 string타입으로 저장합니다. ex) 20201023
+        String days[] = new String[3]; // 占쏙옙占쏙옙 占쏙옙짜占싸븝옙占쏙옙 3占싹깍옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹울옙 string타占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙. ex)
+                                       // 20201023
         days[0] = get_date(0);
         days[1] = get_date(1);
         days[2] = get_date(2);
 
-        for (int k = 0; k < 3; k++) { // 오늘, 내일, 모레 총 3일간의 데이터파일을 확인하여 없을 시 생성해줍니다.
-            String filename = "\\" + days[k] + ".txt";
+        for (int k = 0; k < 3; k++) { // 占쏙옙占쏙옙, 占쏙옙占쏙옙, 占쏙옙 占쏙옙 3占싹곤옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 확占쏙옙占싹울옙 占쏙옙占쏙옙 占쏙옙
+                                      // 占쏙옙占쏙옙占쏙옙占쌥니댐옙.
+            String filename = days[k] + ".txt";
             File file = new File(data_directory + filename);
 
             boolean file_is_exist = file.exists();
-            if (!file_is_exist) { // 해당 파일이 존재하지 않는다면,
+            if (!file_is_exist) { // 占쌔댐옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占십는다몌옙,
                 try {
-                    System.out.println("데이터 경로에 필요한 <예약 정보 파일 : " + days[k] + ".txt>이 존재하지 않습니다. 필요한 데이터 파일을 생성합니다.");
-                    file.createNewFile(); // 해당 파일을 생성합니다.
-                    FileWriter fw = new FileWriter(file, false); // 데이터 파일에 기본 형식을 입력합니다.
+                    System.out.println("占쏙옙占쏙옙占쏙옙 占쏙옙恝占� 占십울옙占쏙옙 <占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 : " + days[k]
+                            + ".txt>占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占십쏙옙占싹댐옙. 占십울옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.");
+                    file.createNewFile(); // 占쌔댐옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
+                    FileWriter fw = new FileWriter(file, false); // 占쏙옙占쏙옙占쏙옙 占쏙옙占싹울옙 占썩본 占쏙옙占쏙옙占쏙옙 占쌉뤄옙占쌌니댐옙.
                     String line = "";
                     for (int i = 1; i <= 20; i++) {
                         for (int j = 10; j <= 20; j++) {
-                            line += i + " ";
-                            if (1 <= i && i <= 6) line += 2 + " ";
-                            if (7 <= i && i <= 16) line += 4 + " ";
-                            if (17 <= i && i <= 20) line += 6 + " ";
-                            line += 0 + " " + j + "\n";
+                            line += i + "\t";
+                            if (1 <= i && i <= 6)
+                                line += 2 + "\t";
+                            if (7 <= i && i <= 16)
+                                line += 4 + "\t";
+                            if (17 <= i && i <= 20)
+                                line += 6 + "\t";
+                            line += 0 + "\t" + j + "\n";
                         }
                         fw.write(line);
                         line = "";
                     }
                     fw.close();
                 } catch (IOException e) {
+                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
         }
     }
 
-    public void delete_file() { // 과거의 데이터 파일이 존재할 때, 삭제하는 메소드
-        String user_name = new com.sun.security.auth.module.NTSystem().getName(); // 사용자 이름
-        String directory = "C:\\Users\\";
-        String home_directory = directory + user_name;
-        String data_directory = home_directory + "\\data";
+    public void delete_file() { // 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙, 占쏙옙占쏙옙占싹댐옙 占쌨소듸옙
+        // String home_directory = get_home_directory();
+        // String data_directory = home_directory + "\\data" ;
+        String data_directory = "src/data/";
 
-        String str_today = get_date(0); // 오늘 날짜를 string타입으로 저장
-        int int_today = Integer.parseInt(str_today); // 과거의 날짜와 비교하기 위해 오늘의 날짜를 int 타입으로 저장
+        String str_today = get_date(0); // 占쏙옙占쏙옙 占쏙옙짜占쏙옙 string타占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙
+        int int_today = Integer.parseInt(str_today); // 占쏙옙占쏙옙占쏙옙 占쏙옙짜占쏙옙 占쏙옙占싹깍옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙짜占쏙옙 int
+                                                     // 타占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙
 
-        File file = new File(data_directory);  // directory에 존재하는 모든 파일의 이름을 list에 저장
+        File file = new File(data_directory); // directory占쏙옙 占쏙옙占쏙옙占싹댐옙 占쏙옙占� 占쏙옙占쏙옙占쏙옙 占싱몌옙占쏙옙 list占쏙옙 占쏙옙占쏙옙
         String[] files = file.list();
 
-        for (int i = 0; i < files.length; i++) { /// list에 저장된 파일의 개수만큼 반복
+        for (int i = 0; i < files.length; i++) { // list占쏙옙 占쏙옙占쏙옙占� 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙큼 占쌥븝옙
             String file_name = files[i];
-            file_name = file_name.replace(".txt", ""); // 파일의 이름(날짜)를 현재 날짜와 비교하기 위해 형변환을 진행
+            file_name = file_name.replace(".txt", ""); // 占쏙옙占쏙옙占쏙옙 占싱몌옙(占쏙옙짜)占쏙옙 占쏙옙占쏙옙 占쏙옙짜占쏙옙 占쏙옙占싹깍옙 占쏙옙占쏙옙
+                                                       // 占쏙옙占쏙옙환占쏙옙 占쏙옙占쏙옙
             int file_date = Integer.parseInt(file_name);
 
+            if (file_date < int_today) { // 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싼다몌옙,
+                System.out.println("占쏙옙占쏙옙占쏙옙 占쏙옙恝占� 占쏙옙占쏙옙占쏙옙 <占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 : " + files[i]
+                        + ">占쏙옙 占쏙옙占쏙옙占쌌니댐옙. 占쌔댐옙 占쏙옙占쏙옙占싶몌옙 占쏙옙占쏙옙占쌌니댐옙.");
+                File file_ = new File(data_directory + "\\" + files[i]);
+                file_.delete(); // 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙.
+            }
         }
+
     }
 }
-
-

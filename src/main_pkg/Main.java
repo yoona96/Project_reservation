@@ -1,25 +1,31 @@
 package main_pkg;
-import main_pkg.File_IO;
-public class Main {
 
+import main_pkg.File_IO;
+
+public class Main {
 
     public static void main(String[] args) {
 
-        /*file_write 사용예제*/
+    	/* file_write 사용예제 */
 
         File_IO fi = new File_IO();
-        String date = "20201024";
+        
+        fi.create_file();
+        fi.delete_file();
+        
+        String date = "20201027";
         fi.read_file(date);
         String[][][] temp = fi.tb.getday();
         temp[5][0][0] = "010-1111-1111";
         fi.tb.setday(temp);
-        fi.write_file(date,0,0);
+        fi.write_file(date, 0, 0);
+
+        /* file_create, delete 사용예제*/
+        
+
     }
 
     public void call_menu() {
-        System.out.println("------------------------------");
-        System.out.println("              메뉴");
-        System.out.println("------------------------------");
         System.out.println("1. 예약하기");
         System.out.println("2. 예약 조회");
         System.out.println("3. 예약 취소");
@@ -32,7 +38,7 @@ public class Main {
 
     private static boolean password(String pwd) {
 
-        if(pwd.equals("1234"))
+        if (pwd.equals("1234"))
             return true;
         else
             return false;
