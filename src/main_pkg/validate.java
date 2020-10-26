@@ -56,6 +56,9 @@ public class validate {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
+		
+		for(int i = 0; i < menu_list.size(); i++)
+			System.out.println(menu_list.get(i));
 	}
 
 	public void check_menu_overlap() { // 메뉴 중복을 확인하는 함수
@@ -99,8 +102,7 @@ public class validate {
 			token = new StringTokenizer(menu_list.get(i), "\t");
 			String str = menu_list.get(i);
 			int token_num = token.countTokens();
-			if (str.contains("\t\t") || str.contains(" \t") || str.contains("\t ") || str.contains(" \t ")
-					|| (token_num != 3 && token_num != 4)) {
+			if (str.contains("\t\t") || str.contains(" \t") || (token_num != 3 && token_num != 4)) {
 				exit_judge = true;
 				break;
 			}
