@@ -198,7 +198,7 @@ public class Validate {
 			}
 			buf_reader.close();
 		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			System.out.println("데이터 경로에 <메뉴 정보 파일>이 존재하지 않습니다.");
 			System.exit(0);
 		} catch (IOException e) {
 			System.out.println(e);
