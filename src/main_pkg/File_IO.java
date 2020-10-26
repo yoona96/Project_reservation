@@ -46,8 +46,9 @@ public class File_IO {
     
     public void create_file(){ // 필요한 파일이 없을 때, 파일을 생성하는 메소드
     	
-    	String home_directory =  get_home_directory(); // {HOME}경로
-    	String data_directory =  home_directory + "\\data" ; // data경로
+//    	String home_directory =  get_home_directory(); // {HOME}경로
+//    	String data_directory =  home_directory + "\\data" ; // data경로
+    	String data_directory = "src/data/";
     		
     	String days[] = new String[3]; // 현재 날짜로부터 3일까지를 생성하여 string타입으로 저장합니다. ex) 20201023 
 		days[0] = get_date(0);
@@ -55,7 +56,7 @@ public class File_IO {
 		days[2] = get_date(2);
 		
 		for(int k = 0; k<3; k++) { // 오늘, 내일, 모레 총 3일간의 데이터파일을 확인하여 없을 시 생성해줍니다. 
-			String filename = "\\"+days[k]+".txt"; 
+			String filename = days[k]+".txt"; 
 			File file = new File(data_directory+filename);
 			
 			boolean file_is_exist = file.exists(); 
@@ -86,8 +87,9 @@ public class File_IO {
     }
     
     public void delete_file(){ // 과거의 데이터 파일이 존재할 때, 삭제하는 메소드
-    	String home_directory = get_home_directory();
-    	String data_directory =  home_directory + "\\data" ;
+//    	String home_directory = get_home_directory();
+//    	String data_directory =  home_directory + "\\data" ;
+    	String data_directory = "src/data/";
     
     	String str_today = get_date(0); // 오늘 날짜를 string타입으로 저장
     	int int_today = Integer.parseInt(str_today); // 과거의 날짜와 비교하기 위해 오늘의 날짜를 int 타입으로 저장
