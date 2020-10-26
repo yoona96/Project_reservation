@@ -1,13 +1,15 @@
 package main_pkg;
 
 import main_pkg.File_IO;
+import main_pkg.Validate;
 
 public class Main {
 
     public static void main(String[] args) {
-
+    	
     	/* file_write 사용예제 */
-
+    	
+    	
         File_IO fi = new File_IO();
         
         fi.create_file();
@@ -22,9 +24,9 @@ public class Main {
 
         /* file_create, delete 사용예제*/
         
-
+    
     }
-
+    
     public void call_menu() {
         System.out.println("1. 예약하기");
         System.out.println("2. 예약 조회");
@@ -43,5 +45,5 @@ public class Main {
         else
             return false;
     }
-
+ 
 }
