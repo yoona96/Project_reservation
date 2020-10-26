@@ -20,7 +20,6 @@ public class Reservation {
 	private int price = 0;
 	String[] yorn_value = new String[0];
 	File_IO file = new File_IO();
-	textDB db = new textDB();
 
 	private void user_input(String day, String time, String count) {
 
@@ -55,12 +54,18 @@ public class Reservation {
 
 	public void choose_menu() {
 		Scanner scan = new Scanner(System.in);
-		//다시올때 문제!
+		// 다시올때 문제!
+		String patterns0 = "^[가-힣]*";
+		String patterns1 = "[0-9]";
+		String patterns2 = "[a-zA-Z]";
+		String patterns3 = "\t";
 		file.read_menu();
 		menu = file.tb.getMenu();
+
 		while (true) {
 			// 화면 출력
-			String temp_num;stock_result_index = 0;
+			String temp_num;
+			stock_result_index = 0;
 			System.out.println("[메뉴]\t[가격]\t[주문 가능 시간]");
 			for (int i = 0; i < menu.length; i++) {
 				System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
@@ -82,14 +87,22 @@ public class Reservation {
 			if (temp_num.contains("\t") || temp_num.contains("")) {
 				str_menu_num = temp_num.trim().split("\t");
 			}
+			// 문법 규칙 위배시
+			if (temp_num.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1
+					+ patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns3 + patterns3 + patterns1
+					+ patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1)) {
+				System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
+				continue;
+			}
 
 			for (int i = 0; i < menu.length; i++) {
 				int_menu_num[i] = Integer.parseInt(str_menu_num[i]);
 			}
+
 			// 의미 규칙 위배시
 			// 1. 주문 불가능한 시간대일 경우
 			int time_check_temp = menu_time_check();
-			if(time_check_temp!=-1) {
+			if (time_check_temp != -1) {
 				System.out.println(menu[0][time_check_temp] + "을(를) 주문할 수 없습니다. 주문 가능 시간대를 확인해 주세요.");
 				continue;
 			}
@@ -101,7 +114,7 @@ public class Reservation {
 				}
 				continue;
 			}
-			
+
 			break;
 		}
 
@@ -109,11 +122,12 @@ public class Reservation {
 	}
 
 	private int menu_time_check() {
-		
+
 		for (int i = 0; i < menu.length; i++) {
-			if (int_menu_num[i] != 0 ) {
-				if (menu[3][i] == null) {	continue;	}
-				else {
+			if (int_menu_num[i] != 0) {
+				if (menu[3][i] == null) {
+					continue;
+				} else {
 					String[] menu_time = menu[3][i].split("-");
 					if ((Integer.parseInt(this.time) < Integer.parseInt(menu_time[0]))
 							|| (Integer.parseInt(menu_time[1]) < Integer.parseInt(this.time + 2))) {// 주문가능시간 // 벗어남
@@ -122,7 +136,7 @@ public class Reservation {
 				}
 			}
 		}
-		return -1;//주문가능시간!
+		return -1;// 주문가능시간!
 	}
 
 	private int[] menu_stock_check() {
@@ -230,7 +244,7 @@ public class Reservation {
 				int new_stock = origin_stock - int_menu_num[i];
 				menu[2][i] = Integer.toString(new_stock);
 			}
-			db.setMenu(menu);
+			file.tb.setMenu(menu);
 			file.write_menu(i);
 		}
 	}
