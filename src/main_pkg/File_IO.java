@@ -154,7 +154,7 @@ public class File_IO {
                 menu_num++;
             }
             /* textDB�� ���ν�⑸����. */
-            tb.setMenu(temp);
+            tb.set_menu(temp);
             /* 紐⑤�� ������ ���닿� 踰��쇰�� �レ�듬����. */
             buffered_reader.close();
         } catch (FileNotFoundException e) {
