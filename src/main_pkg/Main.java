@@ -1,11 +1,12 @@
 package main_pkg;
-import main_pkg.File_IO;
-public class Main {
 
+import main_pkg.File_IO;
+
+public class Main {
 
     public static void main(String[] args) {
 
-        /*file_write 사용예제*/
+        /* file_write 사용예제 */
 
         File_IO fi = new File_IO();
         String date = "20201024";
@@ -13,26 +14,31 @@ public class Main {
         String[][][] temp = fi.tb.getday();
         temp[5][0][0] = "010-1111-1111";
         fi.tb.setday(temp);
-        fi.write_file(date,0,0);
+        fi.write_file(date, 0, 0);
+
+        /* file_create, delete 사용예제 */
+        fi.create_file();
+        fi.delete_file();
+
     }
 
     public void call_menu() {
         System.out.println("------------------------------");
-        System.out.println("              메뉴");
+        System.out.println("              筌�遺얜��");
         System.out.println("------------------------------");
-        System.out.println("1. 예약하기");
-        System.out.println("2. 예약 조회");
-        System.out.println("3. 예약 취소");
-        System.out.println("4. 예약 변경");
-        System.out.println("5. 프로그램 종료");
-        System.out.println("6. 도움말 출력");
-        System.out.println("7. 무결성 검사\n");
-        System.out.println("원하시는 번호를 선택하세요:");
+        System.out.println("1. 占쎌��占쎈�占쎈릭疫뀐옙");
+        System.out.println("2. 占쎌��占쎈� 鈺곌���");
+        System.out.println("3. 占쎌��占쎈� ���λ��");
+        System.out.println("4. 占쎌��占쎈� 癰�占썲��占�");
+        System.out.println("5. 占쎈늄嚥≪����占쎌�� �ル��利�");
+        System.out.println("6. 占쎈�占쏙옙筌�占� �곗����");
+        System.out.println("7. �얜�욧�占쎄쉐 野�占쏙옙沅�\n");
+        System.out.println("占쎌��占쎈릭占쎈��占쎈�� 甕곕������占� 占쎄�占쎄문占쎈릭占쎄쉭占쎌��:");
     }
 
     private static boolean password(String pwd) {
 
-        if(pwd.equals("1234"))
+        if (pwd.equals("1234"))
             return true;
         else
             return false;
