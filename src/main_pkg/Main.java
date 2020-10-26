@@ -7,7 +7,7 @@ public class Main {
 	
     public static void main(String[] args) {
     	
-    	/* file_write ì‚¬ìš©ì˜ˆì œ */
+    	/* file_write »ç¿ë¿¹Á¦ */
 
         File_IO fi = new File_IO();
         
@@ -23,7 +23,6 @@ public class Main {
                 }
             }
         }
-
 
         
         Reservation reservation = new Reservation();
@@ -46,7 +45,7 @@ public class Main {
             						if(password(pwd) == true) {
             							System.exit(0);
             						}else {
-            							System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.\n");
+            							System.out.println("ºñ¹Ğ¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.\n");
             							break;
             						}
             					}
@@ -62,7 +61,7 @@ public class Main {
             		}
             	}
            }else {
-        	   System.out.println("í•´ë‹¹ ëª…ë ¹ì–´ëŠ” ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n");
+        	   System.out.println("ÇØ´ç ¸í·É¾î´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.\n");
         	   continue;
            }
 		}
@@ -73,16 +72,16 @@ public class Main {
 
 	public static void print_menu() {
 		System.out.println("--------------------");
-		System.out.println("	ë©”ë‰´");
+		System.out.println("	¸Ş´º");
 		System.out.println("--------------------");
-        System.out.println("1. ì˜ˆì•½í•˜ê¸°");
-        System.out.println("2. ì˜ˆì•½ ì¡°íšŒ");
-        System.out.println("3. ì˜ˆì•½ ì·¨ì†Œ");
-        System.out.println("4. ì˜ˆì•½ ë³€ê²½");
-        System.out.println("5. í”„ë¡œê·¸ë¨ ì¢…ë£Œ");
-        System.out.println("6. ë„ì›€ë§ ì¶œë ¥");
-        System.out.println("7. ë¬´ê²°ì„± ê²€ì‚¬\n");
-        System.out.println("ì›í•˜ì‹œëŠ” ë²ˆí˜¸ë¥¼ ì„ íƒí•˜ì„¸ìš”:");
+        System.out.println("1. ¿¹¾àÇÏ±â");
+        System.out.println("2. ¿¹¾à Á¶È¸");
+        System.out.println("3. ¿¹¾à Ãë¼Ò");
+        System.out.println("4. ¿¹¾à º¯°æ");
+        System.out.println("5. ÇÁ·Î±×·¥ Á¾·á");
+        System.out.println("6. µµ¿ò¸» Ãâ·Â");
+        System.out.println("7. ¹«°á¼º °Ë»ç\n");
+        System.out.println("¿øÇÏ½Ã´Â ¹øÈ£¸¦ ¼±ÅÃÇÏ¼¼¿ä:");
     }
     
 
