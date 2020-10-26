@@ -176,12 +176,6 @@ public class Reservation {
 				yorn_value = menu_confirm.trim().split(" ");
 			}
 			// 문법 규칙 위배시
-			if (menu_confirm.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1
-					+ patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns3 + patterns3 + patterns1
-					+ patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1)) {
-				System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
-				continue;
-			}
 
 			if (yorn_value[0].contains("y")) {
 				String str = "";
@@ -192,8 +186,11 @@ public class Reservation {
 				}
 				System.out.println(str + "를(을) 주문합니다.");
 				reservation_confirm();
-			} else {
+			} else if(yorn_value[0].contains("n")){
 				choose_menu();
+			}else {
+				System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
+				continue;
 			}
 		}
 
