@@ -6,7 +6,7 @@ public class Reservation {
 
 	private static String count;
 	private static String date;
-	private static String time;
+	private String time = "13";
 	private String table;
 	private String name;
 	private String phone;
@@ -67,7 +67,8 @@ public class Reservation {
 			for (int i = 0; i < menu.length; i++) {
 				System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
 				if (menu[3][i] != null) {// all이 아닌경우
-					System.out.println(menu[3][i] + ":00 ~ " + menu[4][i] + ":00");
+					String[] menu_time = menu[3][i].split("-");
+					System.out.println(menu_time[0] + ":00 ~ " + menu_time[1] + ":00");
 				} else {
 					System.out.println("all");
 				}
@@ -84,9 +85,8 @@ public class Reservation {
 				str_menu_num = temp_num.trim().split("\t");
 			}
 
-			// 입력 받을 변수: menu(i)_num
+			
 			for (int i = 0; i < menu.length; i++) {
-				str_menu_num[i] = scan.next();
 				int_menu_num[i] = Integer.parseInt(str_menu_num[i]);
 			}
 			// 의미 규칙 위배시
@@ -100,8 +100,8 @@ public class Reservation {
 				}
 			}
 			// 2. 재고가 부족할경우
+			int[] stock_temp = menu_stock_check();
 			if (stock_result_index != 0) {
-				int[] stock_temp = menu_stock_check();
 				for (int i = 0; i < stock_result_index; i++) {
 					System.out.println(menu[0][stock_temp[i]] + "의 수량이 부족합니다(남은 수량:"
 							+ menu[2][stock_temp[i]] + "개)");
@@ -115,9 +115,9 @@ public class Reservation {
 
 	private boolean menu_time_check(int index) {
 
-		int this_menu_time = Integer.parseInt(menu[3][index]);
-		if ((Integer.parseInt(this.time) < this_menu_time) || (this_menu_time + 2 < Integer.parseInt(this.time + 2))) {// 주문가능시간
-																														// 벗어남
+		if(menu[3][index]==null) {return true;}
+ 		int this_menu_time = Integer.parseInt(menu[3][index]);
+		if ((Integer.parseInt(this.time) < this_menu_time) || (this_menu_time + 2 < Integer.parseInt(this.time + 2))) {// 주문가능시간																						// 벗어남
 			return false;
 		}
 
@@ -127,17 +127,19 @@ public class Reservation {
 	private int[] menu_stock_check() {
 		int[] result = new int[menu.length];
 		for (int i = 0; i < menu.length; i++) {
-			int this_menu_stock = Integer.parseInt(menu[2][i]);
-			if (int_menu_num[i] > this_menu_stock) {// 주문수량이 재고보다 많을때
-				result[stock_result_index++] = i;
-			} // 재고가 부족한 모든 메뉴 저장해서 반환
+			if(int_menu_num[i]!=0) {
+				int this_menu_stock = Integer.parseInt(menu[2][i]);
+				if (int_menu_num[i] > this_menu_stock) {// 주문수량이 재고보다 많을때
+					result[stock_result_index++] = i;
+				} // 재고가 부족한 모든 메뉴 저장해서 반환
+			}
 		}
 		return result;
 	}
 
 	private void menu_confirm() {
+		System.out.println("[메뉴]\t[가격]\t[주문 수량]");
 		for (int i = 0; i < menu.length; i++) {
-			System.out.println("[메뉴]/t[가격]/t[주문 수량]");
 			System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
 			price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
 		}
