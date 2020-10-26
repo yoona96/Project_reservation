@@ -163,6 +163,47 @@ public class File_IO {
         }
     }
 
+    public void write_menu(int menu_num){
+        try {
+            File file = new File("src/data/menu.txt");
+            FileReader file_reader = new FileReader(file);
+            BufferedReader buffered_reader = new BufferedReader(file_reader);
+
+            int position = menu_num;
+
+            String line = "";
+            String temp = "";
+            String change_line = "";
+
+            for (int i = 0; i < 5; i++) {
+                change_line += tb.getMenu()[i][menu_num] + "\t";
+            }
+            change_line += "\r\n";
+
+            for (int i = 0; i < position; i++) {
+                buffered_reader.readLine();
+                temp += (line + "\r\n");
+            }
+            buffered_reader.readLine();
+            temp += change_line;
+            while ((line = buffered_reader.readLine()) != null) {
+                temp += (line + "\r\n");
+            }
+            file_reader.close();
+            buffered_reader.close();
+
+            FileWriter file_writer = new FileWriter(file);
+            file_writer.write(temp);
+
+            file_writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void create_file() { // 占십울옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹댐옙 占쌨소듸옙
 
         // String home_directory = get_home_directory(); // {HOME}占쏙옙占�
