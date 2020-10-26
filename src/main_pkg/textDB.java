@@ -13,11 +13,11 @@ public class textDB {
     private String[][][] day  = new String[11][11][20];
 
 
-    public String[][] getMenu() {
+    public String[][] get_menu() {
         return menu;
     }
 
-    public void setMenu(String[][] menu) {
+    public void set_menu(String[][] menu) {
         this.menu = menu;
     }
 
