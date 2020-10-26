@@ -55,12 +55,12 @@ public class Reservation {
 
 	public void choose_menu() {
 		Scanner scan = new Scanner(System.in);
+		//다시올때 문제!
 		file.read_menu();
-
 		menu = file.tb.getMenu();
 		while (true) {
 			// 화면 출력
-			String temp_num;
+			String temp_num;stock_result_index = 0;
 			System.out.println("[메뉴]\t[가격]\t[주문 가능 시간]");
 			for (int i = 0; i < menu.length; i++) {
 				System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
