@@ -22,6 +22,21 @@ public class File_IO {
 		return date;
 	}
 
+	private String get_home_directory() {
+		String OS = System.getProperty("os.name").toLowerCase();
+		String user_name = new com.sun.security.auth.module.NTSystem().getName();	// 사용자 이름
+		String home_directory = "";
+		if(OS.indexOf("win")>=0)
+			home_directory = "C:\\Users\\"; 
+		if(OS.indexOf("mac") >= 0)
+			home_directory = "/home/";
+		if(OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 )
+			home_directory = "/Users/konkuk";
+		home_directory += user_name;
+		return home_directory;
+		
+	}
+	
     private void read_file(String directory,String name) {
 
     }
@@ -29,10 +44,9 @@ public class File_IO {
 
     }
     
-    private void create_file(){ // 필요한 파일이 없을 때, 파일을 생성하는 메소드
-    	String user_name = new com.sun.security.auth.module.NTSystem().getName();	// 사용자 이름
-    	String directory =  "C:\\Users\\"; 
-    	String home_directory =  directory + user_name ; // {HOME}경로
+    public void create_file(){ // 필요한 파일이 없을 때, 파일을 생성하는 메소드
+    	
+    	String home_directory =  get_home_directory(); // {HOME}경로
     	String data_directory =  home_directory + "\\data" ; // data경로
     		
     	String days[] = new String[3]; // 현재 날짜로부터 3일까지를 생성하여 string타입으로 저장합니다. ex) 20201023 
@@ -53,11 +67,11 @@ public class File_IO {
 					String line = "";
 					for(int i = 1; i<=20; i++) {
 						for(int j = 10; j<= 20; j++) {
-							line += i + " ";
-							if(1<=i && i<=6) line += 2 + " ";
-							if(7<=i && i<=16) line += 4 + " ";
-							if(17<=i && i<=20) line += 6 + " ";
-							line += 0 + " " + j + "\n";
+							line += i + "\t";
+							if(1<=i && i<=6) line += 2 + "\t";
+							if(7<=i && i<=16) line += 4 + "\t";
+							if(17<=i && i<=20) line += 6 + "\t";
+							line += 0 + "\t" + j + "\n";
 						}
 						fw.write(line);
 						line = "";
@@ -71,10 +85,8 @@ public class File_IO {
 		}
     }
     
-    private void delete_file(){ // 과거의 데이터 파일이 존재할 때, 삭제하는 메소드
-    	String user_name = new com.sun.security.auth.module.NTSystem().getName(); // 사용자 이름
-    	String directory =  "C:\\Users\\";
-    	String home_directory =  directory + user_name ;
+    public void delete_file(){ // 과거의 데이터 파일이 존재할 때, 삭제하는 메소드
+    	String home_directory = get_home_directory();
     	String data_directory =  home_directory + "\\data" ;
     
     	String str_today = get_date(0); // 오늘 날짜를 string타입으로 저장
