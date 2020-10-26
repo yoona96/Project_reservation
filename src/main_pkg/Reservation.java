@@ -13,7 +13,7 @@ public class Reservation {
 	private String st_num0;
 	private String st_num1;
 
-	private String[][] menu = new String[5][5];
+	private String[][] menu = new String[5][4];
 	private String[] str_menu_num = new String[5];
 	private int[] int_menu_num = new int[5];
 	private int stock_result_index = 0;
