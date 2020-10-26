@@ -2,7 +2,7 @@ package main_pkg;
 
 import java.util.Scanner;
 
-public class reservation {
+public class Reservation {
 
 	private static String count;
 	private static String date;
