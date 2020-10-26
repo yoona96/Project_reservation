@@ -119,6 +119,7 @@ public class File_IO {
             while ((line = buffered_reader.readLine()) != null) {
                 temp += (line + "\r\n");
             }
+
             file_reader.close();
             buffered_reader.close();
 

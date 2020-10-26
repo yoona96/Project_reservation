@@ -2,7 +2,7 @@ package main_pkg;
 
 import java.util.Scanner;
 
-public class Reservation {
+public class reservation {
 
 	private static String count;
 	private static String date;
@@ -54,11 +54,18 @@ public class Reservation {
 
 	}
 
-		Scanner scan = new Scanner(System.in);
+
 
 	public void choose_menu() {
 	
 		file.read_menu();
+		Scanner scan = new Scanner(System.in);
+		String patterns0 = "^[가-힣]*";
+		String patterns1 = "[0-9]";
+		String patterns2 = "[a-zA-Z]";
+		String patterns3 = "\t";
+
+
 		
 		menu = file.tb.getMenu();
 		while (true) {
@@ -81,8 +88,15 @@ public class Reservation {
 			System.out.print("→");
 
 			String temp_num = scan.nextLine();
+
 			if (temp_num.contains("\t") || temp_num.contains("")) {
 				str_menu_num = temp_num.trim().split("\t");
+			}
+
+
+			if(temp_num.matches(patterns0+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+"|"+patterns3+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1)){
+				System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
+				continue;
 			}
 
 			
@@ -138,6 +152,8 @@ public class Reservation {
 	}
 
 	private void menu_confirm() {
+		Scanner scan = new Scanner(System.in);
+
 		System.out.println("[메뉴]\t[가격]\t[주문 수량]");
 		for (int i = 0; i < menu.length; i++) {
 			System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
@@ -168,6 +184,7 @@ public class Reservation {
 	}
 
 	private void reservation_confirm() {
+		Scanner scan = new Scanner(System.in);
 		System.out.println("예약 내용을 확인하겠습니다.\n");
 		System.out.println("예약자 이름: " + this.name);
 		System.out.println("전화번호: " + this.phone);
@@ -198,6 +215,7 @@ public class Reservation {
 	}
 
 	private void reservation_cancle_confirm() {
+		Scanner scan = new Scanner(System.in);
 		System.out.println("예약 취소시, 모든 예약 정보가 삭제됩니다.");
 		System.out.println("정말 예약을 취소하시겠습니까?(y/n): ");
 
