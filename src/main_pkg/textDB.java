@@ -2,22 +2,22 @@ package main_pkg;
 
 public class textDB {
 
-    public String[][][] getday() {
+    public String[][][] get_day() {
         return day;
     }
 
-    public void setday(String[][][] today) {
+    public void set_day(String[][][] today) {
         this.day = today;
     }
 
     private String[][][] day  = new String[11][11][20];
 
 
-    public String[][] getMenu() {
+    public String[][] get_menu() {
         return menu;
     }
 
-    public void setMenu(String[][] menu) {
+    public void set_menu(String[][] menu) {
         this.menu = menu;
     }
 
