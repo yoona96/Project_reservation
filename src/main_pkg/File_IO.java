@@ -12,7 +12,7 @@ import java.io.*;
 public class File_IO {
 
 
-    public String get_date(int n) {
+    public String get_date(int n) { // Get date(today + 'n') 
         SimpleDateFormat new_format = new SimpleDateFormat("yyyyMMdd");
         Calendar cal = Calendar.getInstance();
         Date today = new Date(System.currentTimeMillis());
@@ -22,17 +22,17 @@ public class File_IO {
         return date;
     }
 
-    public String get_home_directory() {
-        String OS = System.getProperty("os.name").toLowerCase();
-        String user_name = new com.sun.security.auth.module.NTSystem().getName(); // 占쏙옙占쏙옙占� 占싱몌옙
-        String home_directory = "";
-        if (OS.indexOf("win") >= 0)
-            home_directory = "C:\\Users\\";
+    public String get_home_directory() {	// Get home data_directory
+        String OS = System.getProperty("os.name").toLowerCase();	// Get current OS name
+        String user_name = new com.sun.security.auth.module.NTSystem().getName(); // Get current User name 
+        String home_directory = "";		// default directory = null
+        if (OS.indexOf("win") >= 0)		
+            home_directory = "C:\\Users\\";		// home directory in window
         if (OS.indexOf("mac") >= 0)
-            home_directory = "/home/";
+            home_directory = "/home/"; 	// home directory in mac
         if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0)
-            home_directory = "/Users/konkuk";
-        home_directory += user_name;
+            home_directory = "/Users/";		// home directory in linux
+        home_directory += user_name;		
         return home_directory;
 
     }
@@ -129,7 +129,7 @@ public class File_IO {
         }
     }
 
-    public void read_menu() {
+    public void read_menu() {		
         try {
 
             File file = new File("src/data/menu.txt");
@@ -199,12 +199,10 @@ public class File_IO {
 
     }
 
-    public void create_file() {
-
-
+    public void create_file() {		 
         String data_directory = "src/data/";
 
-        String days[] = new String[3];
+        String days[] = new String[3];		// Save the 3-days dates in the array.
         days[0] = get_date(0);
         days[1] = get_date(1);
         days[2] = get_date(2);
@@ -213,12 +211,11 @@ public class File_IO {
             String filename = days[k] + ".txt";
             File file = new File(data_directory + filename);
 
-            boolean file_is_exist = file.exists();
+            boolean file_is_exist = file.exists(); 
             if (!file_is_exist) {
                 try {
-                    System.out.println("占쏙옙占쏙옙占쏙옙 占쏙옙恝占� 占십울옙占쏙옙 <占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 : " + days[k]
-                            + ".txt>占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占십쏙옙占싹댐옙. 占십울옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.");
-                    file.createNewFile();
+                    System.out.println("데이터 경로에 필요한 <예약 정보 파일 : " + days[k]+ ".txt>이 존재하지 않습니다. 필요한 데이터 파일을 생성합니다.");
+                    file.createNewFile();		// if the file isn't exist, create file
                     FileWriter fw = new FileWriter(file, false);
                     String line = "";
                     for (int i = 1; i <= 20; i++) {
@@ -246,20 +243,18 @@ public class File_IO {
     public void delete_file() {
         String data_directory = "src/data/";
 
-        String str_today = get_date(0);
-        int int_today = Integer.parseInt(str_today);
+        String str_today = get_date(0);		// get today's date
+        int int_today = Integer.parseInt(str_today);	// change to integer type for comparison
         File file = new File(data_directory);
-        String[] files = file.list();
+        String[] files = file.list(); // Store a list of files in the data_directory in an array.
 
         for (int i = 0; i < files.length; i++) {
             String file_name = files[i];
-            file_name = file_name.replace(".txt", "");
-
-            int file_date = Integer.parseInt(file_name);
+            file_name = file_name.replace(".txt", ""); // remove ".txt"
+            int file_date = Integer.parseInt(file_name); // 
             //TODO Fix all text encoding to UTF-8
             if (file_date < int_today) {
-                System.out.println("占쏙옙占쏙옙占쏙옙 占쏙옙恝占� 占쏙옙占쏙옙占쏙옙 <占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 : " + files[i]
-                        + ">占쏙옙 占쏙옙占쏙옙占쌌니댐옙. 占쌔댐옙 占쏙옙占쏙옙占싶몌옙 占쏙옙占쏙옙占쌌니댐옙.");
+                System.out.println("데이터 경로에 과거의 <예약 정보 파일 : " + files[i] + ">이 존재합니다. 해당 데이터를 삭제합니다.");
                 File file_ = new File(data_directory + "\\" + files[i]);
                 file_.delete();
             }
