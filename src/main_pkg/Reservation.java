@@ -10,6 +10,9 @@ import main_pkg.textDB;
 
 public class Reservation {
 
+	String[] input_value = new String[0];
+	File_IO file = new File_IO();
+	textDB db = new textDB();
     private String count, date, day, time;
     private String name;
     private String phone;
@@ -189,9 +192,16 @@ public class Reservation {
 
 	}
 
-	private boolean choose_auto(char c) {
+	public boolean choose_auto(char c) {
+		if (c=='y'){
 
-		return false;
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	private void choose_table(String st_num) {
@@ -217,7 +227,7 @@ public class Reservation {
 	      String patterns1 = "[0-9]";
 	      String patterns2 = "[a-zA-Z]";
 	      String patterns3 = "\t";
-	      
+
 	      //메뉴 파일 menu이차원 배열에 저장
 	      file.read_menu();
 	      menu = file.tb.get_menu();
@@ -313,7 +323,7 @@ public class Reservation {
 	            } // 재고가 부족한 모든 메뉴 저장해서 반환
 	         }
 	      }
-	      return result;	
+	      return result;
 	   }
 	   //메뉴 확정
 	   private void menu_confirm() {
@@ -339,7 +349,7 @@ public class Reservation {
 	         System.out.print("주문 내역을 확정하고 주문을 완료하시겠습니까?(y/n) :");
 	         String menu_confirm = scan1.next();
 	         String[] yorn_value = new String[0];
-	         
+
 	         if (menu_confirm.contains(" ") || menu_confirm.contains("")) {
 	            yorn_value = menu_confirm.trim().split(" ");
 	         }
@@ -374,7 +384,7 @@ public class Reservation {
 	      String patterns3 = "\t";
 	      //이 부분은 위쪽이 완료되면 해당 변수로 채우면 됨 - 현재 테이블 번호 없음
 	      while (true) {
-	    	
+
 	         System.out.println("\n--------------------------\n예약 내역 확인\n------------------------------");
 	         System.out.println("예약자 이름: " + this.name);
 	         System.out.println("전화번호: " + this.phone);
@@ -393,7 +403,7 @@ public class Reservation {
 	         System.out.print("예약을 확정하시겠습니까?(y/n): ");
 	         String reservation_confirm = scan2.next();
 	         String[] yorn_value = new String[0];
-	         
+
 	         if (reservation_confirm.contains(" ") || reservation_confirm.contains("")) {
 	            yorn_value = reservation_confirm.trim().split(" ");
 	         }
