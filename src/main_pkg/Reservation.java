@@ -15,7 +15,7 @@ public class Reservation {
     private String phone;
     private String st_num0;
     private String st_num1;
-
+    private String table;
     private String[][] menu = new String[4][5]; //menu파일 배열
     private String[] str_menu_num = new String[5];//사용자가 입력하는 주문수량 string배열
     private int[] int_menu_num = new int[5];//사용자 입력 주문수량 int배열
