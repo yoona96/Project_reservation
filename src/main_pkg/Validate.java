@@ -11,7 +11,7 @@ public class Validate {
 	private static int two, four, six = 0;
 	private ArrayList<String> menu_list = new ArrayList();
 	
-	public String get_directory() { // directory를 반환합니다. 반환받은 문자열에 파일 이름만 추가하면 됩니다.
+	private String get_directory() { // directory를 반환합니다. 반환받은 문자열에 파일 이름만 추가하면 됩니다.
 		String os_name = System.getProperty("os.name").toLowerCase(); // 사용 중인 컴퓨터의 OS 얻기
 		String user_name = "";
 		String directory = "";
@@ -30,7 +30,7 @@ public class Validate {
 		return directory;
 	}
 
-	public boolean validate_reservation_file() {
+	private boolean validate_reservation_file() {
 		String date;
 		fi.create_file();
 		fi.delete_file();
@@ -104,7 +104,7 @@ public class Validate {
 
 	}
 
-	public boolean reservation_file_grammer(String[] temp, String date) {
+	private boolean reservation_file_grammer(String[] temp, String date) {
 		for (int i = 0; i < temp.length; i++) {
 			switch (i) {
 			case 0: { // 테이블 번호
@@ -179,7 +179,7 @@ public class Validate {
 		return true;
 	}
 
-	public boolean validate_menu_file() { // menu.txt 문법 검사 및 수정
+	private boolean validate_menu_file() { // menu.txt 문법 검사 및 수정
 		// 메뉴 정보 파일 경로 얻기
 		String directory = this.get_directory() + "menu.txt";
 
@@ -218,7 +218,7 @@ public class Validate {
 		return true;
 	}
 
-	public void check_menu_overlap() { // 메뉴 중복을 확인하는 함수
+	private void check_menu_overlap() { // 메뉴 중복을 확인하는 함수
 		StringTokenizer token;
 		String menu_name = "";
 		ArrayList<String> temp_list = new ArrayList();
@@ -247,7 +247,7 @@ public class Validate {
 		}
 	}
 
-	public void check_menu_grammer() {
+	private void check_menu_grammer() {
 		boolean exit_judge = false;
 		StringTokenizer token;
 

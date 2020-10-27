@@ -1,12 +1,12 @@
 package main_pkg;
 
 public class textDB {
-	 String[][] menu = new String[5][5];
-    public String[][][] get_day() {
+
+    public String[][][] getday() {
         return day;
     }
 
-    public void set_day(String[][][] today) {
+    public void setday(String[][][] today) {
         this.day = today;
     }
 
@@ -21,5 +21,5 @@ public class textDB {
         this.menu = menu;
     }
 
-   
+    String[][] menu = new String[4][5];
 }
