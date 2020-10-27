@@ -6,24 +6,8 @@ import main_pkg.Validate;
 public class Main {
 
     public static void main(String[] args) {
-    	
-    	/* file_write 사용예제 */
-    	
-    	
-        File_IO fi = new File_IO();
-        
-        fi.create_file();
-        fi.delete_file();
-        
-        String date = "20201027";
-        fi.read_file(date);
-        String[][][] temp = fi.tb.getday();
-        temp[5][0][0] = "010-1111-1111";
-        fi.tb.setday(temp);
-        fi.write_file(date, 0, 0);
+        /*한글 테스팅*/
 
-        /* file_create, delete 사용예제*/
-        
     
     }
     
