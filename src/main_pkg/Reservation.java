@@ -410,13 +410,34 @@ public class Reservation {
 			System.out.println("좌석 번호를 입력하세요: ");
 			//여기까지 거의 복붙
 			
-			String inputed_table_num = table_num.next();
+			String inputed_table_num = table_num.nextLine();
 			//select table number
 			
 			String available = search_table(date,time,count);
 			String[] available_table =  available.split(" ");
 			
-			if(!inputed_table_num.contains("\t")) {
+			if(inputed_table_num.contains("\t")) {
+				 String[] table_num_input = inputed_table_num.trim().split("	");
+				 if(table_num_input.length == 2) {
+						for(int i = 0; i < available_table.length; i++) {
+							if(available_table[i].equals(table_num_input[0] + "-" + table_num_input[1])) {
+								//attached table is available
+								this.st_num0 = table_num_input[0];
+								this.st_num1 = table_num_input[1];
+								break;
+							}else {
+								//not matches available attached table
+								continue;
+							}
+						}
+						if(st_num0 != null && st_num1 != null) {
+							break;
+						}else {
+							System.out.println("예약이 불가능한 좌석입니다. 다시 입력해주세요.\n");
+							continue;
+						}
+				 }
+			}else {
 				inputed_table_num = inputed_table_num.trim();
 				//table not attached
 				for(int i = 0; i < available_table.length; i++) {
@@ -431,36 +452,6 @@ public class Reservation {
 				}if(st_num0 != null) {
 					break;
 				}else {
-					System.out.println("예약이 불가능한 좌석입니다. 다시 입력해주세요.\n");
-					continue;
-				}
-			}else {
-				String[] table_num_input = inputed_table_num.trim().split("\t");
-				System.out.println("*");
-				if(table_num_input.length == 2) {
-					//table attached
-					System.out.println("**");
-					for(int i = 0; i < available_table.length; i++) {
-						System.out.println("***");
-						if(available_table[i].equals(table_num_input[0] + "-" + table_num_input[1])) {
-							//attached table is available
-							System.out.println("****");
-							this.st_num0 = table_num_input[0];
-							this.st_num1 = table_num_input[1];
-							break;
-						}else {
-							System.out.println("*****");
-							//not matches available attached table
-							continue;
-						}
-					}
-					if(st_num0 != null && st_num1 != null) {
-						break;
-					}else {
-						continue;
-					}
-				}else {
-					//not matches format
 					System.out.println("예약이 불가능한 좌석입니다. 다시 입력해주세요.\n");
 					continue;
 				}
