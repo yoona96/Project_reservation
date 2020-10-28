@@ -6,24 +6,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Scanner;
 
+import main_pkg.File_IO;
 import main_pkg.textDB;
 
 public class Reservation {
 
+	String[] input_value = new String[0];
+	File_IO file = new File_IO();
+	textDB db = new textDB();
     private String count, date, day, time;
     private String name;
     private String phone;
     private String st_num0;
     private String st_num1;
-
-	private String[][] menu = new String[5][5];
-	private String[] str_menu_num = new String[5];
-	private int[] int_menu_num = new int[5];
-	private int stock_result_index = 0;
-	private int price = 0;
-	String[] input_value = new String[0];
-	File_IO file = new File_IO();
-	textDB db = new textDB();
+    private String table;
+    private String[][] menu = new String[4][5]; //menu파일 배열
+    private String[] str_menu_num = new String[5];//사용자가 입력하는 주문수량 string배열
+    private int[] int_menu_num = new int[5];//사용자 입력 주문수량 int배열
+    private int stock_result_index = 0;//재고 부족한 상품저장할 배열의 인덱스
+    private int price = 0; //주문한 총 금액
 
     File_IO fio = new File_IO();
 
@@ -191,7 +192,7 @@ public class Reservation {
 		tmp_date_arr[1] = tmp_date.substring(4, 6);
 		tmp_date_arr[2] = tmp_date.substring(6);
 		//split inputed reservation date into yyyy mm dd format
-		
+
 		String avail_table = search_table(date, time, count);
 		//has no. of available tables. same as available_tables in search table function
 		String[] every_table = null;
@@ -307,10 +308,10 @@ public class Reservation {
 		choose_table_input.close();
 	}
 
-	private boolean choose_auto(char c) {
+    private boolean choose_auto(char c){
 
-		return false;
-	}
+        return false;
+    }
 
 	private void choose_table(String st_num) {
 
@@ -327,193 +328,259 @@ public class Reservation {
 
 
 
-	public void choose_menu() {
-	
-		file.read_menu();
-		Scanner scan = new Scanner(System.in);
-		String patterns0 = "^[占쏙옙-占폫]*";
-		String patterns1 = "[0-9]";
-		String patterns2 = "[a-zA-Z]";
-		String patterns3 = "\t";
 
+	   public void choose_menu() {
+	      File_IO file = new File_IO();
+	      Scanner scan = new Scanner(System.in);
+	      String patterns0 = "^[가-힣]*";
+	      String patterns1 = "[0-9]";
+	      String patterns2 = "[a-zA-Z]";
+	      String patterns3 = "\t";
 
+	      //메뉴 파일 menu이차원 배열에 저장
+	      file.read_menu();
+	      menu = file.tb.get_menu();
 
-		menu = file.tb.get_menu();
-		while (true) {
-			// 화占쏙옙 占쏙옙占�
-			System.out.println("[占쌨댐옙]\t[占쏙옙占쏙옙]\t[占쌍뱄옙 占쏙옙占쏙옙 占시곤옙]");
-			for (int i = 0; i < menu.length; i++) {
-				System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
-				if (menu[3][i] != null) {// all占쏙옙 占싣닌곤옙占�
-					String[] menu_time = menu[3][i].split("-");
-					System.out.println(menu_time[0] + ":00 ~ " + menu_time[1] + ":00");
-				} else {
-					System.out.println("all");
-				}
-			}
-			System.out.println();
-			for (int i = 0; i < menu.length - 1; i++) {
-				System.out.print(menu[0][i] + ", ");
-			}
-			System.out.println(menu[0][menu.length - 1] + "占쏙옙 占쌍뱄옙 占쏙옙占쏙옙占쏙옙 占쏙옙占십댐옙占� 占쌉뤄옙占싹쇽옙占쏙옙(ex.\t2\t3\t0\t0\t0)");
-			System.out.print("占쏙옙");
+	      while (true) {
+	         // 화면 출력
+	         String temp_num;
+	         stock_result_index = 0;
+	         price = 0;
+	         System.out.println("--------------------------");
+	         System.out.println("\t메뉴 선택");
+	         System.out.println("--------------------------");
+	         System.out.println("[메뉴]\t[가격]\t[주문 가능 시간]");
+	         for (int i = 0; i < menu.length; i++) {
+	            System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
+	            if (menu[3][i] != null) {// all이 아닌경우
+	               String[] menu_time = menu[3][i].split("-");
+	               System.out.println(menu_time[0] + ":00 ~ " + menu_time[1] + ":00");
+	            } else {
+	               System.out.println("all");
+	            }
+	         }
+	         System.out.println();
+	         for (int i = 0; i < menu.length - 1; i++) {
+	            System.out.print(menu[0][i] + ", ");
+	         }
+	         System.out.println(menu[0][menu.length - 1] + "의 주문 수량을 차례대로 입력하세요(ex.\t2\t3\t0\t0\t0)");
+	         System.out.print("→");
+	         //주문수량 입력받기
+	         temp_num = scan.nextLine();
+	         if (temp_num.contains("\t") || temp_num.contains("")) {
+	            str_menu_num = temp_num.trim().split("\t");
+	         }
+	         // 문법 규칙 위배시
+	         if (temp_num.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1
+	               + patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns3 + patterns3 + patterns1
+	               + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1)) {
+	            System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
+	            continue;
+	         }
+	         //사용자가 입력한 주문 수량 integer 배열에 저장
+	         for (int i = 0; i < menu.length; i++) {
+	            int_menu_num[i] = Integer.parseInt(str_menu_num[i]);
+	         }
 
-			String temp_num = scan.nextLine();
+	         // 의미 규칙 위배시
+	         // 1. 주문 불가능한 시간대일 경우
+	         int time_check_temp = menu_time_check();
+	         if (time_check_temp != -1) {
+	            System.out.println(menu[0][time_check_temp] + "을(를) 주문할 수 없습니다. 주문 가능 시간대를 확인해 주세요.");
+	            continue;
+	         }
+	         // 2. 재고가 부족할경우
+	         int[] stock_temp = menu_stock_check();
+	         if (stock_result_index != 0) {
+	            for (int i = 0; i < stock_result_index; i++) {
+	               System.out.println(menu[0][stock_temp[i]] + "의 수량이 부족합니다(남은 수량:" + menu[2][stock_temp[i]] + "개)");
+	            }
+	            continue;
+	         }
 
-			if (temp_num.contains("\t") || temp_num.contains("")) {
-				str_menu_num = temp_num.trim().split("\t");
-			}
+	         break;
+	      }
 
+	      menu_confirm();
+	   }
+	   //주문시간대 체크
+	   private int menu_time_check() {
 
-			if(temp_num.matches(patterns0+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+"|"+patterns3+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1+patterns3+patterns1)){
-				System.out.println("占쌍뱄옙占쌉뤄옙 占쏙옙占식울옙 占쏙옙占쏙옙占쏙옙 占쌍쏙옙占싹댐옙. 占쌉뤄옙 占쏙옙占쏙옙占� (ex.\t2\t3\t0\t0\t0) 占쏙옙占쏙옙占쌉니댐옙 ");
-				continue;
-			}
+	      for (int i = 0; i < menu.length; i++) {
+	         if (int_menu_num[i] != 0) {
+	            if (menu[3][i] == null) {
+	               continue;
+	            } else {
+	               String[] menu_time = menu[3][i].split("-");
+	               if ((Integer.parseInt(this.time) < Integer.parseInt(menu_time[0]))
+	                     || (Integer.parseInt(menu_time[1]) < Integer.parseInt(this.time + 2))) {// 주문가능시간 // 벗어남
+	                  return i;
+	               }
+	            }
+	         }
+	      }
+	      return -1;// 주문가능시간!
+	   }
+	   //재고 체크
+	   private int[] menu_stock_check() {
+	      int[] result = new int[menu.length];
+	      for (int i = 0; i < menu.length; i++) {
+	         if (int_menu_num[i] != 0) {
+	            int this_menu_stock = Integer.parseInt(menu[2][i]);
+	            if (int_menu_num[i] > this_menu_stock) {// 주문수량이 재고보다 많을때
+	               result[stock_result_index++] = i;
+	            } // 재고가 부족한 모든 메뉴 저장해서 반환
+	         }
+	      }
+	      return result;
+	   }
+	   //메뉴 확정
+	   private void menu_confirm() {
 
+	      Scanner scan1 = new Scanner(System.in);
+	      String patterns0 = "^[가-힣]*";
+	      String patterns1 = "[0-9]";
+	      String patterns2 = "[a-zA-Z]";
+	      String patterns3 = "\t";
 
-			for (int i = 0; i < menu.length; i++) {
-				int_menu_num[i] = Integer.parseInt(str_menu_num[i]);
-			}
-			// 占실뱄옙 占쏙옙칙 占쏙옙占쏙옙占�
-			// 1. 占쌍뱄옙 占쌀곤옙占쏙옙占쏙옙 占시곤옙占쏙옙占쏙옙 占쏙옙占�
-			for (int i = 0; i < menu.length; i++) {
-				if (int_menu_num[i] != 0) {// 占쌍뱄옙占쏙옙 占쌨댐옙占쏙옙
-					if (!menu_time_check(i)) {// 占쌍뱄옙 占쏙옙占심시곤옙占쏙옙 占쏙옙占쏘났占쌕몌옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占�
-						System.out.println(menu[0][i] + "占쏙옙(占쏙옙) 占쌍뱄옙占쏙옙 占쏙옙 占쏙옙占쏙옙占싹댐옙. 占쌍뱄옙 占쏙옙占쏙옙 占시곤옙占쎈를 확占쏙옙占쏙옙 占쌍쇽옙占쏙옙.");
-						continue;
-					}
-				}
-			}
-			// 2. 占쏙옙占� 占쏙옙占쏙옙占쌀곤옙占�
-			int[] stock_temp = menu_stock_check();
-			if (stock_result_index != 0) {
-				for (int i = 0; i < stock_result_index; i++) {
-					System.out.println(menu[0][stock_temp[i]] + "占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙(占쏙옙占쏙옙 占쏙옙占쏙옙:"
-							+ menu[2][stock_temp[i]] + "占쏙옙)");
-				}
-				continue;
-			}
-			break;
-		}
-		menu_confirm();
-	}
+	      while (true) {
+	    	 System.out.println("------------------------------");
+	    	 System.out.println("\t주문 내역 확인");
+	    	 System.out.println("------------------------------");
+	         System.out.println("[메뉴]\t[가격]\t[주문 수량]");
+	         for (int i = 0; i < menu.length; i++) {
+	            System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
+	            price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
+	         }
+	         System.out.println();
 
-	private boolean menu_time_check(int index) {
+	         System.out.println("결제 예정 금액: " + price);
+	         System.out.print("주문 내역을 확정하고 주문을 완료하시겠습니까?(y/n) :");
+	         String menu_confirm = scan1.next();
+	         String[] yorn_value = new String[0];
 
-		if(menu[3][index]==null) {return true;}
- 		int this_menu_time = Integer.parseInt(menu[3][index]);
-		if ((Integer.parseInt(this.time) < this_menu_time) || (this_menu_time + 2 < Integer.parseInt(this.time + 2))) {// 占쌍뱄옙占쏙옙占심시곤옙																						// 占쏙옙占쏘남
-			return false;
-		}
+	         if (menu_confirm.contains(" ") || menu_confirm.contains("")) {
+	            yorn_value = menu_confirm.trim().split(" ");
+	         }
 
-		return true;
-	}
+	         if (yorn_value[0].equals("y")) {
+	            String str = "";
+	            for (int i = 0; i < menu.length; i++) {
+	               if (int_menu_num[i] != 0) {
+	                  str += menu[0][i] + " ";
+	               }
+	            }
+	            System.out.println(str + "를(을) 주문합니다.");
+	            reservation_confirm();
+	            break;
+	         } else if (yorn_value[0].equals("n")) {
+	            choose_menu();
+	            break;
+	         } else {
+	            System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
+	            continue;
+	         }
+	      }
 
-	private int[] menu_stock_check() {
-		int[] result = new int[menu.length];
-		for (int i = 0; i < menu.length; i++) {
-			if(int_menu_num[i]!=0) {
-				int this_menu_stock = Integer.parseInt(menu[2][i]);
-				if (int_menu_num[i] > this_menu_stock) {// 占쌍뱄옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占� 占쏙옙占쏙옙占쏙옙
-					result[stock_result_index++] = i;
-				} // 占쏙옙占� 占쏙옙占쏙옙占쏙옙 占쏙옙占� 占쌨댐옙 占쏙옙占쏙옙占쌔쇽옙 占쏙옙환
-			}
-		}
-		return result;
-	}
+	   }
+	   //예약 확정
+	   private void reservation_confirm() {
 
-	private void menu_confirm() {
-		Scanner scan = new Scanner(System.in);
+	      Scanner scan2 = new Scanner(System.in);
+	      String patterns0 = "^[가-힣]*";
+	      String patterns1 = "[0-9]";
+	      String patterns2 = "[a-zA-Z]";
+	      String patterns3 = "\t";
+	      //이 부분은 위쪽이 완료되면 해당 변수로 채우면 됨 - 현재 테이블 번호 없음
+	      while (true) {
 
-		System.out.println("[占쌨댐옙]\t[占쏙옙占쏙옙]\t[占쌍뱄옙 占쏙옙占쏙옙]");
-		for (int i = 0; i < menu.length; i++) {
-			System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
-			price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
-		}
-		System.out.println();
+	         System.out.println("\n--------------------------\n예약 내역 확인\n------------------------------");
+	         System.out.println("예약자 이름: " + this.name);
+	         System.out.println("전화번호: " + this.phone);
+	         System.out.println("예약 시간: " + this.time + ":00 ~ " + (Integer.parseInt(this.time) + 2) + ":00");
+	         System.out.println("인원 수: " + this.count);
+	         System.out.println("예약 좌석: " + 5);//this.table);
+	         System.out.print("주문 메뉴: ");
+	         for (int i = 0; i < menu.length; i++) {
+	            if (int_menu_num[i] != 0) {
+	               System.out.print(menu[0][i] + ": " + int_menu_num[i] + "  ");
+	            }
+	         }
+	         System.out.println();
 
-		System.out.println("占쏙옙占쏙옙 占쏙옙占쏙옙 占쌥억옙: " + price);
-		System.out.print("占쌍뱄옙 占쏙옙占쏙옙占쏙옙 확占쏙옙占싹곤옙 占쌍뱄옙占쏙옙 占싹뤄옙占싹시겠쏙옙占싹깍옙?(y/n) :");
-		String menu_confirm = scan.next();
+	         System.out.println("결제 예정 금액: \\" + price + "\n");
+	         System.out.print("예약을 확정하시겠습니까?(y/n): ");
+	         String reservation_confirm = scan2.next();
+	         String[] yorn_value = new String[0];
 
-		if (menu_confirm.contains(" ") || menu_confirm.contains("")) {
-			input_value = menu_confirm.trim().split(" ");
-		}
+	         if (reservation_confirm.contains(" ") || reservation_confirm.contains("")) {
+	            yorn_value = reservation_confirm.trim().split(" ");
+	         }
 
-		if (input_value[0] == "y") {
-			String str = "";
-			for (int i = 0; i < menu.length; i++) {
-				if (int_menu_num[i] != 0) {
-					str += menu[0][i] + " ";
-				}
-			}
-			System.out.println("占쏙옙(占쏙옙) 占쌍뱄옙占쌌니댐옙.");
-			reservation_confirm();
-		} else {
-			choose_menu();
-		}
-	}
+	         if (yorn_value[0].equals("y")) {
+	            System.out.println("예약이 완료되었습니다.");
+	            out_reservation_data();
+	            break;
+	         } else if (yorn_value[0].equals("n")) {
+	            reservation_cancle_confirm();
+	            break;
+	         } else {
+	            System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
+	            continue;
+	         }
+	      }
 
-	private void reservation_confirm() {
-		Scanner scan = new Scanner(System.in);
-		System.out.println("占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 확占쏙옙占싹겠쏙옙占싹댐옙.\n");
-		System.out.println("占쏙옙占쏙옙占쏙옙 占싱몌옙: " + this.name);
-		System.out.println("占쏙옙화占쏙옙호: " + this.phone);
-		System.out.println("占쏙옙占쏙옙 占시곤옙: ");
-		System.out.println("占싸울옙 占쏙옙: ");
-		System.out.println("占쏙옙占쏙옙 占승쇽옙: ");
-		System.out.print("占쌍뱄옙 占쌨댐옙: ");
-		for (int i = 0; i < menu.length; i++) {
-			if (int_menu_num[i] != 0) {
-				System.out.print(menu[0][i] + ": " + menu[2][i] + "  ");
-			}
-		}
-		System.out.println();
+	   }
+	   //예약 취소
+	   private void reservation_cancle_confirm() {
+	      Scanner scan3 = new Scanner(System.in);
+	      String patterns0 = "^[가-힣]*";
+	      String patterns1 = "[0-9]";
+	      String patterns2 = "[a-zA-Z]";
+	      String patterns3 = "\t";
 
-		System.out.println("占쏙옙占쏙옙 占쏙옙占쏙옙 占쌥억옙: \\" + price + "\n");
-		System.out.print("占쏙옙占쏙옙占쏙옙 확占쏙옙占싹시겠쏙옙占싹깍옙?(y/n): ");
-		String reservation_confirm = scan.next();
-		if (reservation_confirm.contains(" ") || reservation_confirm.contains("")) {
-			input_value = reservation_confirm.trim().split(" ");
-		}
+	      while (true) {
+	    	 System.out.println("--------------------------------");
+	    	 System.out.println("\t예약 취소 확인");
+	    	 System.out.println("--------------------------------");
+	         System.out.println("예약 취소시, 모든 예약 정보가 삭제됩니다.");
+	         System.out.print("정말 예약을 취소하시겠습니까?(y/n): ");
 
-		if (input_value[0] == "y") {
-			System.out.println("占쏙옙占쏙옙占쏙옙 占싹뤄옙퓸占쏙옙占쏙옙求占�.");
-			out_reservation_data();
-		} else {
-			reservation_cancle_confirm();
-		}
-	}
+	         String reservation_cancel = scan3.next();
+	         String[] yorn_value = new String[0];
+	         if (reservation_cancel.contains(" ") || reservation_cancel.contains("")) {
+	            yorn_value = reservation_cancel.trim().split(" ");
+	         }
 
-	private void reservation_cancle_confirm() {
-		Scanner scan = new Scanner(System.in);
-		System.out.println("占쏙옙占쏙옙 占쏙옙努占�, 占쏙옙占� 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싯니댐옙.");
-		System.out.println("占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙絿챨黴占쏙옙歐占�?(y/n): ");
-
-		String reservation_cancle = scan.next();
-		if (reservation_cancle.contains(" ") || reservation_cancle.contains("")) {
-			input_value = reservation_cancle.trim().split(" ");
-		}
-
-		if (input_value[0] == "y") {
-			System.out.println("占쏙옙占쏙옙占쏙옙 占쏙옙撚퓸占쏙옙占쏙옙求占�.");
-			// 占쏙옙占쏙옙占쏙옙占쏙옙트占쏙옙, main占쏙옙占쏙옙 占쏙옙占싣곤옙占쏙옙
-		} else {
-			reservation_confirm();
-		}
-	}
-
-	private void out_reservation_data() {
-		file.write_file(this.date, Integer.parseInt(this.time),5);
-		//占쌨댐옙占쏙옙占싹울옙占쏙옙 占쌨댐옙占싱몌옙占쏙옙 占쌔댐옙占싹댐옙 占쌨댐옙占쏙옙 占쌨댐옙 占쏙옙占� 占쌍뱄옙 占쏙옙占쏙옙占쏙옙큼 占쏙옙占쏙옙
-		for(int i=0;i<menu.length;i++) {
-			if(int_menu_num[i]!=0) {
-				int origin_stock = Integer.parseInt(menu[2][i]);
-				int new_stock = origin_stock - int_menu_num[i];
-				menu[2][i] = Integer.toString(new_stock);
-			}
-			db.set_menu(menu);
-			//file.write_menu(i);
-		}
-	}
+	         if (yorn_value[0].equals("y")) {
+	            System.out.println("예약이 취소되었습니다.");
+	            break;
+	         } else if (yorn_value[0].equals("n")) {
+	            reservation_confirm();
+	            break;
+	         } else {
+	            System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
+	            continue;
+	         }
+	      }
+	   }
+	   //예약 확정후 파일에 새로운 정보 저장
+	   private void out_reservation_data() {
+	      File_IO file2 = new File_IO();
+	      // 예약정보 file에 저장
+	      file2.write_file(this.date, Integer.parseInt(this.time), 10);//테이블번호));
+	      // 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
+	      file2.read_menu();
+	      menu = file2.tb.get_menu();
+	      for (int i = 0; i < 5; i++) {
+	         if (int_menu_num[i] != 0) {
+	            int origin_stock = Integer.parseInt(menu[2][i]);
+	            int new_stock = origin_stock - int_menu_num[i];
+	            menu[2][i] = Integer.toString(new_stock);
+	            //재고 정보 update
+	            file2.tb.set_menu(menu);
+	            file2.write_menu();
+	         }
+	      }
+	   }
 }

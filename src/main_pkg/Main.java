@@ -2,21 +2,22 @@ package main_pkg;
 
 import java.util.Scanner;
 import main_pkg.File_IO;
+import main_pkg.Validate;
 
 public class Main {
-	
+
     public static void main(String[] args) {
-    	
+
         Reservation reservation = new Reservation();
         Validate validate = new Validate();
-        
+
        while(true) {
             print_menu();
-            
+
             Scanner input_scan = new Scanner(System.in);
             Scanner pwd_scan = new Scanner(System.in);
             String menu_choice = input_scan.next();
-            
+
             if(menu_choice.matches("[1-7]")) {
             	int chosen_menu = Integer.parseInt(menu_choice);
             	if(chosen_menu >= 1 && chosen_menu <= 7) {
@@ -67,7 +68,7 @@ public class Main {
         System.out.println("7. 무결성 검사\n");
         System.out.print("원하시는 번호를 선택하세요: ");
     }
-    
+
 
     private static boolean password(String pwd) {
 
@@ -76,9 +77,9 @@ public class Main {
         else
             return false;
     }
-    
+
     public static void print_help() {
-    	
+
     }
 
 }
