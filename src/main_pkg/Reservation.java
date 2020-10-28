@@ -15,7 +15,6 @@ public class Reservation {
 	String[] input_value = new String[0];
 	File_IO file = new File_IO();
 	textDB db = new textDB();
-
     private String count, date, day, time;
     private String name;
     private String phone;
@@ -35,75 +34,74 @@ public class Reservation {
      */
     public void user_input(){
 
-    	LocalDate date_format = LocalDate.now();
-    	String today = date_format.toString();
+        LocalDate date_format = LocalDate.now();
+        String today = date_format.toString();
 
-		String reserv_date, reserv_time, reserv_count, sub_time;
+        String reserv_date, reserv_time, reserv_count, sub_time;
 
-    	Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-    	while(true) {
-    		System.out.println("\n예약 접수일: " + today);
-    		System.out.println("예약 희망 일자와, 시간, 그리고 방문하는 인원수를 차례대로 입력하세요.");
-    		System.out.print("→");
+        while(true) {
+            System.out.println("예약 접수일: " + today);
+            System.out.println("예약 희망 일자와, 시간, 그리고 방문하는 인원수를 차례대로 입력하세요.");
+            System.out.print("→");
 
-    		String reservation_input = scanner.nextLine();
+            String reservation_input = scanner.nextLine();
 
-			String[] input_value = null;
+            String[] input_value = null;
 
 
-			//check if format is right
-    		if(reservation_input.contains("	") || reservation_input.contains(" ")) {
-    			//for the format of input String
-    			input_value = reservation_input.trim().split("	");
-    		}else {
-    			System.out.println("입력하신 문자열이 올바르지 않습니다. <예약 희망일> + <tab> 1개 + <시간> + <tab> 1개 + <인원수>에 알맞은 형식으로 문자열을 입력해주세요!\n");
-    			continue;
-    		}
-    		if(input_value[0].matches("[0-9]{4,4}"+"-"+"[0-9]{2,2}"+"-"+"[0-9]{2,2}") || input_value[0].matches("[0-9]{8,8}")) {
-    			//for the format of reservation date
-    			reserv_date = input_value[0];
-    		}else {
-    			System.out.println("입력하신 문자열이 올바르지 않습니다. <예약 희망일은> yyyy-mm-dd 또는 yyyymmdd의 형식으로 입력해주세요!\n");
-    			continue;
-    		}
-    		if(input_value[1].matches("[0-9][0-9]") || input_value[1].matches("[0-9][0-9]:00") || input_value[1].matches("[0-9][0-9]시")) {
-    			//for the format of reservation time
-    			reserv_time = input_value[1];
-    		}else {
-    			System.out.println("입력하신 문자열이 올바르지 않습니다. <시간>은 hh 또는 hh:00 또는 hh시의 형식으로 입력해주세요!\n");
-    			continue;
-    		}
-    		if(Integer.parseInt(input_value[2]) >=1 && Integer.parseInt(input_value[2]) <= 12) { //for the format of reservation count
-    			reserv_count = input_value[2];
-    		}else {
-    			System.out.println("입력하신 문자열이 올바르지 않습니다. 예약 가능 인원은 최소 1명, 최대 12명입니다!\n");
-    			continue;
-    		}
+            //check if format is right
+            if(reservation_input.contains("	") || reservation_input.contains(" ")) {
+                //for the format of input String
+                input_value = reservation_input.trim().split("	");
+            }else {
+                System.out.println("입력하신 문자열이 올바르지 않습니다. <예약 희망일> + <tab> 1개 + <시간> + <tab> 1개 + <인원수>에 알맞은 형식으로 문자열을 입력해주세요!\n");
+                continue;
+            }
+            if(input_value[0].matches("[0-9]{4,4}"+"-"+"[0-9]{2,2}"+"-"+"[0-9]{2,2}") || input_value[0].matches("[0-9]{8,8}")) {
+                //for the format of reservation date
+                reserv_date = input_value[0];
+            }else {
+                System.out.println("입력하신 문자열이 올바르지 않습니다. <예약 희망일> + <tab> 1개 + <시간> + <tab> 1개 + <인원수>에 알맞은 형식으로 문자열을 입력해주세요!\n");
+                continue;
+            }
+            if(input_value[1].matches("[0-9][0-9]") || input_value[1].matches("[0-9][0-9]:00") || input_value[1].matches("[0-9][0-9]시")) {
+                //for the format of reservation time
+                reserv_time = input_value[1];
+            }else {
+                System.out.println("입력하신 문자열이 올바르지 않습니다. <예약 희망일> + <tab> 1개 + <시간> + <tab> 1개 + <인원수>에 알맞은 형식으로 문자열을 입력해주세요!\n");
+                continue;
+            }
+            if(input_value[2].matches("[0-9]{1,2}")) { //for the format of reservation count
+                reserv_count = input_value[2];
+            }else {
+                System.out.println("입력하신 문자열이 올바르지 않습니다. <예약 희망일> + <tab> 1개 + <시간> + <tab> 1개 + <인원수>에 알맞은 형식으로 문자열을 입력해주세요!\n");
+                continue;
+            }
 
-			sub_time = reserv_time.substring(0, 2);
+            sub_time = reserv_time.substring(0, 2);
 
-    		if((reserv_date.contentEquals(date_format.plusDays(1).toString()) || reserv_date.replace("-", "").contentEquals(date_format.plusDays(1).toString().replace("-", ""))
-    			|| reserv_date.contentEquals(date_format.plusDays(2).toString()) || reserv_date.replace("-", "").contentEquals(date_format.plusDays(2).toString().replace("-", "")))
-    			&& (Integer.parseInt(sub_time) >= 10 && Integer.parseInt(sub_time) <= 20)) {
-    			//check if value inputed fits data rule
-    			this.date = reserv_date;
-    			this.time = sub_time;
+            if((reserv_date.contentEquals(date_format.plusDays(1).toString()) || reserv_date.replace("-", "").contentEquals(date_format.plusDays(1).toString().replace("-", ""))
+                    || reserv_date.contentEquals(date_format.plusDays(2).toString()) || reserv_date.replace("-", "").contentEquals(date_format.plusDays(2).toString().replace("-", "")))
+                    && (Integer.parseInt(sub_time) >= 10 && Integer.parseInt(sub_time) <= 20) && Integer.parseInt(reserv_count) >=1 && Integer.parseInt(reserv_count) <= 12) {
+                //check if value inputed fits data rule
+                this.date = reserv_date;
+                this.time = sub_time;
 
-    			if(search_table(reserv_date, sub_time, reserv_count).isBlank() == false) {
-    				//check if value inputed is available for reservation
-        			break;
-    			}else {
-    				System.out.println("입력하신 시간대에 해당 인원수가 앉을 수 있는 좌석이 존재하지 않습니다. 다른 시간대를 입력해주시기 바랍니다.\n");
-    				continue;
-    			}
-    		}else {
-    			System.out.println("입력하신 문자열이 올바르지 않습니다. 예약은 예약접수일 당일을 제외하고 +2일까지 가능하며, 입력 가능한 시간은 10:00 ~ 20:00입니다.\n");
-    			continue;
-    		}
-    	}
-    	show_table(reserv_date, sub_time, reserv_count);
-    	scanner.close();
+                if(search_table(reserv_date, sub_time, reserv_count).isBlank() == false) {
+                    //check if value inputed is available for reservation
+                    break;
+                }else {
+                    System.out.println("입력하신 시간대에 해당 인원수가 앉을 수 있는 좌석이 존재하지 않습니다. 다른 시간대를 입력해주시기 바랍니다.\n");
+                    continue;
+                }
+            }else {
+                System.out.println("입력하신 문자열이 올바르지 않습니다. 예약은 예약접수일 당일을 제외하고 +2일까지 가능하며, 입력 가능한 시간은 10:00 ~ 20:00입니다.\n");
+                continue;
+            }
+        }
+        show_table(reserv_date, sub_time, reserv_count);
     }
 
     /*
@@ -111,27 +109,29 @@ public class Reservation {
      */
     private String search_table(String date, String time, String count){
     	fio.read_file(date.replaceAll("-", ""));
-    	String[][][]tmp = fio.tb.get_day();
+    	String[][][]
+    			tmp = fio.tb.get_day();
+
+    	int attached_table = 0;
 
     	StringBuilder available_tables = new StringBuilder();
     	//should split it with space(" ") to check each available table number
     	//for tables attached, format is "(table number)-(table number)"
 
-    	int attached_table = 0;
-    	int tmp_count = 1; //index no. of available number of people to use table
-    	int tmp_table; //table number
-    	int tmp_time = Integer.parseInt(time) - 10;
 
+    	int tmp_count = 1; //index no. of available number of people to use table
+    	int tmp_table = 0; //table number
+    	int tmp_time = Integer.parseInt(time) - 10;
 
     	for(tmp_table = 0; tmp_table < 20; tmp_table++) { //check if there are any table available with chosen day,time,count with availability(3rd value)
     		if(tmp[2][tmp_time][tmp_table].equals("0")) { //if number of people using table is 0
     			if(Integer.parseInt(tmp[tmp_count][tmp_time][tmp_table]) >= Integer.parseInt(count)){
-    				//compare available number of people to use table with inputed number of people
-    				if(Integer.parseInt(count) < 3 && ((tmp[tmp_count][tmp_time][tmp_table]).equals("4") || tmp[tmp_count][tmp_time][tmp_table].equals("6"))) {
+    				//compare available number or people to use table with inputed number of people
+    				if(Integer.parseInt(count) < 3 && (tmp[tmp_count][tmp_time][tmp_table]).contentEquals("4") || tmp[tmp_count][tmp_time][tmp_table].equals("6")) {
     					//if current number of people is less than 3, cannot use table for 4 or 6 people
     					continue;
-    				}else if((Integer.parseInt(count) < 4 || Integer.parseInt(count) > 6) && tmp[tmp_count][tmp_time][tmp_table].equals("6")){
-    					//if current number of people is less than 4, and more than 6, cannot use table for 6 people
+    				}else if(Integer.parseInt(count) < 4 && tmp[tmp_count][tmp_time][tmp_table].contentEquals("6")){
+    					//if current number of people is less than 4, cannot use table for 6 people
     					continue;
     				}else { //add string in available_tables
     					available_tables.append(tmp_table + 1);
@@ -341,10 +341,12 @@ public class Reservation {
 			sp[1] = available_table[1];
 			this.st_num0 =sp[0];
 			this.st_num1 = sp[1];
+			System.out.println("할당된 테이블은 "+st_num0+st_num1+"입니다.");
 			input_inform();
 		}
 		else{
 			this.st_num1 = available_table[0];
+			System.out.println("할당된 테이블은 "+st_num0+"입니다.");
 			input_inform();
 		}
 	}
