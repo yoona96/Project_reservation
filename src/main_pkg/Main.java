@@ -6,7 +6,8 @@ import main_pkg.Validate;
 public class Main {
 
     public static void main(String[] args) {
-        /*한글 테스팅*/
+       Cancel_Reservation CR = new Cancel_Reservation();
+       CR.input_reservation_date();
 
     
     }
