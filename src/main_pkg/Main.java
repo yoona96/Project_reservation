@@ -11,7 +11,9 @@ public class Main {
         Reservation reservation = new Reservation();
         Validate validate = new Validate();
 
-       while(true) {
+        //validate.check_all();
+        
+        while(true) {
             print_menu();
 
             Scanner input_scan = new Scanner(System.in);
@@ -36,8 +38,7 @@ public class Main {
             					break;
             			case 7: {	String pwd = pwd_scan.next();
             						if(password(pwd) == true) {
-            							validate.validate_file_exist();
-            							validate.validate_file_grammer();
+            							validate.check_all();
             						}else {
             							break;
             						}

@@ -3,6 +3,7 @@ package main_pkg;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -109,18 +110,17 @@ public class Reservation {
      */
     private String search_table(String date, String time, String count){
     	fio.read_file(date.replaceAll("-", ""));
-    	String[][][]
-    			tmp = fio.tb.get_day();
-
-    	int attached_table = 0;
+    	String[][][]tmp = fio.tb.get_day();
 
     	StringBuilder available_tables = new StringBuilder();
     	//should split it with space(" ") to check each available table number
     	//for tables attached, format is "(table number)-(table number)"
 
+    	int attached_table = 0;
     	int tmp_count = 1; //index no. of available number of people to use table
     	int tmp_table; //table number
     	int tmp_time = Integer.parseInt(time) - 10;
+
 
     	for(tmp_table = 0; tmp_table < 20; tmp_table++) { //check if there are any table available with chosen day,time,count with availability(3rd value)
     		if(tmp[2][tmp_time][tmp_table].equals("0")) { //if number of people using table is 0
@@ -181,6 +181,7 @@ public class Reservation {
     			}
     		}
     	}
+    	
 		return available_tables.toString();
     }
 
@@ -194,40 +195,33 @@ public class Reservation {
 		//split inputed reservation date into yyyy mm dd format
 
 		String avail_table = search_table(date, time, count);
+		avail_table = avail_table.replaceAll("-", " ");
 		//has no. of available tables. same as available_tables in search table function
-		String[] every_table = null;
+		String[] every_table = new String[13];
 		every_table = avail_table.split(" ");
 		//every available tables are in this array
-		String[] every_attached_table = new String[5];
-		//every available attached tables will be in this array
 		
 		for(int i = 0; i < every_table.length; i++) {
-			System.out.print(every_table[i] + "\t");
+			System.out.println(every_table[i]);
 		}
 		System.out.println("");
-		
-		for(int i = 0; i < every_table.length; i++) {
-			if(every_table[i].matches("[0-9]" + "-" + "[0-9]{1,2}")) {
-				int j = 0;
-				every_attached_table[j] = every_table[i].substring(0,1);
-				every_attached_table[j+1] = every_table[i].substring(2);
-				every_table[i] = "";
-				System.out.print(every_attached_table[j] + "\t");
-				System.out.print(every_attached_table[j+1] + "\t");
-				j += 2;
-			}else if(every_table[i].matches("[0-9][0-9]"+ "-" + "[0-9][0-9]")) {
-				int j = 0;
-				every_attached_table[j] = every_table[i].substring(0,2);
-				every_attached_table[j+1] = every_table[i].substring(3);
-				every_table[i] = "";
-				System.out.print(every_attached_table[j] + "t\t");
-				System.out.print(every_attached_table[j+1] + "t\t");
-				j += 2;
-			}
-		}
 		//replace attached tables from every_table array
 		//now every 'not attached' tables are in every_table array
 		//every 'attached' tables are in every_attached_table array
+		
+		int[] every_table_int = new int[every_table.length];
+		for(int i = 0; i < every_table.length; i++) {
+			every_table_int[i] = Integer.parseInt(every_table[i]);
+		}
+		//change string array into integer array
+		
+		Arrays.sort(every_table_int);
+		//sort into ascending order
+		
+		for(int i = 0; i < every_table_int.length; i++) {
+			every_table[i] = Integer.toString(every_table_int[i]);
+		}
+		//then change integer array into string array again
 		
 		for(int i = 0; i < every_table.length; i++) {
 			System.out.print(every_table[i] + "\t");
@@ -247,7 +241,8 @@ public class Reservation {
 			
 			System.out.println("\n" + tmp_date_arr[0] + "년 " + tmp_date_arr[1] + "월 " + tmp_date_arr[2] + "일 " + time + "시 예약 가능 좌석 현황");
 			System.out.println("--------------------------------------------------");
-			
+
+			//if any available table exists, table view array will be adding . to the table number
 			if(every_table != null) {
 				for(int i = 0; i < every_table.length; i++) {
 					for(int j = 0; j < 20; j++) {
@@ -258,30 +253,45 @@ public class Reservation {
 								table_view[j] = Integer.toString(j + 1) + ".";
 							}
 						}
-						System.out.print(table_view[j] + "\t");
 					}
 				}
 			}
-			System.out.println("");
-			if(every_attached_table != null) {
-				for(int k = 0; k < every_attached_table.length; k++) {
-					for(int l = 0; l < 20; l++) {
-						if(table_view[l].contains(".")) {
-							System.out.println("c");
-							continue;
+			
+			//change table view array into 2D array
+			String[][] table_show = new String[5][4];
+			for(int i = 0; i < 20; i++) {
+				if(i < 4) {
+					table_show[0][i] = table_view[i];
+				}else if(4 <= i && i < 8) {
+					table_show[1][i-4] = table_view[i];
+				}else if(8 <= i && i < 12) {
+					table_show[2][i-8] = table_view[i];
+				}else if(12 <= i && i < 16) {
+					table_show[3][i-12] = table_view[i];
+				}else if(16 <= i) {
+					table_show[4][i-16] = table_view[i];
+				}
+			}
+			
+			//if there is . with table number, it means that table is available
+			//except available tables, change it into "//"
+			for(int column = 0; column < 5; column++) {
+				for(int row = 0; row < 4; row++) {
+					if(!table_show[column][row].contains(".")) {
+						table_show[column][row] = "//";
+						System.out.print("["+table_show[column][row] + "]\t");
+					}else {
+						if(Integer.parseInt(table_show[column][row].replace(".", "")) < 10) {
+							System.out.print("[0" + table_show[column][row].replace(".", "") + "]\t");
 						}else {
-							System.out.println("a");
-							if(!every_attached_table[k].equals(Integer.toString(l + 1))) {
-								System.out.println("b");
-								table_view[l] = "//";
-							}else {
-								table_view[l] = Integer.toString(l + 1) + ".";
-							}
+							System.out.print("[" + table_show[column][row].replace(".", "") + "]\t");
 						}
-						System.out.println(table_view[l] + "`");
 					}
 				}
+				System.out.println("");
 			}
+						
+			System.out.println("");
 			
 			System.out.println("--------------------------------------------------\n");
 			
@@ -438,10 +448,6 @@ public class Reservation {
 	   private void menu_confirm() {
 
 	      Scanner scan1 = new Scanner(System.in);
-	      String patterns0 = "^[가-힣]*";
-	      String patterns1 = "[0-9]";
-	      String patterns2 = "[a-zA-Z]";
-	      String patterns3 = "\t";
 
 	      while (true) {
 	    	 System.out.println("------------------------------");
@@ -481,16 +487,12 @@ public class Reservation {
 	            continue;
 	         }
 	      }
-
+	      scan1.close();
 	   }
 	   //예약 확정
 	   private void reservation_confirm() {
 
 	      Scanner scan2 = new Scanner(System.in);
-	      String patterns0 = "^[가-힣]*";
-	      String patterns1 = "[0-9]";
-	      String patterns2 = "[a-zA-Z]";
-	      String patterns3 = "\t";
 	      //이 부분은 위쪽이 완료되면 해당 변수로 채우면 됨 - 현재 테이블 번호 없음
 	      while (true) {
 
@@ -529,15 +531,11 @@ public class Reservation {
 	            continue;
 	         }
 	      }
-
+	      scan2.close();
 	   }
 	   //예약 취소
 	   private void reservation_cancle_confirm() {
 	      Scanner scan3 = new Scanner(System.in);
-	      String patterns0 = "^[가-힣]*";
-	      String patterns1 = "[0-9]";
-	      String patterns2 = "[a-zA-Z]";
-	      String patterns3 = "\t";
 
 	      while (true) {
 	    	 System.out.println("--------------------------------");
@@ -563,6 +561,7 @@ public class Reservation {
 	            continue;
 	         }
 	      }
+	      scan3.close();
 	   }
 	   //예약 확정후 파일에 새로운 정보 저장
 	   private void out_reservation_data() {

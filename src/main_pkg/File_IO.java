@@ -55,22 +55,17 @@ public class File_IO {
 
                 String[] line_split = line.split("\t");
                 /* time이 10보다 커지면,(20시까지 모두 정보를 채웠다면) 다음 table을 1증가시킵니다. */
-                if (time > 10) {
+                if(time > 10){
                     time = 0;
                     table++;
-                } else {
-
-                    for (int i = 0; i < line_split.length; i++) {
-
-                        if (line_split[i] == null) {
-                            break;
-                        } else {
-                            temp[i][time][table] = line_split[i];
-                        }
+                    if(table > 19){
+                     table =19;
                     }
-
-                    time++;
                 }
+                for (int i = 0; i < line_split.length; i++) {
+                    temp[i][time][table] = line_split[i];
+                }
+                time++;
             }
 
             tb.set_day(temp);
@@ -235,12 +230,17 @@ public class File_IO {
         for (int i = 0; i < files.length; i++) {
             String file_name = files[i];
             file_name = file_name.replace(".txt", ""); // remove ".txt"
-            int file_date = Integer.parseInt(file_name); //
-            //TODO Fix all text encoding to UTF-8
-            if (file_date < int_today) {
-                System.out.println("데이터 경로에 과거의 <예약 정보 파일 : " + files[i] + ">이 존재합니다. 해당 데이터를 삭제합니다.");
-                File file_ = new File(data_directory + "\\" + files[i]);
-                file_.delete();
+            if(file_name.equals("menu")) {
+            	continue;
+            }else {
+
+                int file_date = Integer.parseInt(file_name); //
+                //TODO Fix all text encoding to UTF-8
+                if (file_date < int_today) {
+                    System.out.println("데이터 경로에 과거의 <예약 정보 파일 : " + files[i] + ">이 존재합니다. 해당 데이터를 삭제합니다.");
+                    File file_ = new File(data_directory + "\\" + files[i]);
+                    file_.delete();
+                }
             }
         }
           String test = new String();
