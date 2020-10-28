@@ -15,12 +15,11 @@ public class Reservation {
 	String[] input_value = new String[0];
 	File_IO file = new File_IO();
 	textDB db = new textDB();
-    private String count, date, day, time;
+    private String count, date, time;
     private String name;
     private String phone;
     private String st_num0;
     private String st_num1;
-    private String table;
     private String[][] menu = new String[4][5]; //menu파일 배열
     private String[] str_menu_num = new String[5];//사용자가 입력하는 주문수량 string배열
     private int[] int_menu_num = new int[5];//사용자 입력 주문수량 int배열
@@ -596,6 +595,70 @@ public class Reservation {
 	   //예약 확정후 파일에 새로운 정보 저장
 	   private void out_reservation_data() {
 	      File_IO file2 = new File_IO();
+	      file2.read_file(date);
+
+	      String[][][] temp = new String[11][11][20];
+		  temp =  file2.tb.get_day();
+
+		  temp[2][Integer.parseInt(time)][Integer.parseInt(st_num0)] = count;
+		  temp[2][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = count;
+
+		  temp[4][Integer.parseInt(time)][Integer.parseInt(st_num0)] = name;
+		  temp[4][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = name;
+
+		  temp[5][Integer.parseInt(time)][Integer.parseInt(st_num0)] = phone;
+		  temp[5][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = phone;
+
+		  temp[6][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[0]);
+		  temp[6][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[0]);
+
+		  temp[7][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[1]);
+		  temp[7][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[1]);
+
+		  temp[8][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+		  temp[8][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+
+		  temp[9][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+		  temp[9][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+
+		  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
+		  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
+
+		  temp[11][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[4]);
+		  temp[11][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[4]);
+
+		  if(st_num1 != null){
+
+			  temp[2][Integer.parseInt(time)][Integer.parseInt(st_num1)] = count;
+			  temp[2][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = count;
+
+			  temp[4][Integer.parseInt(time)][Integer.parseInt(st_num1)] = name;
+			  temp[4][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = name;
+
+			  temp[5][Integer.parseInt(time)][Integer.parseInt(st_num1)] = phone;
+			  temp[5][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = phone;
+
+			  temp[6][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[0]);
+			  temp[6][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[0]);
+
+			  temp[7][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[1]);
+			  temp[7][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[1]);
+
+			  temp[8][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+			  temp[8][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+
+			  temp[9][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+			  temp[9][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+
+			  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
+			  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
+
+			  temp[11][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[4]);
+			  temp[11][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[4]);
+
+		  }
+		  file2.tb.set_day(temp);
+
 	      // 예약정보 file에 저장
 	      file2.write_file(this.date);//테이블번호));
 	      // 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
