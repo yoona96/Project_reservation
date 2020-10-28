@@ -79,44 +79,28 @@ public class File_IO {
     }
 
 
-    public void write_file(String date, int time, int table) {
+    public void write_file(String date) {
 
         try {
             File file = new File("src/data/" + date + ".txt");
-            FileReader file_reader = new FileReader(file);
-            BufferedReader buffered_reader = new BufferedReader(file_reader);
-
-
-            int position = (11 * (table) + (time));
+            FileWriter file_writer = new FileWriter(file);
 
             String line = "";
             String temp = "";
             String change_line = "";
-
-            for (int i = 0; i < 11; i++) {
-                change_line += tb.get_day()[i][time][table] + "\t";
+            for (int j =0;j<20;j++){
+                for (int k=0;k<11;k++){
+                    for (int i = 0; i < 11; i++) {
+                        change_line += tb.get_day()[i][k][j] + "\t";
+                    }
+                    change_line += "\r\n";
+                }
             }
-            change_line += "\r\n";
-
-            for (int i = 0; i < position; i++) {
-                buffered_reader.readLine();
-                temp += (line + "\r\n");
-            }
-
-            buffered_reader.readLine();
-            temp += change_line;
-
-            while ((line = buffered_reader.readLine()) != null) {
-                temp += (line + "\r\n");
-            }
-            file_reader.close();
-            buffered_reader.close();
-
-
-            FileWriter file_writer = new FileWriter(file);
+            temp = change_line;
             file_writer.write(temp);
-
             file_writer.close();
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -166,7 +150,6 @@ public class File_IO {
                 }
                 change_line += "\r\n";
             }
-
            temp = change_line;
            file_writer.write(temp);
            file_writer.close();

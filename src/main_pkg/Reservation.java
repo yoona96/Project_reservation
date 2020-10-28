@@ -15,6 +15,7 @@ public class Reservation {
 	String[] input_value = new String[0];
 	File_IO file = new File_IO();
 	textDB db = new textDB();
+
     private String count, date, day, time;
     private String name;
     private String phone;
@@ -305,10 +306,10 @@ public class Reservation {
 			String table_choice = choose_table_input.next();
 			
 			if(table_choice.equals("y")) {
-				choose_auto('y');
+				choose_auto();
 				break;
 			}else if(table_choice.equals("n")) {
-				choose_table("");
+				choose_table();
 				break;
 			}else {
 				System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
@@ -318,21 +319,46 @@ public class Reservation {
 		choose_table_input.close();
 	}
 
-    private boolean choose_auto(char c){
 
-        return false;
+	/*좌석을 자동으로 할당받을 것인지 수동으로 선택할 것인지 결정합니다.*/
+    public void choose_auto(){
+
+    	System.out.println("자동으로 할당하시겠습니까(y/n)?: ");
+    	Scanner sc= new Scanner(System.in);
+    	String st = sc.next();
+
+    	while(st.matches("^y$ | ^n$")){
+			System.out.println("자동 선택 답변은 단문자 'y' 흑은 'n'만 가능합니다 다시입력해주세요");
+		}
+
+		if(st =="y"){
+		    System.out.println("자동할당을 선택하셨습니다.");
+		    auto_table();
+	    }
+		else {
+			System.out.println("수동선택을 선택하셨습니다.");
+			choose_table();
+		}
+    	sc.close();
     }
 
-	private void choose_table(String st_num) {
+	public void choose_table() {
+    	show_table(date,time,count);
+		String available = search_table(date,time,count);
+		String[] available_table =  available.split(" ");
+    	System.out.println("좌석을 선택하세요!: ");
+	}
+
+	public void auto_table() {
+		show_table(date,time,count);
 
 	}
 
-	private String auto_table(String count) {
-		String auto = "";
-		return auto;
-	}
+	private void input_inform() {
+    	System.out.println("이름과 휴대전화 번호를 입력하세요");
+    	Scanner sc = new Scanner(System.in);
 
-	private void input_inform(String name, String phone) {
+
 
 	}
 
@@ -382,7 +408,7 @@ public class Reservation {
 	         }
 	         // 문법 규칙 위배시
 	         if (temp_num.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1
-	               + patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns3 + patterns3 + patterns1
+	               + patterns3 + patterns1 + patterns3 + patterns1 + "|"+patterns2 + patterns3 + patterns3 + patterns1
 	               + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1)) {
 	            System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
 	            continue;
@@ -567,7 +593,7 @@ public class Reservation {
 	   private void out_reservation_data() {
 	      File_IO file2 = new File_IO();
 	      // 예약정보 file에 저장
-	      file2.write_file(this.date, Integer.parseInt(this.time), 10);//테이블번호));
+	      file2.write_file(this.date);//테이블번호));
 	      // 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
 	      file2.read_menu();
 	      menu = file2.tb.get_menu();
