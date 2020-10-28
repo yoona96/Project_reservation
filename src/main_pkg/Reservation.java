@@ -218,12 +218,13 @@ public class Reservation {
     }
 
 	public void choose_table() {
+    	show_table(date,time,count);
+
 
 	}
 
-	public String auto_table() {
-		String auto = "";
-		return auto;
+	public void auto_table() {
+		show_table(date,time,count);
 	}
 
 	private void input_inform(String name, String phone) {
@@ -472,7 +473,7 @@ public class Reservation {
 	   private void out_reservation_data() {
 	      File_IO file2 = new File_IO();
 	      // 예약정보 file에 저장
-	      file2.write_file(this.date, Integer.parseInt(this.time), 10);//테이블번호));
+	      file2.write_file(this.date);//테이블번호));
 	      // 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
 	      file2.read_menu();
 	      menu = file2.tb.get_menu();
