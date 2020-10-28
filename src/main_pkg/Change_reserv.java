@@ -16,6 +16,7 @@ public class Change_reserv {
 		//좌석 자동할당까지
 		rsv.choose_menu();
 		//예약내역 출력까지 동일
+
 		this.delete_reservation();
 		
 	}
@@ -89,10 +90,8 @@ public class Change_reserv {
 		//input user name and phone number
 		//show all reservations of user
 		//choose reservation
-		if(choose_reservation()) {
-			if(new_reservation())
-				delete_reservation();
-		}
+		if(choose_reservation())
+			new_reservation();
 		else
 			return; //go to main
 
