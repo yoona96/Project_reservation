@@ -407,7 +407,7 @@ public class Reservation {
 			System.out.println("[//] : 예약 불가능한 좌석");
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
 		
-			System.out.println("\n좌석 번호를 입력하세요: ");
+			System.out.println("좌석 번호를 입력하세요: ");
 			//여기까지 거의 복붙
 			
 			String inputed_table_num = table_num.next();
@@ -436,15 +436,20 @@ public class Reservation {
 				}
 			}else {
 				String[] table_num_input = inputed_table_num.trim().split("\t");
+				System.out.println("*");
 				if(table_num_input.length == 2) {
 					//table attached
+					System.out.println("**");
 					for(int i = 0; i < available_table.length; i++) {
+						System.out.println("***");
 						if(available_table[i].equals(table_num_input[0] + "-" + table_num_input[1])) {
 							//attached table is available
+							System.out.println("****");
 							this.st_num0 = table_num_input[0];
 							this.st_num1 = table_num_input[1];
 							break;
 						}else {
+							System.out.println("*****");
 							//not matches available attached table
 							continue;
 						}
@@ -465,35 +470,48 @@ public class Reservation {
 	}
 
 	private void auto_table() {
+		
 		search_table(date,time,count);
-
-		show_table(date,time,count);
+		
 		String available = search_table(date,time,count);
 		String[] available_table =  available.split(" ");
 		if (available_table[0].contains("-")){
-			available_table[0].split("-");
 			String[] sp = new String[2];
-			sp[0] = available_table[0];
-			sp[1] = available_table[1];
+			sp =available_table[0].split("-");
 			this.st_num0 =sp[0];
 			this.st_num1 = sp[1];
-			System.out.println("할당된 테이블은 "+st_num0+st_num1+"입니다.");
+			System.out.println("할당된 테이블은 [" + st_num0 + "], [" + st_num1 + "]번 입니다.");
 			input_inform();
 		}
 		else{
-			this.st_num1 = available_table[0];
-			System.out.println("할당된 테이블은 "+st_num0+"입니다.");
+			this.st_num0 = available_table[0];
+			System.out.println("할당된 테이블은 ["+ st_num0 +"]번 입니다.");
 			input_inform();
 		}
 	}
 
 	private void input_inform() {
+		System.out.println("[예약정보]");
+		if(st_num1 == null) {
+			System.out.println("예약 좌석번호 : " + st_num0 + "번");
+		}else {
+			System.out.println("예약 좌석번호 : " + st_num0 + ", " + st_num1 + "번");
+		}
+		System.out.println("예약한 인원수 : " + count);
+		System.out.println("예약 시간 : " + time + ":00 ~ " + (Integer.parseInt(time) + 2) + ":00");
+		System.out.println("-----------------------------------");
+		
+		System.out.println("[필수 입력 정보]");
+		System.out.println("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
+		
     	Scanner sc = new Scanner(System.in);
 		String line = sc.nextLine();
-		String[] line_split = line.split(" ");
+		String[] line_split = line.split("\t");
+		
+		//수정 필요
 		while(line_split[1].matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$") && line_split[0].matches("^[가-힣]*$")){
 
-			System.out.println("형식에 맞지 않습니다. 올바른 입력 예시는 다음과 같습니다.(ex 이름		010-0000-0000 입니다");
+			System.out.println("이름+<tab> 1개+전화번호의 형식에 맞춰서 정확히 입력하세요.");
 
 		}
 		this.name = line_split[0];
