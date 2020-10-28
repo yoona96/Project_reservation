@@ -59,7 +59,7 @@ public class File_IO {
                 /* 읽은 라인을 공백(" ")을 기준으로 분할하여 line_split[]에 넣어줍니다 */
                 String[] line_split = line.split("\t");
                 /* time이 10보다 커지면,(20시까지 모두 정보를 채웠다면) 다음 table을 1증가시킵니다. */
-                if (time > 10) {
+                if (time >= 10) {
                     time = 0;
                     if (table > 19){
                         table = 19;
