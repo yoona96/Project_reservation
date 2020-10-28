@@ -16,7 +16,7 @@ public class Reservation {
 	File_IO file = new File_IO();
 	textDB db = new textDB();
 
-    private String count, date, day, time;
+    private String count, date, time;
     private String name;
     private String phone;
     private String st_num0;
@@ -89,7 +89,7 @@ public class Reservation {
     			//check if value inputed fits data rule
     			this.date = reserv_date;
     			this.time = sub_time;
-
+    			this.count = reserv_count;
     			if(search_table(reserv_date, sub_time, reserv_count).isBlank() == false) {
     				//check if value inputed is available for reservation
         			break;
@@ -202,14 +202,6 @@ public class Reservation {
 		every_table = avail_table.split(" ");
 		//every available tables are in this array
 		
-		for(int i = 0; i < every_table.length; i++) {
-			System.out.println(every_table[i]);
-		}
-		System.out.println("");
-		//replace attached tables from every_table array
-		//now every 'not attached' tables are in every_table array
-		//every 'attached' tables are in every_attached_table array
-		
 		int[] every_table_int = new int[every_table.length];
 		for(int i = 0; i < every_table.length; i++) {
 			every_table_int[i] = Integer.parseInt(every_table[i]);
@@ -223,11 +215,6 @@ public class Reservation {
 			every_table[i] = Integer.toString(every_table_int[i]);
 		}
 		//then change integer array into string array again
-		
-		for(int i = 0; i < every_table.length; i++) {
-			System.out.print(every_table[i] + "\t");
-		}
-		System.out.println("");
 		
 		String[] table_view = new String[20];
 		for(int i = 0; i < 20; i++) {
@@ -291,8 +278,6 @@ public class Reservation {
 				}
 				System.out.println("");
 			}
-						
-			System.out.println("");
 			
 			System.out.println("--------------------------------------------------\n");
 			
@@ -306,7 +291,7 @@ public class Reservation {
 			String table_choice = choose_table_input.next();
 			
 			if(table_choice.equals("y")) {
-				choose_auto();
+				auto_table();
 				break;
 			}else if(table_choice.equals("n")) {
 				choose_table();
@@ -319,38 +304,167 @@ public class Reservation {
 		choose_table_input.close();
 	}
 
+	private void choose_table() {
+		String[] tmp_date_arr = new String[3];
+		
+		String tmp_date = date.replaceAll("-", "");
+		//replace all - from date, make it into format of yyyymmdd
+		tmp_date_arr[0] = tmp_date.substring(0, 4);
+		tmp_date_arr[1] = tmp_date.substring(4, 6);
+		tmp_date_arr[2] = tmp_date.substring(6);
+		//split inputed reservation date into yyyy mm dd format
 
-	/*좌석을 자동으로 할당받을 것인지 수동으로 선택할 것인지 결정합니다.*/
-    public void choose_auto(){
-
-    	System.out.println("자동으로 할당하시겠습니까(y/n)?: ");
-    	Scanner sc= new Scanner(System.in);
-    	String st = sc.next();
-
-    	while(st.matches("^y$ | ^n$")){
-			System.out.println("자동 선택 답변은 단문자 'y' 흑은 'n'만 가능합니다 다시입력해주세요");
+		String avail_table = search_table(date, time, count);
+		avail_table = avail_table.replaceAll("-", " ");
+		//has no. of available tables. same as available_tables in search table function
+		String[] every_table = new String[13];
+		every_table = avail_table.split(" ");
+		//every available tables are in this array
+		
+		int[] every_table_int = new int[every_table.length];
+		for(int i = 0; i < every_table.length; i++) {
+			every_table_int[i] = Integer.parseInt(every_table[i]);
 		}
-
-		if(st =="y"){
-		    System.out.println("자동할당을 선택하셨습니다.");
-		    auto_table();
-	    }
-		else {
-			System.out.println("수동선택을 선택하셨습니다.");
-			choose_table();
+		//change string array into integer array
+		
+		Arrays.sort(every_table_int);
+		//sort into ascending order
+		
+		for(int i = 0; i < every_table_int.length; i++) {
+			every_table[i] = Integer.toString(every_table_int[i]);
 		}
-    	sc.close();
-    }
+		//then change integer array into string array again
+		
+		String[] table_view = new String[20];
+		for(int i = 0; i < 20; i++) {
+			table_view[i] = "0";
+		}
+		
+		//rows of current table chart
+		
+		Scanner table_num = new Scanner(System.in);
 
-	public void choose_table() {
-    	show_table(date,time,count);
-		String available = search_table(date,time,count);
-		String[] available_table =  available.split(" ");
-    	System.out.println("좌석을 선택하세요!: ");
+		while(true) {
+			
+			System.out.println("\n" + tmp_date_arr[0] + "년 " + tmp_date_arr[1] + "월 " + tmp_date_arr[2] + "일 " + time + "시 예약 가능 좌석 현황");
+			System.out.println("--------------------------------------------------");
+
+			//if any available table exists, table view array will be adding . to the table number
+			if(every_table != null) {
+				for(int i = 0; i < every_table.length; i++) {
+					for(int j = 0; j < 20; j++) {
+						if(!table_view[j].contains(".")) {
+							if(!every_table[i].equals(Integer.toString(j + 1))) {
+								table_view[j] = Integer.toString(j + 1);
+							}else {
+								table_view[j] = Integer.toString(j + 1) + ".";
+							}
+						}
+					}
+				}
+			}
+			
+			//change table view array into 2D array
+			String[][] table_show = new String[5][4];
+			for(int i = 0; i < 20; i++) {
+				if(i < 4) {
+					table_show[0][i] = table_view[i];
+				}else if(4 <= i && i < 8) {
+					table_show[1][i-4] = table_view[i];
+				}else if(8 <= i && i < 12) {
+					table_show[2][i-8] = table_view[i];
+				}else if(12 <= i && i < 16) {
+					table_show[3][i-12] = table_view[i];
+				}else if(16 <= i) {
+					table_show[4][i-16] = table_view[i];
+				}
+			}
+			
+			//if there is . with table number, it means that table is available
+			//except available tables, change it into "//"
+			for(int column = 0; column < 5; column++) {
+				for(int row = 0; row < 4; row++) {
+					if(!table_show[column][row].contains(".")) {
+						table_show[column][row] = "//";
+						System.out.print("["+table_show[column][row] + "]\t");
+					}else {
+						if(Integer.parseInt(table_show[column][row].replace(".", "")) < 10) {
+							System.out.print("[0" + table_show[column][row].replace(".", "") + "]\t");
+						}else {
+							System.out.print("[" + table_show[column][row].replace(".", "") + "]\t");
+						}
+					}
+				}
+				System.out.println("");
+			}
+			
+			System.out.println("--------------------------------------------------\n");
+			
+			System.out.println("[01] ~ [06] : 2인용 좌석");
+			System.out.println("[07] ~ [16] : 4인용 좌석");
+			System.out.println("[17] ~ [20] : 6인용 좌석");
+			System.out.println("[//] : 예약 불가능한 좌석");
+			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
+		
+			System.out.println("\n좌석 번호를 입력하세요: ");
+			//여기까지 거의 복붙
+			
+			String inputed_table_num = table_num.next();
+			//select table number
+			
+			String available = search_table(date,time,count);
+			String[] available_table =  available.split(" ");
+			
+			if(!inputed_table_num.contains("\t")) {
+				inputed_table_num = inputed_table_num.trim();
+				//table not attached
+				for(int i = 0; i < available_table.length; i++) {
+					if(inputed_table_num.equals(available_table[i])) {
+						//table number matches
+						this.st_num0 = inputed_table_num;
+						break;
+					}else {
+						//not matches available table
+						continue;
+					}
+				}if(st_num0 != null) {
+					break;
+				}else {
+					System.out.println("예약이 불가능한 좌석입니다. 다시 입력해주세요.\n");
+					continue;
+				}
+			}else {
+				String[] table_num_input = inputed_table_num.trim().split("\t");
+				if(table_num_input.length == 2) {
+					//table attached
+					for(int i = 0; i < available_table.length; i++) {
+						if(available_table[i].equals(table_num_input[0] + "-" + table_num_input[1])) {
+							//attached table is available
+							this.st_num0 = table_num_input[0];
+							this.st_num1 = table_num_input[1];
+							break;
+						}else {
+							//not matches available attached table
+							continue;
+						}
+					}
+					if(st_num0 != null && st_num1 != null) {
+						break;
+					}else {
+						continue;
+					}
+				}else {
+					//not matches format
+					System.out.println("예약이 불가능한 좌석입니다. 다시 입력해주세요.\n");
+					continue;
+				}
+			}
+		}
+		input_inform();
 	}
 
-	public void auto_table() {
-		show_table(date,time,count);
+	private void auto_table() {
+		search_table(date,time,count);
 
 	}
 
