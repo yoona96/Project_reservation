@@ -15,7 +15,7 @@ public class Reservation {
 	String[] input_value = new String[0];
 	File_IO file = new File_IO();
 	textDB db = new textDB();
-	
+
     private String count, date, time;
     private String name;
     private String phone;
@@ -202,7 +202,7 @@ public class Reservation {
 		String[] every_table = new String[13];
 		every_table = avail_table.split(" ");
 		//every available tables are in this array
-		
+
 		int[] every_table_int = new int[every_table.length];
 		for(int i = 0; i < every_table.length; i++) {
 			every_table_int[i] = Integer.parseInt(every_table[i]);
@@ -216,7 +216,7 @@ public class Reservation {
 			every_table[i] = Integer.toString(every_table_int[i]);
 		}
 		//then change integer array into string array again
-		
+
 		String[] table_view = new String[20];
 		for(int i = 0; i < 20; i++) {
 			table_view[i] = "0";
@@ -307,7 +307,7 @@ public class Reservation {
 
 	private void choose_table() {
 		String[] tmp_date_arr = new String[3];
-		
+
 		String tmp_date = date.replaceAll("-", "");
 		//replace all - from date, make it into format of yyyymmdd
 		tmp_date_arr[0] = tmp_date.substring(0, 4);
@@ -321,31 +321,31 @@ public class Reservation {
 		String[] every_table = new String[13];
 		every_table = avail_table.split(" ");
 		//every available tables are in this array
-		
+
 		int[] every_table_int = new int[every_table.length];
 		for(int i = 0; i < every_table.length; i++) {
 			every_table_int[i] = Integer.parseInt(every_table[i]);
 		}
 		//change string array into integer array
-		
+
 		Arrays.sort(every_table_int);
 		//sort into ascending order
-		
+
 		for(int i = 0; i < every_table_int.length; i++) {
 			every_table[i] = Integer.toString(every_table_int[i]);
 		}
 		//then change integer array into string array again
-		
+
 		String[] table_view = new String[20];
 		for(int i = 0; i < 20; i++) {
 			table_view[i] = "0";
 		}
 		//rows of current table chart
-		
+
 		Scanner table_num = new Scanner(System.in);
 
 		while(true) {
-			
+
 			System.out.println("\n" + tmp_date_arr[0] + "년 " + tmp_date_arr[1] + "월 " + tmp_date_arr[2] + "일 " + time + "시 예약 가능 좌석 현황");
 			System.out.println("--------------------------------------------------");
 
@@ -364,7 +364,7 @@ public class Reservation {
 					}
 				}
 			}
-			
+
 			//change table view array into 2D array
 			String[][] table_show = new String[5][4];
 			for(int i = 0; i < 20; i++) {
@@ -380,7 +380,7 @@ public class Reservation {
 					table_show[4][i-16] = table_view[i];
 				}
 			}
-			
+
 			//if there is . with table number, it means that table is available
 			//except available tables, change it into "//"
 			for(int column = 0; column < 5; column++) {
@@ -398,21 +398,21 @@ public class Reservation {
 				}
 				System.out.println("");
 			}
-			
+
 			System.out.println("--------------------------------------------------\n");
-			
+
 			System.out.println("[01] ~ [06] : 2인용 좌석");
 			System.out.println("[07] ~ [16] : 4인용 좌석");
 			System.out.println("[17] ~ [20] : 6인용 좌석");
 			System.out.println("[//] : 예약 불가능한 좌석");
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
-		
+
 			System.out.println("좌석 번호를 입력하세요: ");
 			//여기까지 거의 복붙
 			
 			String inputed_table_num = table_num.nextLine();
 			//select table number
-			
+
 			String available = search_table(date,time,count);
 			String[] available_table =  available.split(" ");
 			
@@ -461,9 +461,9 @@ public class Reservation {
 	}
 
 	private void auto_table() {
-		
+
 		search_table(date,time,count);
-		
+
 		String available = search_table(date,time,count);
 		String[] available_table =  available.split(" ");
 		if (available_table[0].contains("-")){
@@ -491,18 +491,21 @@ public class Reservation {
 		System.out.println("예약한 인원수 : " + count);
 		System.out.println("예약 시간 : " + time + ":00 ~ " + (Integer.parseInt(time) + 2) + ":00");
 		System.out.println("-----------------------------------");
-		
+
 		System.out.println("[필수 입력 정보]");
 		System.out.println("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
-		
+
     	Scanner sc = new Scanner(System.in);
 		String line = sc.nextLine();
 		String[] line_split = line.split("\t");
-		
+
 		//수정 필요
-		while(line_split[1].matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$") && line_split[0].matches("^[가-힣]*$")){
+		while(line.matches("^[가-힣]*"+"(01\\\\d{1}|02|0505|0502|0506|0\\\\d{1,2})-?(\\\\d{3,4})-?(\\\\d{4})")){
 
 			System.out.println("이름+<tab> 1개+전화번호의 형식에 맞춰서 정확히 입력하세요.");
+			System.out.println("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
+			line = sc.nextLine();
+			line_split = line.split("\t");
 
 		}
 		this.name = line_split[0];
