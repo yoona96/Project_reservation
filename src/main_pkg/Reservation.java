@@ -306,7 +306,7 @@ public class Reservation {
 			String table_choice = choose_table_input.next();
 			
 			if(table_choice.equals("y")) {
-				choose_auto();
+				auto_table();
 				break;
 			}else if(table_choice.equals("n")) {
 				choose_table();
@@ -320,27 +320,7 @@ public class Reservation {
 	}
 
 
-	/*좌석을 자동으로 할당받을 것인지 수동으로 선택할 것인지 결정합니다.*/
-    public void choose_auto(){
 
-    	System.out.println("자동으로 할당하시겠습니까(y/n)?: ");
-    	Scanner sc= new Scanner(System.in);
-    	String st = sc.next();
-
-    	while(st.matches("^y$ | ^n$")){
-			System.out.println("자동 선택 답변은 단문자 'y' 흑은 'n'만 가능합니다 다시입력해주세요");
-		}
-
-		if(st =="y"){
-		    System.out.println("자동할당을 선택하셨습니다.");
-		    auto_table();
-	    }
-		else {
-			System.out.println("수동선택을 선택하셨습니다.");
-			choose_table();
-		}
-    	sc.close();
-    }
 
 	public void choose_table() {
     	show_table(date,time,count);
@@ -350,22 +330,44 @@ public class Reservation {
 	}
 
 	public void auto_table() {
-		show_table(date,time,count);
 
+		show_table(date,time,count);
+		String available = search_table(date,time,count);
+		String[] available_table =  available.split(" ");
+		if (available_table[0].contains("-")){
+			available_table[0].split("-");
+			String[] sp = new String[2];
+			sp[0] = available_table[0];
+			sp[1] = available_table[1];
+			this.st_num0 =sp[0];
+			this.st_num1 = sp[1];
+			input_inform();
+		}
+		else{
+			this.st_num1 = available_table[0];
+			input_inform();
+		}
 	}
 
 	private void input_inform() {
-    	System.out.println("이름과 휴대전화 번호를 입력하세요");
     	Scanner sc = new Scanner(System.in);
+		String line = sc.nextLine();
+		String[] line_split = line.split(" ");
+		while(line_split[1].matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$") && line_split[0].matches("^[가-힣]*$")){
 
+			System.out.println("형식에 맞지 않습니다. 올바른 입력 예시는 다음과 같습니다.(ex 이름		010-0000-0000 입니다");
 
+		}
+		this.name = line_split[0];
+		this.phone = line_split[1];
 
+		choose_menu();
 	}
 
 
 
 
-	   public void choose_menu() {
+	 private void choose_menu() {
 	      File_IO file = new File_IO();
 	      Scanner scan = new Scanner(System.in);
 	      String patterns0 = "^[가-힣]*";
