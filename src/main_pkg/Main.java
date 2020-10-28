@@ -10,7 +10,6 @@ public class Main {
 
         Reservation reservation = new Reservation();
         Validate validate = new Validate();
-        validate.check_all();
 
        while(true) {
             print_menu();

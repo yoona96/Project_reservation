@@ -1,10 +1,11 @@
-/*package src.main_pkg;
+package main_pkg;
 import java.util.Scanner;
-import src.main_pkg.*;
+import java.io.*;
+import main_pkg.*;
 
 public class Change_reserv {
-	String name,phon_num;
-	String date,line_index //index of the old reservation
+	private String name,phon_num;
+	private String date,line_index; //index of the old reservation
 	
 	Scanner s =new Scanner(System.in);
 	Reservation rsv=new Reservation();
@@ -19,12 +20,26 @@ public class Change_reserv {
 		
 	}
 	private boolean choose_reservation() {
-		System.out.println("선택하신 예약정보를 변경하시겠습니까?");
-		int yn=s.next();
-		if(yn=='y')
-			return true;
-		else if(yn=='n')
-			return false;
+		while(true) {
+			System.out.println("선택하신 예약정보를 변경하시겠습니까?");	
+			String menu_confirm = s.next();
+	        String[] yorn_value = new String[0];
+	
+	        if (menu_confirm.contains(" ") || menu_confirm.contains("")) {
+	           yorn_value = menu_confirm.trim().split(" ");
+	        }
+
+        	if (yorn_value[0].equals("y")) {
+            	return true;
+            }
+            else if(yorn_value[0].equals("n")) {
+            	return false;
+            }
+            else {
+            	System.out.println("입력은 y 혹은 n 만 가능합니다. 다시 입력해주세요.");
+            }
+        }
+        
 	}
 	private void delete_reservation() {
 		File file=new File("src/date/"+date+".txt");
@@ -33,10 +48,10 @@ public class Change_reserv {
 		String line="";
 		String new_line="";
 		for(int i=0;i<line_index;i++) {
-			new_line+=fr.readLine();
+			new_line+=br.readLine();
 		}//read file before the line index
 		
-		line=fr.readLine();
+		line=br.readLine();
 		String[] buf_line=line.trim().split("\t");
 		for(int i=0;i<4;i++) {
 			switch(i){
@@ -57,7 +72,7 @@ public class Change_reserv {
 			}
 		}
 		
-		while((line=fr.readLine())!=null) {
+		while((line=br.readLine())!=null) {
 			new_line+=line;
 		}
 		
@@ -77,13 +92,11 @@ public class Change_reserv {
 		if(choose_reservation()) {
 			if(new_reservation())
 				delete_reservation();
-			else
-				return;
 		}
 		else
-			choose_reservation();
-			
+			return; //go to main
+
 	}
 	
 }
-*/
+

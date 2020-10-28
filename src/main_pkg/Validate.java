@@ -41,7 +41,7 @@ public class Validate {
 				four = 0;
 				six = 0; // 테이블 수 초기화
 				date = fi.get_date(day);
-				File file = new File(this.get_directory() + date + ".txt");
+				File file = new File(this.get_directory()+ date + ".txt");
 				FileReader fr = new FileReader(file);
 				BufferedReader br = new BufferedReader(fr);
 				String line = "";
