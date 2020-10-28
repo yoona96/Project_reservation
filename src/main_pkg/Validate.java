@@ -82,12 +82,12 @@ public class Validate {
 				fr.close();
 
 				if ((two + four + six) != 20 * 11) { // 테이블 총 개수 확인
-					System.out.println(date + ".txt의 좌석 정보가 올바르지 않습니다. 레스토랑의 총 테이블 수는 20개입니다 ");
+					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 					return false;
 				}
 
 				if (two != 6 * 11 || four != 10 * 11 || six != 4 * 11) { // 인원 테이블 수 확인
-					System.out.println(date + ".txt의 좌석 정보가 올바르지 않습니다. 식당은 2 인용 테이블 "
+					System.out.println("<예약 정보 파일>의 좌석 정보가 올바르지 않습니다. 식당은 2 인용 테이블 "
 							+ "6 개, 4 인용 테이블 10 개, 6 인용 테이블 4 개로 구성되어 있습니다. 따라서 <예약 정보 파일>에도 "
 							+ "각각의 좌석은 해당 개수만큼 존재해야 합니다.");
 					return false;
@@ -111,7 +111,7 @@ public class Validate {
 				if (Integer.parseInt(temp[i]) >= 1 && Integer.parseInt(temp[i]) <= 20)
 					break;
 				else {
-					System.out.println(date + ".txt에서 테이블 번호는 1번부터 20번까지입니다.");
+					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 					return false;
 				}
 
@@ -135,7 +135,7 @@ public class Validate {
 				if (Integer.parseInt(temp[i]) >= 0 && Integer.parseInt(temp[i]) <= 12)
 					break;
 				else {
-					System.out.println(date + ".txt에서 인원수가 맞지 않습니다. 인원수는 0~12명입니다.");
+					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 					return false;
 				}
 
@@ -144,7 +144,7 @@ public class Validate {
 				if (Integer.parseInt(temp[i]) >= 10 && Integer.parseInt(temp[i]) <= 20)
 					break;
 				else {
-					System.out.println(date + ".txt에서 시간이 맞지 않습니다. 시간는 10~20시 입니다.");
+					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 					return false;
 				}
 
@@ -153,7 +153,7 @@ public class Validate {
 				if (temp[i].matches("^[가-힣]*$") && temp[i].length() >= 2)
 					break;
 				else {
-					System.out.println(date + ".txt에서 이름이 맞지 않습니다. 이름은 성 포함 2자이상 공백 없는 한글이름입니다.");
+					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 					return false;
 				}
 
@@ -162,7 +162,7 @@ public class Validate {
 				if (temp[i].matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$"))
 					break;
 				else {
-					System.out.println(date + ".txt에서 전화번호가 맞지 않습니다. 010-1111-1111 또는 019-111-1111이어야 합니다.");
+					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 					return false;
 				}
 			}
@@ -170,7 +170,7 @@ public class Validate {
 				if (temp[i].matches("^[0-9]*$"))
 					break;
 				else {
-					System.out.println(date + ".txt에서 메뉴정보가 맞지 않습니다. 메뉴는 0이상 정수이어야 합니다.");
+					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 					return false;
 				}
 			}
