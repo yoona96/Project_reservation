@@ -77,7 +77,7 @@ public class Reservation_Check {
 			for (int j = 0; j < 20; j++) {
 				for (int k = 0; k < 11; k++) {
 					if (user_name.equals(db[4][k][j]) && phone_num.equals(db[5][k][j])) {
-						int[] pos = new int[2];
+						int[] pos = new int[2]; // k와 j가 순서대로 들어갑니다.
 						pos[0] = k; // pos[0]: time
 						pos[1] = j; // pos[1]: table
 						user_inform[i].add(pos);
@@ -111,9 +111,9 @@ public class Reservation_Check {
 
 			if (user_inform[i].size() == 0)
 				continue;
-			for (int j = 0; j < user_inform[i].size(); j += 2) {
+			for (int j = 0; j < user_inform[i].size(); j += 2) { // 예약 시간이 10시라면 텍스트 파일에는 10시, 11시 행에 똑같은 정보가 쓰여있기 때문에 J += 2를 해줬습니다.
 				int[] pos = user_inform[i].get(j);
-				int time = pos[0];
+				int time = pos[0]; // 항상 textDB에 존재하는 3차원 배열에 [][pos[0]][pos[1]] 넣어서 사용하시면 됩니다.
 				int table = pos[1];
 				System.out.println("예약 일자: " + date);
 				if (section.equals("Check")) {
@@ -125,14 +125,14 @@ public class Reservation_Check {
 				System.out.println("인원 수: " + db[2][time][table] + "명");
 				System.out.println("예약 좌석: " + db[0][time][table] + "번");
 				System.out.print("주문 메뉴: ");
-				for (int k = 6; k < 11; k++) {
-					int num = Integer.parseInt(db[k][time][table]);
+				for (int k = 6; k < 11; k++) { // 메뉴 출력을 위한 for문
+					int num = Integer.parseInt(db[k][time][table]); // 메뉴 주문 개수 num에 대입
 					if (num != 0) {
-						price += (Integer.parseInt(menu[1][k - 6]) * num);
+						price += (Integer.parseInt(menu[1][k - 6]) * num); // 가격에 주문 개수를 곱
 						if (k == 10)
-							System.out.println(menu[0][k - 6] + " " + num);
+							System.out.println(menu[0][k - 6] + " " + num); // 메뉴 이름과 주문 개수를 출력
 						else
-							System.out.print(menu[0][k - 6] + " " + num + ", ");
+							System.out.print(menu[0][k - 6] + " " + num + ", "); // 메뉴 이름과 주문 개수를 출력
 					}
 				}
 				DecimalFormat formatter = new DecimalFormat("###,###");
