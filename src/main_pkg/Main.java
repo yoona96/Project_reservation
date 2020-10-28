@@ -8,8 +8,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Reservation reservation = new Reservation();
-        Validate validate = new Validate();
+
+   Reservation reservation = new Reservation();
+   Validate validate = new Validate();
 
        while(true) {
             print_menu();
@@ -36,8 +37,6 @@ public class Main {
             					break;
             			case 7: {	String pwd = pwd_scan.next();
             						if(password(pwd) == true) {
-            							validate.validate_file_exist();
-            							validate.validate_file_grammer();
             						}else {
             							break;
             						}
