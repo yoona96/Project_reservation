@@ -9,16 +9,20 @@ public class Cancel_Reservation {
 	private ArrayList<int[]> user_inform[] = new ArrayList[3]; // 0: 당일, 1: 내일, 2: 모레
 	private String date;
 	private String time;
+	private String table_number;
 	
 	public void cancel_reservation_main() {
 		Reservation_Check RC = new Reservation_Check();
-		RC.input_inform("Cancle");
 		user_inform = RC.show_reservation_inform("Cancle");
+		input_reservation_date();
+		boolean is_exist_reservatrion = compare_reservation_date(user_inform);
+		System.out.println(is_exist_reservatrion);
 		
-		
+		if (is_exist_reservatrion)
+			confirm_cancel();
 	}
-	
-	public void input_reservation_date() {
+
+	private void input_reservation_date() {
 		LocalDate date_format = LocalDate.now();
 		String reserv_date = "";
 		String reserv_time = "";
@@ -64,6 +68,89 @@ public class Cancel_Reservation {
 		System.out.println(time);
 	}
 	
+	private boolean compare_reservation_date(ArrayList<int[]>[] reserved_data) {
+		File_IO IO = new File_IO();
+		
+		String today = IO.get_date(0);
+		int i_today = Integer.parseInt(today);
+		int i_date = Integer.parseInt(date);
+		int gab = i_date - i_today;
+		
+		String date = IO.get_date(gab);
+		IO.read_file(date);
+		String[][][] db = IO.tb.get_day();
+		
+		for(int i =0; i<=reserved_data[gab].size()-1; i++) {
+			int[] pos = reserved_data[gab].get(i);
+			int table_inform = pos[1];
+			int time_inform = pos[0];
+			String reserved_time = db[3][time_inform][table_inform];
+			System.out.println(reserved_time);
+			System.out.println(time);
+			if(time.equals(reserved_time)) {
+				table_number = db[0][time_inform][table_inform];
+				return true;
+			}
+		}
+		return false;
+				
+	}
 	
+	private void confirm_cancel() {
+		Scanner scan = new Scanner(System.in);
+		System.out.print("정말 예약을 취소하시겠습니까? (y/n): ");
+		while(true) {
+			String reservation_cancel = scan.next();
+	        String[] yorn_value = new String[0];
+	        
+	        if (reservation_cancel.contains(" ") || reservation_cancel.contains("")) {
+	        	yorn_value = reservation_cancel.trim().split(" ");
+	        }
 	
+	        if (yorn_value[0].equals("y")) {
+	        	file_update();
+	        	System.out.println("해당 예약이 취소되었습니다.");
+	        	break;
+	        } else if (yorn_value[0].equals("n")) {
+	        	break;
+	           // recall main prompt
+	        } else {
+	        	System.out.println("입력은 y 혹은 n만 가능합니다. 다시 입력해주세요.");
+	        	continue;
+	        }
+		}
+	}
+	
+	private void file_update() {
+		File_IO IO = new File_IO();
+		IO.read_file(date);
+		System.out.println(date+".txt");
+		String temp[][][] = new String[11][11][20];
+		
+		int i_table_number = Integer.parseInt(table_number);
+		i_table_number--;
+		
+		String table_size = "";
+		if(i_table_number<20) table_size = "6";
+		if(i_table_number<16) table_size = "4";
+		if(i_table_number<6) table_size = "2";
+		
+		int i_time = Integer.parseInt(time);
+		i_time = i_time-10;
+		
+		System.out.println(i_table_number);
+		System.out.println(i_time);
+		
+		temp = IO.tb.get_day();
+		temp[0][i_time][i_table_number] = table_number;
+		temp[1][i_time][i_table_number] = table_size;
+		temp[2][i_time][i_table_number] = "0";
+		temp[3][i_time][i_table_number] = time;
+		for (int i=4;i<11;i++){
+          temp[i][i_time][i_table_number] =null;
+		}
+		IO.tb.set_day(temp);
+		IO.write_file(date);
+
+	}
 }
