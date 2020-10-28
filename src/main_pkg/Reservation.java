@@ -118,7 +118,7 @@ public class Reservation {
     	//should split it with space(" ") to check each available table number
     	//for tables attached, format is "(table number)-(table number)"
 
-    	int attached_table = 0;
+
     	int tmp_count = 1; //index no. of available number of people to use table
     	int tmp_table = 0; //table number
     	int tmp_time = Integer.parseInt(time) - 10;
