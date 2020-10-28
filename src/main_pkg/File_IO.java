@@ -164,6 +164,41 @@ public class File_IO {
             System.out.println(e);
         }
     }
+    public void write_menu(){
+        try {
+            File file = new File("src/data/menu.txt");
+            FileReader file_reader = new FileReader(file);
+            BufferedReader buffered_reader = new BufferedReader(file_reader);
+
+
+            String line = "";
+            String temp = "";
+            String change_line = "";
+            for (int k =0; k <5 ;k++){
+                for (int i = 0; i < 5; i++) {
+                    change_line += tb.get_menu()[i][k] + "\t";
+                }
+                change_line += "\r\n";
+            }
+
+
+            temp += change_line;
+
+            file_reader.close();
+            buffered_reader.close();
+
+            FileWriter file_writer = new FileWriter(file);
+            file_writer.write(temp);
+
+            file_writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
 
     public void create_file() { // 占십울옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹댐옙 占쌨소듸옙
 
