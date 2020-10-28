@@ -36,8 +36,7 @@ public class Main {
             					break;
             			case 7: {	String pwd = pwd_scan.next();
             						if(password(pwd) == true) {
-            							validate.validate_file_exist();
-            							validate.validate_file_grammer();
+
             						}else {
             							break;
             						}
