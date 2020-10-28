@@ -13,6 +13,7 @@ public class Reservation {
 	String[] input_value = new String[0];
 	File_IO file = new File_IO();
 	textDB db = new textDB();
+
     private String count, date, day, time;
     private String name;
     private String phone;
@@ -204,30 +205,47 @@ public class Reservation {
 		System.out.println("--------------------------------------------------");
 		System.out.println("");
 	}
-	/*좌석을 자동으로 할당받을 것인지 수동으로 선택할 것인지 결정합니다.*/
-    public void choose_auto(char c){
-    		if(c =='y'){
-                 System.out.println("자동할당을 선택하셨습니다.");
-                 auto_table();
 
-			}
-    		else{
-				System.out.println("수동선택을 선택하셨습니다.");
-    			choose_table();
-			}
+
+	/*좌석을 자동으로 할당받을 것인지 수동으로 선택할 것인지 결정합니다.*/
+    public void choose_auto(){
+
+    	System.out.println("자동으로 할당하시겠습니까(y/n)?: ");
+    	Scanner sc= new Scanner(System.in);
+    	String st = sc.next();
+
+    	while(st.matches("^y$ | ^n$")){
+			System.out.println("자동 선택 답변은 단문자 'y' 흑은 'n'만 가능합니다 다시입력해주세요");
+		}
+
+		if(st =="y"){
+		    System.out.println("자동할당을 선택하셨습니다.");
+		    auto_table();
+	    }
+		else {
+			System.out.println("수동선택을 선택하셨습니다.");
+			choose_table();
+		}
+    	sc.close();
     }
 
 	public void choose_table() {
     	show_table(date,time,count);
-
-
+		String available = search_table(date,time,count);
+		String[] available_table =  available.split(" ");
+    	System.out.println("좌석을 선택하세요!: ");
 	}
 
 	public void auto_table() {
 		show_table(date,time,count);
+
 	}
 
-	private void input_inform(String name, String phone) {
+	private void input_inform() {
+    	System.out.println("이름과 휴대전화 번호를 입력하세요");
+    	Scanner sc = new Scanner(System.in);
+
+
 
 	}
 
@@ -277,7 +295,7 @@ public class Reservation {
 	         }
 	         // 문법 규칙 위배시
 	         if (temp_num.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1
-	               + patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns3 + patterns3 + patterns1
+	               + patterns3 + patterns1 + patterns3 + patterns1 + "|"+patterns2 + patterns3 + patterns3 + patterns1
 	               + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1)) {
 	            System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
 	            continue;
@@ -343,10 +361,6 @@ public class Reservation {
 	   private void menu_confirm() {
 
 	      Scanner scan1 = new Scanner(System.in);
-	      String patterns0 = "^[가-힣]*";
-	      String patterns1 = "[0-9]";
-	      String patterns2 = "[a-zA-Z]";
-	      String patterns3 = "\t";
 
 	      while (true) {
 	    	 System.out.println("------------------------------");
@@ -392,10 +406,7 @@ public class Reservation {
 	   private void reservation_confirm() {
 
 	      Scanner scan2 = new Scanner(System.in);
-	      String patterns0 = "^[가-힣]*";
-	      String patterns1 = "[0-9]";
-	      String patterns2 = "[a-zA-Z]";
-	      String patterns3 = "\t";
+
 	      //이 부분은 위쪽이 완료되면 해당 변수로 채우면 됨 - 현재 테이블 번호 없음
 	      while (true) {
 
@@ -439,10 +450,7 @@ public class Reservation {
 	   //예약 취소
 	   private void reservation_cancle_confirm() {
 	      Scanner scan3 = new Scanner(System.in);
-	      String patterns0 = "^[가-힣]*";
-	      String patterns1 = "[0-9]";
-	      String patterns2 = "[a-zA-Z]";
-	      String patterns3 = "\t";
+
 
 	      while (true) {
 	    	 System.out.println("--------------------------------");
