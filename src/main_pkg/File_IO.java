@@ -49,6 +49,7 @@ public class File_IO {
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = " ";
             String[][][] temp = new String[11][11][20];
+            // 정보, 시간, 테이블
             int time = 0, table = 0;
 
             while ((line = buffered_reader.readLine()) != null) {
@@ -210,7 +211,7 @@ public class File_IO {
         File file = new File(data_directory);
         String[] files = file.list(); // Store a list of files in the data_directory in an array.
 
-        for (int i = 0; i < files.length; i++) {
+        for (int i = 0; i < files.length-1; i++) {
             String file_name = files[i];
             file_name = file_name.replace(".txt", ""); // remove ".txt"
             int file_date = Integer.parseInt(file_name); //
