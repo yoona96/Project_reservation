@@ -13,55 +13,59 @@ public class Main {
         File_IO IO = new File_IO();
         IO.create_file();
         IO.delete_file();
-        System.out.println(IO.get_date(0));
-        IO.read_file(IO.get_date(0));
-        String temp[][][] = new String[11][11][20];
-        temp = IO.tb.get_day();
-        for (int i = 0; i < 11; i++) {
-            temp[i][10][2] = " #";
-        }
-        IO.tb.set_day(temp);
-        IO.write_file(IO.get_date(0));
+        
+        Cancel_Reservation CR = new Cancel_Reservation();
+        CR.cancel_reservation_main();
+        
+//        System.out.println(IO.get_date(0));
+//        IO.read_file(IO.get_date(0));
+//        String temp[][][] = new String[11][11][20];
+//        temp = IO.tb.get_day();
+//        for (int i = 0; i < 11; i++) {
+//            temp[i][10][2] = " #";
+//        }
+//        IO.tb.set_day(temp);
+//        IO.write_file(IO.get_date(0));
 
-        // while(true) {
-        // print_menu();
-        //
-        // Scanner input_scan = new Scanner(System.in);
-        // Scanner pwd_scan = new Scanner(System.in);
-        // String menu_choice = input_scan.next();
-        //
-        // if(menu_choice.matches("[1-7]")) {
-        // int chosen_menu = Integer.parseInt(menu_choice);
-        // if(chosen_menu >= 1 && chosen_menu <= 7) {
-        // switch(chosen_menu){
-        // case 1: reservation.user_input();
-        // break;
-        // case 5: { String pwd = pwd_scan.next();
-        // if(password(pwd) == true) {
-        // System.exit(0);
-        // }else {
-        // System.out.println("비밀번호가 올바르지 않습니다.\n");
-        // break;
-        // }
-        // }
-        // case 6: print_help();
-        // break;
-        // case 7: { String pwd = pwd_scan.next();
-        // if(password(pwd) == true) {
-        // validate.validate_file_exist();
-        // validate.validate_file_grammer();
-        // }else {
-        // break;
-        // }
-        // }
-        // default: continue;
-        // }
-        // }
-        // }else {
-        // System.out.println("해당 명령어는 존재하지 않습니다.\n");
-        // continue;
-        // }
-        // }
+//         while(true) {
+//         print_menu();
+//        
+//         Scanner input_scan = new Scanner(System.in);
+//         Scanner pwd_scan = new Scanner(System.in);
+//         String menu_choice = input_scan.next();
+//        
+//         if(menu_choice.matches("[1-7]")) {
+//         int chosen_menu = Integer.parseInt(menu_choice);
+//         if(chosen_menu >= 1 && chosen_menu <= 7) {
+//         switch(chosen_menu){
+//         case 1: reservation.user_input();
+//         break;
+//         case 5: { String pwd = pwd_scan.next();
+//         if(password(pwd) == true) {
+//         System.exit(0);
+//         }else {
+//         System.out.println("비밀번호가 올바르지 않습니다.\n");
+//         break;
+//         }
+//         }
+//         case 6: print_help();
+//         break;
+//         case 7: { String pwd = pwd_scan.next();
+//         if(password(pwd) == true) {
+//         validate.validate_file_exist();
+//         validate.validate_file_grammer();
+//         }else {
+//         break;
+//         }
+//         }
+//         default: continue;
+//         }
+//         }
+//         }else {
+//         System.out.println("해당 명령어는 존재하지 않습니다.\n");
+//         continue;
+//         }
+//         }
 
     }
 
