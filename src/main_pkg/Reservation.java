@@ -15,13 +15,12 @@ public class Reservation {
 	String[] input_value = new String[0];
 	File_IO file = new File_IO();
 	textDB db = new textDB();
-
+	
     private String count, date, time;
     private String name;
     private String phone;
     private String st_num0;
     private String st_num1;
-    private String table;
     private String[][] menu = new String[4][5]; //menu파일 배열
     private String[] str_menu_num = new String[5];//사용자가 입력하는 주문수량 string배열
     private int[] int_menu_num = new int[5];//사용자 입력 주문수량 int배열
@@ -111,27 +110,29 @@ public class Reservation {
      */
     private String search_table(String date, String time, String count){
     	fio.read_file(date.replaceAll("-", ""));
-    	String[][][]tmp = fio.tb.get_day();
+    	String[][][]
+    			tmp = fio.tb.get_day();
+
+    	int attached_table = 0;
 
     	StringBuilder available_tables = new StringBuilder();
     	//should split it with space(" ") to check each available table number
     	//for tables attached, format is "(table number)-(table number)"
 
-    	int attached_table = 0;
-    	int tmp_count = 1; //index no. of available number of people to use table
-    	int tmp_table; //table number
-    	int tmp_time = Integer.parseInt(time) - 10;
 
+    	int tmp_count = 1; //index no. of available number of people to use table
+    	int tmp_table = 0; //table number
+    	int tmp_time = Integer.parseInt(time) - 10;
 
     	for(tmp_table = 0; tmp_table < 20; tmp_table++) { //check if there are any table available with chosen day,time,count with availability(3rd value)
     		if(tmp[2][tmp_time][tmp_table].equals("0")) { //if number of people using table is 0
     			if(Integer.parseInt(tmp[tmp_count][tmp_time][tmp_table]) >= Integer.parseInt(count)){
-    				//compare available number of people to use table with inputed number of people
-    				if(Integer.parseInt(count) < 3 && ((tmp[tmp_count][tmp_time][tmp_table]).equals("4") || tmp[tmp_count][tmp_time][tmp_table].equals("6"))) {
+    				//compare available number or people to use table with inputed number of people
+    				if(Integer.parseInt(count) < 3 && (tmp[tmp_count][tmp_time][tmp_table]).contentEquals("4") || tmp[tmp_count][tmp_time][tmp_table].equals("6")) {
     					//if current number of people is less than 3, cannot use table for 4 or 6 people
     					continue;
-    				}else if((Integer.parseInt(count) < 4 || Integer.parseInt(count) > 6) && tmp[tmp_count][tmp_time][tmp_table].equals("6")){
-    					//if current number of people is less than 4, and more than 6, cannot use table for 6 people
+    				}else if(Integer.parseInt(count) < 4 && tmp[tmp_count][tmp_time][tmp_table].contentEquals("6")){
+    					//if current number of people is less than 4, cannot use table for 6 people
     					continue;
     				}else { //add string in available_tables
     					available_tables.append(tmp_table + 1);
@@ -339,7 +340,6 @@ public class Reservation {
 		for(int i = 0; i < 20; i++) {
 			table_view[i] = "0";
 		}
-		
 		//rows of current table chart
 		
 		Scanner table_num = new Scanner(System.in);
@@ -348,6 +348,7 @@ public class Reservation {
 			
 			System.out.println("\n" + tmp_date_arr[0] + "년 " + tmp_date_arr[1] + "월 " + tmp_date_arr[2] + "일 " + time + "시 예약 가능 좌석 현황");
 			System.out.println("--------------------------------------------------");
+
 
 			//if any available table exists, table view array will be adding . to the table number
 			if(every_table != null) {
@@ -466,20 +467,45 @@ public class Reservation {
 	private void auto_table() {
 		search_table(date,time,count);
 
+		show_table(date,time,count);
+		String available = search_table(date,time,count);
+		String[] available_table =  available.split(" ");
+		if (available_table[0].contains("-")){
+			available_table[0].split("-");
+			String[] sp = new String[2];
+			sp[0] = available_table[0];
+			sp[1] = available_table[1];
+			this.st_num0 =sp[0];
+			this.st_num1 = sp[1];
+			System.out.println("할당된 테이블은 "+st_num0+st_num1+"입니다.");
+			input_inform();
+		}
+		else{
+			this.st_num1 = available_table[0];
+			System.out.println("할당된 테이블은 "+st_num0+"입니다.");
+			input_inform();
+		}
 	}
 
 	private void input_inform() {
-    	System.out.println("이름과 휴대전화 번호를 입력하세요");
     	Scanner sc = new Scanner(System.in);
+		String line = sc.nextLine();
+		String[] line_split = line.split(" ");
+		while(line_split[1].matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$") && line_split[0].matches("^[가-힣]*$")){
 
+			System.out.println("형식에 맞지 않습니다. 올바른 입력 예시는 다음과 같습니다.(ex 이름		010-0000-0000 입니다");
 
+		}
+		this.name = line_split[0];
+		this.phone = line_split[1];
 
+		choose_menu();
 	}
 
 
 
 
-	   public void choose_menu() {
+	 private void choose_menu() {
 	      File_IO file = new File_IO();
 	      Scanner scan = new Scanner(System.in);
 	      String patterns0 = "^[가-힣]*";
@@ -706,6 +732,70 @@ public class Reservation {
 	   //예약 확정후 파일에 새로운 정보 저장
 	   private void out_reservation_data() {
 	      File_IO file2 = new File_IO();
+	      file2.read_file(date);
+
+	      String[][][] temp = new String[11][11][20];
+		  temp =  file2.tb.get_day();
+
+		  temp[2][Integer.parseInt(time)][Integer.parseInt(st_num0)] = count;
+		  temp[2][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = count;
+
+		  temp[4][Integer.parseInt(time)][Integer.parseInt(st_num0)] = name;
+		  temp[4][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = name;
+
+		  temp[5][Integer.parseInt(time)][Integer.parseInt(st_num0)] = phone;
+		  temp[5][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = phone;
+
+		  temp[6][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[0]);
+		  temp[6][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[0]);
+
+		  temp[7][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[1]);
+		  temp[7][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[1]);
+
+		  temp[8][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+		  temp[8][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+
+		  temp[9][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+		  temp[9][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+
+		  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
+		  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
+
+		  temp[11][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[4]);
+		  temp[11][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[4]);
+
+		  if(st_num1 != null){
+
+			  temp[2][Integer.parseInt(time)][Integer.parseInt(st_num1)] = count;
+			  temp[2][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = count;
+
+			  temp[4][Integer.parseInt(time)][Integer.parseInt(st_num1)] = name;
+			  temp[4][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = name;
+
+			  temp[5][Integer.parseInt(time)][Integer.parseInt(st_num1)] = phone;
+			  temp[5][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = phone;
+
+			  temp[6][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[0]);
+			  temp[6][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[0]);
+
+			  temp[7][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[1]);
+			  temp[7][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[1]);
+
+			  temp[8][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+			  temp[8][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+
+			  temp[9][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+			  temp[9][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+
+			  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
+			  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
+
+			  temp[11][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[4]);
+			  temp[11][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[4]);
+
+		  }
+		  file2.tb.set_day(temp);
+
 	      // 예약정보 file에 저장
 	      file2.write_file(this.date);//테이블번호));
 	      // 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외

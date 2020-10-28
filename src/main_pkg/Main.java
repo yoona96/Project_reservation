@@ -13,7 +13,7 @@ public class Main {
    Validate validate = new Validate();
 
         validate.check_all();
-        
+
         while(true) {
             print_menu();
 
@@ -39,7 +39,7 @@ public class Main {
             					break;
             			case 7: {	String pwd = pwd_scan.next();
             						if(password(pwd) == true) {
-            							validate.check_all();
+
             						}else {
             							break;
             						}
