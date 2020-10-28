@@ -304,10 +304,10 @@ public class Reservation {
 			
 			String table_choice = choose_table_input.next();
 			
-			if(table_choice.matches("[Yy]")) {
+			if(table_choice.equals("y")) {
 				choose_auto('y');
 				break;
-			}else if(table_choice.matches("[Nn]")) {
+			}else if(table_choice.equals("n")) {
 				choose_table("");
 				break;
 			}else {
