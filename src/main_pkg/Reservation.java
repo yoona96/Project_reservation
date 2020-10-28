@@ -204,17 +204,24 @@ public class Reservation {
 		System.out.println("--------------------------------------------------");
 		System.out.println("");
 	}
+	/*좌석을 자동으로 할당받을 것인지 수동으로 선택할 것인지 결정합니다.*/
+    public void choose_auto(char c){
+    		if(c =='y'){
+                 System.out.println("자동할당을 선택하셨습니다.");
+                 auto_table();
 
-    private boolean choose_auto(char c){
-
-        return false;
+			}
+    		else{
+				System.out.println("수동선택을 선택하셨습니다.");
+    			choose_table();
+			}
     }
 
-	private void choose_table(String st_num) {
+	public void choose_table() {
 
 	}
 
-	private String auto_table(String count) {
+	public String auto_table() {
 		String auto = "";
 		return auto;
 	}

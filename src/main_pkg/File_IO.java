@@ -55,22 +55,17 @@ public class File_IO {
 
                 String[] line_split = line.split("\t");
                 /* time이 10보다 커지면,(20시까지 모두 정보를 채웠다면) 다음 table을 1증가시킵니다. */
-                if (time > 10) {
+                if(time > 10){
                     time = 0;
                     table++;
-                } else {
-
-                    for (int i = 0; i < line_split.length; i++) {
-
-                        if (line_split[i] == null) {
-                            break;
-                        } else {
-                            temp[i][time][table] = line_split[i];
-                        }
+                    if(table > 19){
+                     table =19;
                     }
-
-                    time++;
                 }
+                for (int i = 0; i < line_split.length; i++) {
+                    temp[i][time][table] = line_split[i];
+                }
+                time++;
             }
 
             tb.set_day(temp);
@@ -171,7 +166,6 @@ public class File_IO {
                 }
                 change_line += "\r\n";
             }
-
            temp = change_line;
            file_writer.write(temp);
            file_writer.close();
