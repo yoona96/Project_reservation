@@ -14,14 +14,15 @@ public class Main {
         Cancel_Reservation cr = new Cancel_Reservation();
         Validate validate = new Validate();
 
+        Scanner input_scan = new Scanner(System.in);
+        Scanner pwd_scan = new Scanner(System.in);
+
         validate.check_all();
 
-        while(true) {
+        do {
             print_menu();
-
-            Scanner input_scan = new Scanner(System.in);
-            Scanner pwd_scan = new Scanner(System.in);
-            String menu_choice = input_scan.nextLine();
+            
+            String menu_choice = input_scan.next();
             
             if (menu_choice.matches("[1-7]")) {
                 int chosen_menu = Integer.parseInt(menu_choice);
@@ -60,16 +61,18 @@ public class Main {
                                 break;
                             }
                         }
-                        default:
-                            input_scan = null;
-                            continue;
+                        default: {
+                        	input_scan.close();
+                        	continue;   
+                        }
+
                     }
                 }
             } else {
                 System.out.println("해당 명령어는 존재하지 않습니다.\n");
                 continue;
             }
-        }
+        } while(true);
     }
 
     public static void print_menu() {
