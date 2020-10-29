@@ -284,6 +284,8 @@ public class Validate {
 				}
 				if (token_num == 4) { // 판매 시작, 종료 시간 서술된 경우
 					str = token.nextToken();
+					if(str.equals("null"))
+						continue;
 					if (!str.contains("-") || str.contains(" ") || str.contains("\t")) {
 						exit_judge = true;
 						break;
