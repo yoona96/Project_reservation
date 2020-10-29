@@ -649,7 +649,7 @@ public class Reservation {
 	    	 System.out.println("\t주문 내역 확인");
 	    	 System.out.println("------------------------------");
 	         System.out.println("[메뉴]\t[가격]\t[주문 수량]");
-	         for (int i = 0; i < menu.length; i++) {
+	         for (int i = 0; i < menu.length + 1; i++) {
 	            System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
 	            price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
 	         }
