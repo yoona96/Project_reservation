@@ -14,12 +14,14 @@ public class Main {
         Cancel_Reservation cr = new Cancel_Reservation();
         Validate validate = new Validate();
 
+        validate.check_all();
+
         while (true) {
             print_menu();
 
             Scanner input_scan = new Scanner(System.in);
             Scanner pwd_scan = new Scanner(System.in);
-            String menu_choice = input_scan.next();
+            String menu_choice = input_scan.nextLine();
 
             if (menu_choice.matches("[1-7]")) {
                 int chosen_menu = Integer.parseInt(menu_choice);
@@ -29,7 +31,7 @@ public class Main {
                             reservation.user_input();
                             break;
                         case 2:
-                            rch.show_reservation_inform("check");
+                            rch.show_reservation_inform("Check");
                             break;
                         case 3:
                             rc.change_main();
@@ -58,6 +60,7 @@ public class Main {
                             }
                         }
                         default:
+                            input_scan = null;
                             continue;
                     }
                 }

@@ -555,7 +555,7 @@ public class Reservation {
 	         System.out.println("\t메뉴 선택");
 	         System.out.println("--------------------------");
 	         System.out.println("[메뉴]\t[가격]\t[주문 가능 시간]");
-	         for (int i = 0; i < menu.length; i++) {
+	         for (int i = 0; i < menu.length+1; i++) {
 	            System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
 	            if (menu[3][i] != null) {// all이 아닌경우
 	               String[] menu_time = menu[3][i].split("-");
@@ -649,7 +649,7 @@ public class Reservation {
 	    	 System.out.println("\t주문 내역 확인");
 	    	 System.out.println("------------------------------");
 	         System.out.println("[메뉴]\t[가격]\t[주문 수량]");
-	         for (int i = 0; i < menu.length; i++) {
+	         for (int i = 0; i < menu.length+1; i++) {
 	            System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
 	            price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
 	         }
@@ -765,56 +765,66 @@ public class Reservation {
 
 	      String[][][] temp = new String[11][11][20];
 		  temp =  file2.tb.get_day();
+		  int time_fix = Integer.parseInt(time) -10;
+		  int st_num0_fix = Integer.parseInt(st_num0) -1;
 
-		  temp[2][Integer.parseInt(time)][Integer.parseInt(st_num0)] = count;
-		  temp[2][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = count;
 
-		  temp[4][Integer.parseInt(time)][Integer.parseInt(st_num0)] = name;
-		  temp[4][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = name;
+		  temp[2][time_fix][st_num0_fix] = count;
+		  temp[2][time_fix+1][st_num0_fix] = count;
 
-		  temp[5][Integer.parseInt(time)][Integer.parseInt(st_num0)] = phone;
-		  temp[5][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = phone;
+		  temp[4][time_fix][st_num0_fix] = name;
+		  temp[4][time_fix+1][st_num0_fix] = name;
 
-		  temp[6][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[0]);
-		  temp[6][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[0]);
+		  temp[5][time_fix][st_num0_fix] = phone;
+		  temp[5][time_fix+1][st_num0_fix] = phone;
 
-		  temp[7][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[1]);
-		  temp[7][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[1]);
+		  temp[6][time_fix][st_num0_fix] = Integer.toString(int_menu_num[0]);
+		  temp[6][time_fix+1][st_num0_fix] = Integer.toString(int_menu_num[0]);
 
-		  temp[8][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
-		  temp[8][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+		  temp[7][time_fix][st_num0_fix] = Integer.toString(int_menu_num[1]);
+		  temp[7][time_fix+1][st_num0_fix] = Integer.toString(int_menu_num[1]);
 
-		  temp[9][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
-		  temp[9][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[2]);
+		  temp[8][time_fix][st_num0_fix] = Integer.toString(int_menu_num[2]);
+		  temp[8][time_fix+1][st_num0_fix] = Integer.toString(int_menu_num[2]);
 
-		  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
-		  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
+		  temp[9][time_fix][st_num0_fix] = Integer.toString(int_menu_num[2]);
+		  temp[9][time_fix+1][st_num0_fix] = Integer.toString(int_menu_num[2]);
+
+		  temp[10][time_fix][st_num0_fix] = Integer.toString(int_menu_num[3]);
+		  temp[10][time_fix+1][st_num0_fix] = Integer.toString(int_menu_num[3]);
+
+		  temp[10][time_fix][st_num0_fix] = Integer.toString(int_menu_num[4]);
+		  temp[10][time_fix+1][st_num0_fix] = Integer.toString(int_menu_num[4]);
 
 		  if(st_num1 != null){
+			  int st_num1_fix = Integer.parseInt(st_num1) -1;
 
-			  temp[2][Integer.parseInt(time)][Integer.parseInt(st_num1)] = count;
-			  temp[2][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = count;
+			  temp[2][time_fix][st_num1_fix] = count;
+			  temp[2][time_fix+1][st_num1_fix] = count;
 
-			  temp[4][Integer.parseInt(time)][Integer.parseInt(st_num1)] = name;
-			  temp[4][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = name;
+			  temp[4][time_fix][st_num1_fix] = name;
+			  temp[4][time_fix+1][st_num1_fix] = name;
 
-			  temp[5][Integer.parseInt(time)][Integer.parseInt(st_num1)] = phone;
-			  temp[5][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = phone;
+			  temp[5][time_fix][st_num1_fix] = phone;
+			  temp[5][time_fix+1][st_num1_fix] = phone;
 
-			  temp[6][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[0]);
-			  temp[6][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[0]);
+			  temp[6][time_fix][st_num1_fix] = Integer.toString(int_menu_num[0]);
+			  temp[6][time_fix+1][st_num1_fix] = Integer.toString(int_menu_num[0]);
 
-			  temp[7][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[1]);
-			  temp[7][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[1]);
+			  temp[7][time_fix][st_num1_fix] = Integer.toString(int_menu_num[1]);
+			  temp[7][time_fix+1][st_num1_fix] = Integer.toString(int_menu_num[1]);
 
-			  temp[8][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
-			  temp[8][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+			  temp[8][time_fix][st_num1_fix] = Integer.toString(int_menu_num[2]);
+			  temp[8][time_fix+1][st_num1_fix] = Integer.toString(int_menu_num[2]);
 
-			  temp[9][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
-			  temp[9][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[2]);
+			  temp[9][time_fix][st_num1_fix] = Integer.toString(int_menu_num[2]);
+			  temp[9][time_fix+1][st_num1_fix] = Integer.toString(int_menu_num[2]);
 
-			  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
-			  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
+			  temp[10][time_fix][st_num1_fix] = Integer.toString(int_menu_num[3]);
+			  temp[10][time_fix+1][st_num1_fix] = Integer.toString(int_menu_num[3]);
+
+			  temp[10][time_fix][st_num1_fix] = Integer.toString(int_menu_num[4]);
+			  temp[10][time_fix+1][st_num1_fix] = Integer.toString(int_menu_num[4]);
 
 		  }
 		  file2.tb.set_day(temp);

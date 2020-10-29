@@ -10,6 +10,7 @@ import java.util.Date;
 public class File_IO {
 
 
+
     public String get_date(int n) { // Get date(today + 'n')
         SimpleDateFormat new_format = new SimpleDateFormat("yyyyMMdd");
         Calendar cal = Calendar.getInstance();
@@ -21,6 +22,7 @@ public class File_IO {
     }
 
     public String get_home_directory() {	// Get home data_directory
+
         String OS = System.getProperty("os.name").toLowerCase();	// Get current OS name
         String user_name = new com.sun.security.auth.module.NTSystem().getName(); // Get current User name
         String home_directory = "";		// default directory = null
@@ -42,7 +44,7 @@ public class File_IO {
 
         try {
             /* "date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다. */
-            File file = new File("src/data/" + date + ".txt");
+            File file = new File(get_home_directory()+"/data/" + date + ".txt");
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = " ";
@@ -81,7 +83,7 @@ public class File_IO {
     public void write_file(String date) {
 
         try {
-            File file = new File("src/data/" + date + ".txt");
+            File file = new File(get_home_directory()+"/data/" + date + ".txt");
             FileWriter file_writer = new FileWriter(file);
 
             String line = "";
@@ -90,7 +92,12 @@ public class File_IO {
             for (int j =0;j<20;j++){
                 for (int k=0;k<11;k++){
                     for (int i = 0; i < 11; i++) {
-                        change_line += tb.get_day()[i][k][j] + "\t";
+                        if(tb.get_day()[i][k][j] == null){
+                            change_line += " ";
+                        }
+                        else{
+                            change_line += tb.get_day()[i][k][j] + "\t";
+                        }
                     }
                     change_line += "\r\n";
                 }
@@ -110,7 +117,7 @@ public class File_IO {
     public void read_menu() {
         try {
 
-            File file = new File("src/data/menu.txt");
+            File file = new File(get_home_directory()+"/data/menu.txt");
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = " ";
@@ -138,14 +145,19 @@ public class File_IO {
 
     public void write_menu(){
         try {
-            File file = new File("src/data/menu.txt");
+            File file = new File(get_home_directory()+"/data/menu.txt");
             FileWriter file_writer = new FileWriter(file);
             String line = "";
             String temp = "";
             String change_line = "";
             for (int k=0;k<5;k++){
                 for (int i = 0; i < 4; i++) {
-                    change_line += tb.get_menu()[i][k] + "\t";
+                    if(tb.get_day()[i][k] == null){
+                        change_line += " ";
+                    }
+                    else{
+                        change_line += tb.get_day()[i][k] + "\t";
+                    }
                 }
                 change_line += "\r\n";
             }
@@ -161,7 +173,7 @@ public class File_IO {
     }
 
     public void create_file() {
-        String data_directory = "src/data/";
+        String data_directory = get_home_directory()+"/data/";
 
         String days[] = new String[3];		// Save the 3-days dates in the array.
         days[0] = get_date(0);
@@ -202,7 +214,7 @@ public class File_IO {
     }
 
     public void delete_file() {
-        String data_directory = "src/data/";
+        String data_directory = get_home_directory()+"/data/";
 
         String str_today = get_date(0);		// get today's date
         int int_today = Integer.parseInt(str_today);	// change to integer type for comparison
