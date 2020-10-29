@@ -24,7 +24,7 @@ public class Cancel_Reservation {
 			confirm_cancel();
 	}
 
-	public String[] input_reservation_date() {
+	public String[] input_reservation_date() {	//	사용자로부터 예약을 변경하려는 날짜와 시간을 입력받아서 1차원 배열에 저장한다.
 		LocalDate date_format = LocalDate.now();
 		String reserv_date = "";
 		String reserv_time = "";
@@ -72,7 +72,7 @@ public class Cancel_Reservation {
 		return input_data;
 	}
 	
-	public boolean compare_reservation_date(ArrayList<int[]>[] reserved_data) {
+	public boolean compare_reservation_date(ArrayList<int[]>[] reserved_data) {	
 		File_IO IO = new File_IO();
 		
 		String today = IO.get_date(0);
@@ -88,10 +88,10 @@ public class Cancel_Reservation {
 			int[] pos = reserved_data[gab].get(i);	// i번째 예약정보를 담아온다.
 			int table_inform = pos[1];	// i번쨰의 예약정보의 table 번호를(3차원 배열에서 2번째 항에 해당) 저장한다.
 			int time_inform = pos[0];	//	i번째 예약정보의 시간을(3차원 배열에서 3번째 항에 해당) 저장한다.
-			String reserved_time = db[3][time_inform][table_inform];	// 
-			if(time.equals(reserved_time)) {
-				table_number = db[0][time_inform][table_inform];
-				return true;
+			String reserved_time = db[3][time_inform][table_inform];	// 예약된 정보 중 시간을 받아온다.
+			if(time.equals(reserved_time)) {	// 만약 사용자가 입력한 시간이 예약된 정보 중에 존재한다면,
+				table_number = db[0][time_inform][table_inform];	// 헤당 예약 정보의 좌석 번호를 저장한다.
+				return true;	
 			}
 		}
 		System.out.println("예약정보가 존재하지 않습니다. 정확한 예약자의 이름과 전화번호를 입력해주세요");
@@ -99,7 +99,7 @@ public class Cancel_Reservation {
 				
 	}
 	
-	private void confirm_cancel() {
+	private void confirm_cancel() {	//	예약 취소를 확정짓는 메소드
 		Scanner scan = new Scanner(System.in);
 		System.out.print("정말 예약을 취소하시겠습니까? (y/n): ");
 		while(true) {
@@ -124,7 +124,7 @@ public class Cancel_Reservation {
 		}
 	}
 	
-	private void file_update() {
+	private void file_update() {	// 선택된 예약을 취소하고 해당 내용을 데이터 파일에서 삭제한다. 
 		File_IO IO = new File_IO();
 		IO.read_file(date);
 		String temp[][][] = new String[11][11][20];
