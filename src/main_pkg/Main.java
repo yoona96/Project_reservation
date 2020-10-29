@@ -56,13 +56,14 @@ public class Main {
                         case 7: {
                             String pwd = pwd_scan.next();
                             if (password(pwd) == true) {
+                                validate.check_all();
 
                             } else {
+                                System.out.println("비밀번호가 올바르지 않습니다.\n");
                                 break;
                             }
                         }
                         default:
-                            input_scan = null;
                             continue;
                     }
                 }
@@ -97,6 +98,7 @@ public class Main {
     }
 
     public static void print_help() {
+        System.out.println("도움말 쓰기 귀찮아요");
 
     }
 
