@@ -9,7 +9,7 @@ public class Validate {
 	File_IO fi = new File_IO();
 	private String date;
 	private static int two, four, six = 0;
-	private ArrayList<String> menu_list = new ArrayList();
+	private ArrayList<String> menu_list;
 
 	public String get_directory() { // directory를 반환합니다. 반환받은 문자열에 파일 이름만 추가하면 됩니다.
 		String os_name = System.getProperty("os.name").toLowerCase(); // 사용 중인 컴퓨터의 OS 얻기
@@ -182,7 +182,7 @@ public class Validate {
 	private boolean validate_menu_file() { // menu.txt 문법 검사 및 수정
 		// 메뉴 정보 파일 경로 얻기
 		String directory = this.get_directory() + "menu.txt";
-
+		menu_list = new ArrayList();
 		// 문법 검사 및 수정
 		File file = new File(directory);
 		try {

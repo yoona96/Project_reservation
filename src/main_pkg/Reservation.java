@@ -516,12 +516,11 @@ public class Reservation {
 		String[] line_split = line.split("\t");
 
 		//수정 필요
-		while(line.matches("^[가-힣]*"+"(01\\\\d{1}|02|0505|0502|0506|0\\\\d{1,2})-?(\\\\d{3,4})-?(\\\\d{4})")){
+		while(line.matches("^[가-힣]*"+"\t"+"(01\\\\d{1}|02|0505|0502|0506|0\\\\d{1,2})-?(\\\\d{3,4})-?(\\\\d{4})")){
 
 			System.out.println("이름+<tab> 1개+전화번호의 형식에 맞춰서 정확히 입력하세요.");
 			System.out.println("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
 			line = sc.nextLine();
-			line_split = line.split("\t");
 
 		}
 		this.name = line_split[0];
@@ -843,8 +842,8 @@ public class Reservation {
 	            menu[2][i] = Integer.toString(new_stock);
 	            //재고 정보 update
 	            file2.tb.set_menu(menu);
-	            file2.write_menu();
 	         }
 	      }
+		  file2.write_menu();
 	   }
 }

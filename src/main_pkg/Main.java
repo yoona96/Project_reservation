@@ -1,5 +1,6 @@
 package main_pkg;
 
+import java.io.File;
 import java.util.Scanner;
 import main_pkg.File_IO;
 import main_pkg.Validate;
@@ -8,22 +9,23 @@ public class Main {
 
     public static void main(String[] args) {
 
+
         Reservation reservation = new Reservation();
         Reservation_Change rc= new Reservation_Change();
         Reservation_Check rch = new Reservation_Check();
         Cancel_Reservation cr = new Cancel_Reservation();
         Validate validate = new Validate();
 
-        Scanner input_scan = new Scanner(System.in);
-        Scanner pwd_scan = new Scanner(System.in);
-
         validate.check_all();
 
         do {
             print_menu();
+
+            Scanner input_scan = new Scanner(System.in);
+            Scanner pwd_scan = new Scanner(System.in);
             
             String menu_choice = input_scan.next();
-            
+
             if (menu_choice.matches("[1-7]")) {
                 int chosen_menu = Integer.parseInt(menu_choice);
                 if (chosen_menu >= 1 && chosen_menu <= 7) {
@@ -62,7 +64,6 @@ public class Main {
                             }
                         }
                         default: {
-                        	input_scan.close();
                         	continue;   
                         }
 

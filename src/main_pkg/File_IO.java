@@ -93,7 +93,7 @@ public class File_IO {
                 for (int k=0;k<11;k++){
                     for (int i = 0; i < 11; i++) {
                         if(tb.get_day()[i][k][j] == null){
-                            change_line += " ";
+                            change_line += "";
                         }
                         else{
                             change_line += tb.get_day()[i][k][j] + "\t";
@@ -136,6 +136,7 @@ public class File_IO {
             tb.set_menu(temp);
 
             buffered_reader.close();
+
         } catch (FileNotFoundException e) {
             System.out.println(e);
         } catch (IOException e) {
@@ -147,23 +148,27 @@ public class File_IO {
         try {
             File file = new File(get_home_directory()+"/data/menu.txt");
             FileWriter file_writer = new FileWriter(file);
+
             String line = "";
             String temp = "";
             String change_line = "";
-            for (int k=0;k<5;k++){
-                for (int i = 0; i < 4; i++) {
-                    if(tb.get_day()[i][k] == null){
-                        change_line += " ";
+
+                for (int k=0;k<5;k++){
+                    for (int i = 0; i < 4; i++) {
+                        if(tb.get_menu()[i][k] == null){
+                            change_line += "";
+                        }
+                        else{
+                            change_line += tb.get_menu()[i][k] + "\t";
+                        }
                     }
-                    else{
-                        change_line += tb.get_day()[i][k] + "\t";
-                    }
+                    change_line += "\r\n";
                 }
-                change_line += "\r\n";
-            }
-           temp = change_line;
-           file_writer.write(temp);
-           file_writer.close();
+            temp = change_line;
+            file_writer.write(temp);
+            file_writer.close();
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -174,7 +179,6 @@ public class File_IO {
 
     public void create_file() {
         String data_directory = get_home_directory()+"/data/";
-
         String days[] = new String[3];		// Save the 3-days dates in the array.
         days[0] = get_date(0);
         days[1] = get_date(1);
