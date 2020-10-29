@@ -1,7 +1,7 @@
 1	2	0	10	null	null	null	null	null	null	null	
 1	2	0	11	null	null	null	null	null	null	null	
 1	2	0	12	null	null	null	null	null	null	null	
-1	2	0	13	김건국	010-3333-4444	1	2	1	0	0	
+1	2	0	13	null	null	null	null	null	null	null	
 1	2	0	14	null	null	null	null	null	null	null	
 1	2	0	15	null	null	null	null	null	null	null	
 1	2	0	16	null	null	null	null	null	null	null	

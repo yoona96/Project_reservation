@@ -10,11 +10,14 @@ public class Cancel_Reservation {
 	private String date;
 	private String time;
 	private String table_number;
+	private String[] user_time_data = new String[2];
 	
 	public void cancel_reservation_main() {
 		Reservation_Check RC = new Reservation_Check();
 		user_inform = RC.show_reservation_inform("Cancle");
-		input_reservation_date();
+		user_time_data = input_reservation_date();
+		date = user_time_data[0];
+		time = user_time_data[1];
 		boolean is_exist_reservatrion = compare_reservation_date(user_inform);
 		System.out.println(is_exist_reservatrion);
 		
@@ -22,11 +25,12 @@ public class Cancel_Reservation {
 			confirm_cancel();
 	}
 
-	private void input_reservation_date() {
+	public String[] input_reservation_date() {
 		LocalDate date_format = LocalDate.now();
 		String reserv_date = "";
 		String reserv_time = "";
-		
+		String input_date;
+		String input_time;
 		
 		Scanner scan = new Scanner(System.in);
 		System.out.println("취소하려는 예약일자와 시간을 입력해주세요(ex: 20201012	13) : ");
@@ -41,34 +45,35 @@ public class Cancel_Reservation {
 			//for the format of input String
 			input_value = reservation_input.trim().split("	");
 		}else {
-			System.out.println("형식 경고문");
+			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
 		if(input_value[0].matches("[0-9]{4,4}"+"-"+"[0-9]{2,2}"+"-"+"[0-9]{2,2}") || input_value[0].matches("[0-9]{8,8}")) {
 			//for the format of reservation date
 			reserv_date = input_value[0];
 		}else {
-			System.out.println("날짜 경고문");
+			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
 		if(input_value[1].matches("[0-9][0-9]") || input_value[1].matches("[0-9][0-9]:00") || input_value[1].matches("[0-9][0-9]��")) {
 			//for the format of reservation time
 			reserv_time = input_value[1];
 		}else {
-			System.out.println("시간 경고문");
+			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
 		
-		date = reserv_date.replace("-", "");
-		time = reserv_time.substring(0, 2);
-		
+		input_date = reserv_date.replace("-", "");
+		input_time = reserv_time.substring(0, 2);
 		break;	
 	}
-		System.out.println(date);
-		System.out.println(time);
+		String[] input_data = new String[2];
+		input_data[0] = input_date;
+		input_data[1] = input_time;
+		return input_data;
 	}
 	
-	private boolean compare_reservation_date(ArrayList<int[]>[] reserved_data) {
+	public boolean compare_reservation_date(ArrayList<int[]>[] reserved_data) {
 		File_IO IO = new File_IO();
 		
 		String today = IO.get_date(0);
@@ -92,6 +97,7 @@ public class Cancel_Reservation {
 				return true;
 			}
 		}
+		System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 		return false;
 				
 	}
@@ -138,8 +144,6 @@ public class Cancel_Reservation {
 		int i_time = Integer.parseInt(time);
 		i_time = i_time-10;
 		
-		System.out.println(i_table_number);
-		System.out.println(i_time);
 		
 		temp = IO.tb.get_day();
 		temp[0][i_time][i_table_number] = table_number;
