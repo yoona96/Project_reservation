@@ -11,7 +11,7 @@ public class Validate {
 	private static int two, four, six = 0;
 	private ArrayList<String> menu_list = new ArrayList();
 
-	private String get_directory() { // directory를 반환합니다. 반환받은 문자열에 파일 이름만 추가하면 됩니다.
+	public String get_directory() { // directory를 반환합니다. 반환받은 문자열에 파일 이름만 추가하면 됩니다.
 		String os_name = System.getProperty("os.name").toLowerCase(); // 사용 중인 컴퓨터의 OS 얻기
 		String user_name = "";
 		String directory = "";
@@ -41,7 +41,7 @@ public class Validate {
 				four = 0;
 				six = 0; // 테이블 수 초기화
 				date = fi.get_date(day);
-				File file = new File(this.get_directory() + date + ".txt");
+				File file = new File(this.get_directory()+ date + ".txt");
 				FileReader fr = new FileReader(file);
 				BufferedReader br = new BufferedReader(fr);
 				String line = "";
@@ -150,7 +150,7 @@ public class Validate {
 
 			}
 			case 4: { // 이름
-				if (temp[i].matches("^[가-힣]*$") && temp[i].length() >= 2)
+				if (temp[i].matches("^[가-힣]*$")||temp[i].matches("^[a-zA-Z]*$") && temp[i].length() >= 2)
 					break;
 				else {
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
@@ -159,7 +159,7 @@ public class Validate {
 
 			}
 			case 5: { // 전화번호
-				if (temp[i].matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$"))
+				if (temp[i].matches("^01(?:1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")||temp[i].matches("^01(?:0)-(?:\\d{4})-\\d{4}$"))
 					break;
 				else {
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");

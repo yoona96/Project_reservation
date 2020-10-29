@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import main_pkg.File_IO;
 import main_pkg.textDB;
+import main_pkg.File_IO;
 
 public class Reservation {
 
@@ -26,12 +27,19 @@ public class Reservation {
     private int[] int_menu_num = new int[5];//사용자 입력 주문수량 int배열
     private int stock_result_index = 0;//재고 부족한 상품저장할 배열의 인덱스
     private int price = 0; //주문한 총 금액
-
+    private String rsv="예약";
+    
     File_IO fio = new File_IO();
 
     /*
      * print the 'today', user can input date, time, number of people
      */
+    public void set_rsv(String rsv,String name, String phone) {
+    	this.rsv=rsv;
+    	this.name=name;
+    	this.phone=phone;
+    }
+    
     public void user_input(){
 
     	LocalDate date_format = LocalDate.now();
@@ -42,8 +50,8 @@ public class Reservation {
     	Scanner scanner = new Scanner(System.in);
 
     	while(true) {
-    		System.out.println("\n예약 접수일: " + today);
-    		System.out.println("예약 희망 일자와, 시간, 그리고 방문하는 인원수를 차례대로 입력하세요.");
+    		System.out.println("\n"+rsv+"접수일: " + today);
+    		System.out.println(rsv+ "희망 일자와, 시간, 그리고 방문하는 인원수를 차례대로 입력하세요.");
     		System.out.print("→");
 
     		String reservation_input = scanner.nextLine();
@@ -459,6 +467,9 @@ public class Reservation {
 				}
 			}
 		}
+		if(rsv.equals("예약 변경")) {
+			choose_menu();
+		}
 		input_inform();
 	}
 
@@ -479,6 +490,9 @@ public class Reservation {
 		else{
 			this.st_num0 = available_table[0];
 			System.out.println("할당된 테이블은 ["+ st_num0 +"]번 입니다.");
+			if(rsv.equals("예약 변경")) {
+				choose_menu();
+			}
 			input_inform();
 		}
 	}
@@ -520,6 +534,7 @@ public class Reservation {
 
 
 	 private void choose_menu() {
+
 	      File_IO file = new File_IO();
 	      Scanner scan = new Scanner(System.in);
 	      String patterns0 = "^[가-힣]*";
@@ -676,12 +691,12 @@ public class Reservation {
 	      //이 부분은 위쪽이 완료되면 해당 변수로 채우면 됨 - 현재 테이블 번호 없음
 	      while (true) {
 
-	         System.out.println("\n--------------------------\n예약 내역 확인\n------------------------------");
-	         System.out.println("예약자 이름: " + this.name);
+	         System.out.println("\n--------------------------\n"+rsv+" 내역 확인\n------------------------------");
+	         System.out.println(rsv+"자 이름: " + this.name);
 	         System.out.println("전화번호: " + this.phone);
-	         System.out.println("예약 시간: " + this.time + ":00 ~ " + (Integer.parseInt(this.time) + 2) + ":00");
+	         System.out.println(rsv+" 시간: " + this.time + ":00 ~ " + (Integer.parseInt(this.time) + 2) + ":00");
 	         System.out.println("인원 수: " + this.count);
-	         System.out.println("예약 좌석: " + 5);//this.table);
+	         System.out.println(rsv+" 좌석: " + 5);//this.table);
 	         System.out.print("주문 메뉴: ");
 	         for (int i = 0; i < menu.length; i++) {
 	            if (int_menu_num[i] != 0) {
@@ -691,7 +706,7 @@ public class Reservation {
 	         System.out.println();
 
 	         System.out.println("결제 예정 금액: \\" + price + "\n");
-	         System.out.print("예약을 확정하시겠습니까?(y/n): ");
+	         System.out.print(rsv+"을 확정하시겠습니까?(y/n): ");
 	         String reservation_confirm = scan2.next();
 	         String[] yorn_value = new String[0];
 
@@ -700,7 +715,7 @@ public class Reservation {
 	         }
 
 	         if (yorn_value[0].equals("y")) {
-	            System.out.println("예약이 완료되었습니다.");
+	            System.out.println(rsv+"이 완료되었습니다.");
 	            out_reservation_data();
 	            break;
 	         } else if (yorn_value[0].equals("n")) {
@@ -719,10 +734,10 @@ public class Reservation {
 
 	      while (true) {
 	    	 System.out.println("--------------------------------");
-	    	 System.out.println("\t예약 취소 확인");
+	    	 System.out.println("\t"+rsv+" 취소 확인");
 	    	 System.out.println("--------------------------------");
-	         System.out.println("예약 취소시, 모든 예약 정보가 삭제됩니다.");
-	         System.out.print("정말 예약을 취소하시겠습니까?(y/n): ");
+	         System.out.println(rsv+" 취소시, 모든 예약 정보가 삭제됩니다.");
+	         System.out.print("정말 "+rsv+"을 취소하시겠습니까?(y/n): ");
 
 	         String reservation_cancel = scan3.next();
 	         String[] yorn_value = new String[0];
@@ -731,7 +746,7 @@ public class Reservation {
 	         }
 
 	         if (yorn_value[0].equals("y")) {
-	            System.out.println("예약이 취소되었습니다.");
+	            System.out.println(rsv+"이 취소되었습니다.");
 	            break;
 	         } else if (yorn_value[0].equals("n")) {
 	            reservation_confirm();
@@ -775,9 +790,6 @@ public class Reservation {
 		  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
 		  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
 
-		  temp[11][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[4]);
-		  temp[11][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[4]);
-
 		  if(st_num1 != null){
 
 			  temp[2][Integer.parseInt(time)][Integer.parseInt(st_num1)] = count;
@@ -803,9 +815,6 @@ public class Reservation {
 
 			  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
 			  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
-
-			  temp[11][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[4]);
-			  temp[11][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[4]);
 
 		  }
 		  file2.tb.set_day(temp);
