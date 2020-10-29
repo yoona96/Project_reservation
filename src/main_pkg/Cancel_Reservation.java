@@ -18,7 +18,7 @@ public class Cancel_Reservation {
 		user_time_data = input_reservation_date();	// Get user_input information
 		date = user_time_data[0];	
 		time = user_time_data[1];
-		boolean is_exist_reservatrion = compare_reservation_date(user_inform); // Checked for match between Reserved information and user_input information		
+		boolean is_exist_reservatrion = compare_reservation_date(user_inform,date,time); // Checked for match between Reserved information and user_input information		
 		
 		if (is_exist_reservatrion)
 			confirm_cancel();
@@ -72,12 +72,12 @@ public class Cancel_Reservation {
 		return input_data;
 	}
 	
-	public boolean compare_reservation_date(ArrayList<int[]>[] reserved_data) {	
+	public boolean compare_reservation_date(ArrayList<int[]>[] reserved_data,String input_date,String input_time) {	
 		File_IO IO = new File_IO();
 		
 		String today = IO.get_date(0);
 		int i_today = Integer.parseInt(today);
-		int i_date = Integer.parseInt(date);
+		int i_date = Integer.parseInt(input_date);
 		int gab = i_date - i_today;
 		
 		String date = IO.get_date(gab);
@@ -89,7 +89,7 @@ public class Cancel_Reservation {
 			int table_inform = pos[1];	// i번쨰의 예약정보의 table 번호를(3차원 배열에서 2번째 항에 해당) 저장한다.
 			int time_inform = pos[0];	//	i번째 예약정보의 시간을(3차원 배열에서 3번째 항에 해당) 저장한다.
 			String reserved_time = db[3][time_inform][table_inform];	// 예약된 정보 중 시간을 받아온다.
-			if(time.equals(reserved_time)) {	// 만약 사용자가 입력한 시간이 예약된 정보 중에 존재한다면,
+			if(input_time.equals(reserved_time)) {	// 만약 사용자가 입력한 시간이 예약된 정보 중에 존재한다면,
 				table_number = db[0][time_inform][table_inform];	// 헤당 예약 정보의 좌석 번호를 저장한다.
 				return true;	
 			}
