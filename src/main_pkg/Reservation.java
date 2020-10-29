@@ -525,6 +525,16 @@ public class Reservation {
 		}
 		this.name = line_split[0];
 		this.phone = line_split[1];
+		if (!this.phone.contains("-")) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(this.phone);
+			sb.insert(3, "-");
+			if (this.phone.length() == 10)
+				sb.insert(7, "-");
+			else
+				sb.insert(8, "-");
+			this.phone = sb.toString();
+		}
 
 		choose_menu();
 	}
