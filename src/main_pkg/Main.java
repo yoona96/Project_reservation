@@ -31,7 +31,7 @@ public class Main {
                             reservation.user_input();
                             break;
                         case 2:
-                            rch.show_reservation_inform("check");
+                            rch.show_reservation_inform("Check");
                             break;
                         case 3:
                             rc.change_main();
@@ -61,6 +61,7 @@ public class Main {
                             }
                         }
                         default:
+                            input_scan = null;
                             continue;
                     }
                 }
