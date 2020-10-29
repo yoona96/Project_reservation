@@ -9,11 +9,10 @@ public class Main {
     public static void main(String[] args) {
 
         Reservation reservation = new Reservation();
+        Reservation_Change rc= new Reservation_Change();
+        Reservation_Check rch = new Reservation_Check();
+        Cancel_Reservation cr = new Cancel_Reservation();
         Validate validate = new Validate();
-        //validate.check_all();
-        Reservation_Change rc=new Reservation_Change();
-        rc.change_main();
-        /* validate.check_all(); */
 
         while (true) {
             print_menu();
@@ -28,6 +27,15 @@ public class Main {
                     switch (chosen_menu) {
                         case 1:
                             reservation.user_input();
+                            break;
+                        case 2:
+                            rch.show_reservation_inform("check");
+                            break;
+                        case 3:
+                            rc.change_main();
+                            break;
+                        case 4:
+                            cr.cancel_reservation_main();
                             break;
                         case 5: {
                             String pwd = pwd_scan.next();

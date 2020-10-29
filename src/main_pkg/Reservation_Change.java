@@ -5,6 +5,7 @@ import java.io.*;
 import main_pkg.*;
 
 public class Reservation_Change {
+
 	private String name="";
 	private String phone="";
 	private String date,time,table; //index of the old reservation
@@ -13,7 +14,7 @@ public class Reservation_Change {
 	private String temp[]=new String[11];
 	
 	Scanner s =new Scanner(System.in);
-	Reservation rsv=new Reservation();
+	Reservation rsv= new Reservation();
 	Reservation_Check rc=new Reservation_Check();
 	Cancel_Reservation cr=new Cancel_Reservation();
 	Validate v=new Validate();
@@ -22,7 +23,6 @@ public class Reservation_Change {
 		rsv.set_rsv("예약 변경",name,phone);
 		rsv.user_input();
 		delete_old_reservation();
-		
 	}
 	
 	private boolean confirm_change() {

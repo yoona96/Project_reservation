@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class Reservation_Check {
+
 	private File_IO file = new File_IO();
 	private String[][][] db = new String[11][11][20];
 	private ArrayList<int[]> user_inform[] = new ArrayList[3]; // 0: 당일, 1: 내일, 2: 모레

@@ -532,6 +532,7 @@ public class Reservation {
 
 
 	 private void choose_menu() {
+
 	      File_IO file = new File_IO();
 	      Scanner scan = new Scanner(System.in);
 	      String patterns0 = "^[가-힣]*";
@@ -787,9 +788,6 @@ public class Reservation {
 		  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
 		  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[3]);
 
-		  temp[11][Integer.parseInt(time)][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[4]);
-		  temp[11][Integer.parseInt(time)+1][Integer.parseInt(st_num0)] = Integer.toString(int_menu_num[4]);
-
 		  if(st_num1 != null){
 
 			  temp[2][Integer.parseInt(time)][Integer.parseInt(st_num1)] = count;
@@ -815,9 +813,6 @@ public class Reservation {
 
 			  temp[10][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
 			  temp[10][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[3]);
-
-			  temp[11][Integer.parseInt(time)][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[4]);
-			  temp[11][Integer.parseInt(time)+1][Integer.parseInt(st_num1)] = Integer.toString(int_menu_num[4]);
 
 		  }
 		  file2.tb.set_day(temp);
