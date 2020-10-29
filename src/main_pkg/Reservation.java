@@ -465,6 +465,9 @@ public class Reservation {
 				}
 			}
 		}
+		if(rsv.equals("예약 변경")) {
+			choose_menu();
+		}
 		input_inform();
 	}
 

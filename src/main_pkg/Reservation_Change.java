@@ -5,9 +5,11 @@ import java.io.*;
 import main_pkg.*;
 
 public class Reservation_Change {
-	private String name,phone;
+	private String name="";
+	private String phone="";
 	private String date,time,table; //index of the old reservation
-	private ArrayList<int[]> user_inform[];
+	int[] int_menu_num = new int[5];//menu info before changing int array
+	private ArrayList<int[]> user_inform[]=new ArrayList[3];
 	private String temp[]=new String[11];
 	
 	Scanner s =new Scanner(System.in);
@@ -53,14 +55,15 @@ public class Reservation_Change {
 			BufferedReader br=new BufferedReader(fr);
 			String line="";
 			String new_line="";
-			
+
 			while((line=br.readLine())!=null) { //read file
-				if(line.trim().split("\t")[0].equals(table)) {
-					if(line.trim().split("\t")[3].equals(time)||line.trim().split("\t")[3].equals(time+1)){
+				if(line.trim().split("\t")[0].equals(table)&&line.trim().split("\t")[3].equals(time)) {
 						new_line+=line.trim().split("\t")[0]+"\t"+line.trim().split("\t")[1]+"\t0\t"+line.trim().split("\t")[3]+"\n";
-					}	
 				}
-				new_line+=line;
+				else {
+					new_line+=line+"\n";
+				}
+				
 			}
 			
 			
@@ -81,10 +84,8 @@ public class Reservation_Change {
 		File_IO fi=new File_IO();
 		fi.read_menu();
 		String[][] menu = new String[4][5]; //menu file array
-		int[] int_menu_num = new int[5];//menu info before changing int array
 	    menu = fi.tb.get_menu();
 	    for (int i = 0; i < 5; i++) {
-	    	int_menu_num[i]=Integer.parseInt(temp[i+5]);
 	        if (int_menu_num[i] != 0) {
 	           int origin_stock = Integer.parseInt(menu[2][i]);
 	           int new_stock = origin_stock + int_menu_num[i];
@@ -95,7 +96,7 @@ public class Reservation_Change {
 	       }
 	    }
 		
-		
+		return;
 	}
 	
 	public void change_main() {
@@ -114,40 +115,31 @@ public class Reservation_Change {
 			}
 			else if(Integer.parseInt(date)==Integer.parseInt(today)+2)
 				change_day=2; //a day after tomorrow
+
+			String change_date = fi.get_date(change_day);
+			fi.read_file(change_date);
+			String[][][] db = fi.tb.get_day();
 			
-			for(int i=0;i<user_inform[change_day].size();i++) {
-				if(user_inform[change_day].get(i)[0]==Integer.parseInt(time)) {
-					table=Integer.toString(user_inform[change_day].get(i)[1]);
+			for(int i =0; i<user_inform[change_day].size(); i=i+2) { // 예약은 두시간씩 묶음으로 저장되니, 예약 시작시간만 입력받도록 한다.
+				int[] pos = user_inform[change_day].get(i);	// i번째 예약정보를 담아온다.
+				int table_inform = pos[1];	// i번쨰의 예약정보의 table 번호를(3차원 배열에서 2번째 항에 해당) 저장한다.
+				int time_inform = pos[0];	//	i번째 예약정보의 시간을(3차원 배열에서 3번째 항에 해당) 저장한다.
+				String reserved_time = db[3][time_inform][table_inform];	// 예약된 정보 중 시간을 받아온다.
+				if(Integer.parseInt(reserved_time)==Integer.parseInt(time)) {
+					table=db[0][time_inform][table_inform];
+					name=db[4][time_inform][table_inform];
+					phone=db[5][time_inform][table_inform];
+					int_menu_num[0]=Integer.parseInt(db[6][time_inform][table_inform]);
+					int_menu_num[1]=Integer.parseInt(db[7][time_inform][table_inform]);
+					int_menu_num[2]=Integer.parseInt(db[8][time_inform][table_inform]);
+					int_menu_num[3]=Integer.parseInt(db[9][time_inform][table_inform]);
+					int_menu_num[4]=Integer.parseInt(db[10][time_inform][table_inform]);
 				}
+					
+					
 			}//setting date,time, and table
-			
-			if(cr.compare_reservation_date(user_inform)) {	
-				try {
-					File file=new File(v.get_directory()+date+".txt");
-					FileReader fr=new FileReader(file);
-					BufferedReader br=new BufferedReader(fr);
-					String line="";
-					String new_line="";
-					
-					
-					while((line=br.readLine())!=null) { //read file
-						if(line.trim().split("\t")[0].equals(table)&&line.trim().split("\t")[3]==time){
-							for(int i=0;i<line.trim().split("\t").length;i++) {
-								temp[i]=line.trim().split("\t")[i]; //save the old reservation info
-							}
-							break;
-						}
-					}
-					fr.close();
-					br.close();
-				}catch (FileNotFoundException e) {
-		            e.printStackTrace();
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
-				
-				
-				
+			if(cr.compare_reservation_date(user_inform,date,time)) {	
+		
 				if(confirm_change())
 					new_reservation();
 				else
