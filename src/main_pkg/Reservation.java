@@ -540,7 +540,7 @@ public class Reservation {
 	         System.out.println("\t메뉴 선택");
 	         System.out.println("--------------------------");
 	         System.out.println("[메뉴]\t[가격]\t[주문 가능 시간]");
-	         for (int i = 0; i < menu.length; i++) {
+	         for (int i = 0; i < menu.length + 1; i++) {
 	            System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
 	            if (menu[3][i] != null) {// all이 아닌경우
 	               String[] menu_time = menu[3][i].split("-");

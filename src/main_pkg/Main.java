@@ -12,7 +12,7 @@ public class Main {
    Reservation reservation = new Reservation();
    Validate validate = new Validate();
 
-        /*validate.check_all();*/
+        validate.check_all();
 
         while(true) {
             print_menu();
@@ -41,6 +41,7 @@ public class Main {
             						if(password(pwd) == true) {
 
             						}else {
+            							System.out.println("비밀번호가 올바르지 않습니다.\n");
             							break;
             						}
             					}
