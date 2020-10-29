@@ -10,7 +10,9 @@ public class Main {
 
         Reservation reservation = new Reservation();
         Validate validate = new Validate();
-
+        validate.check_all();
+        Reservation_Change rc=new Reservation_Change();
+        rc.change_main();
         /* validate.check_all(); */
 
         while (true) {

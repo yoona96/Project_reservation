@@ -16,7 +16,7 @@ public class Reservation_Change {
 	Cancel_Reservation cr=new Cancel_Reservation();
 	Validate v=new Validate();
 	
-	private boolean new_reservation() {
+	private void new_reservation() {
 		rsv.set_rsv("예약 변경",name,phone);
 		rsv.user_input();
 		delete_old_reservation();
@@ -47,28 +47,36 @@ public class Reservation_Change {
 	}
 	
 	private void delete_old_reservation() {
-		File file=new File(v.get_directory()+date+".txt");
-		FileReader fr=new FileReader(file);
-		BufferedReader br=new BufferedReader(fr);
-		String line="";
-		String new_line="";
-		
-		while((line=br.readLine())!=null) { //read file
-			if(line.trim().split("\t")[0].equals(table)) {
-				if(line.trim().split("\t")[3].equals(time)||line.trim().split("\t")[3].equals(time+1)){
-					new_line+=line.trim().split("\t")[0]+"\t"+line.trim().split("\t")[1]+"\t0\t"+line.trim().split("\t")[3]+"\n";
-				}	
+		try {
+			File file=new File(v.get_directory()+date+".txt");
+			FileReader fr=new FileReader(file);
+			BufferedReader br=new BufferedReader(fr);
+			String line="";
+			String new_line="";
+			
+			while((line=br.readLine())!=null) { //read file
+				if(line.trim().split("\t")[0].equals(table)) {
+					if(line.trim().split("\t")[3].equals(time)||line.trim().split("\t")[3].equals(time+1)){
+						new_line+=line.trim().split("\t")[0]+"\t"+line.trim().split("\t")[1]+"\t0\t"+line.trim().split("\t")[3]+"\n";
+					}	
+				}
+				new_line+=line;
 			}
-			new_line+=line;
-		}
+			
+			
+			FileWriter fw=new FileWriter(file);
+			fw.write(new_line); //overwrite file with new_line
+			
+			fr.close();
+			br.close();
+			fw.close();
+			
+		}catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		
-		
-		FileWriter fw=new FileWriter(file);
-		fw.write(new_line); //overwrite file with new_line
-		
-		fr.close();
-		br.close();
-		fw.close();
 		
 		File_IO fi=new File_IO();
 		fi.read_menu();
@@ -99,7 +107,7 @@ public class Reservation_Change {
 			time=str[1]; //ex.13
 			File_IO fi=new File_IO();
 			String today=fi.get_date(0);
-			int change_day;
+			int change_day=0;
 			
 			if(Integer.parseInt(date)==Integer.parseInt(today)+1) {
 				change_day=1; //tomorrow
@@ -108,29 +116,37 @@ public class Reservation_Change {
 				change_day=2; //a day after tomorrow
 			
 			for(int i=0;i<user_inform[change_day].size();i++) {
-				if(user_inform[change_day].get(i).get(0)==Integer.pasrseInt(time)) {
-					table=Integer.toString(user_inform[change_day].get(i).get(1));
+				if(user_inform[change_day].get(i)[0]==Integer.parseInt(time)) {
+					table=Integer.toString(user_inform[change_day].get(i)[1]);
 				}
 			}//setting date,time, and table
 			
 			if(cr.compare_reservation_date(user_inform)) {	
-				File file=new File(v.get_directory()+date+".txt");
-				FileReader fr=new FileReader(file);
-				BufferedReader br=new BufferedReader(fr);
-				String line="";
-				String new_line="";
-				
-				
-				while((line=br.readLine())!=null) { //read file
-					if(line.trim().split("\t")[0].equals(table)&&line.trim().split("\t")[3]==time){
-						for(int i=0;i<line.trim().split("\t").length;i++) {
-							temp[i]=line.trim().split("\t")[i]; //save the old reservation info
+				try {
+					File file=new File(v.get_directory()+date+".txt");
+					FileReader fr=new FileReader(file);
+					BufferedReader br=new BufferedReader(fr);
+					String line="";
+					String new_line="";
+					
+					
+					while((line=br.readLine())!=null) { //read file
+						if(line.trim().split("\t")[0].equals(table)&&line.trim().split("\t")[3]==time){
+							for(int i=0;i<line.trim().split("\t").length;i++) {
+								temp[i]=line.trim().split("\t")[i]; //save the old reservation info
+							}
+							break;
 						}
-						break;
 					}
-				}
-				fr.close();
-				br.close();
+					fr.close();
+					br.close();
+				}catch (FileNotFoundException e) {
+		            e.printStackTrace();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+				
+				
 				
 				if(confirm_change())
 					new_reservation();
