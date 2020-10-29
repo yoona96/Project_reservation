@@ -145,40 +145,42 @@ public class Reservation {
     			continue;
     		}
     	}
-    	for(attached_table = 0; attached_table < 20; attached_table++) { //tables can be attached
-    		if(tmp[2][tmp_time][attached_table].contentEquals("0") && tmp[2][tmp_time][attached_table++].contentEquals("0")) {
-				//if attached tables are both empty
-    			if(attached_table >= 0 && attached_table < 6) {
-    				//table 1~6
-    				if(Integer.parseInt(count) > 2 && Integer.parseInt(count) < 5) {
-    					//only more than 2, less than 5 people can use attached tables for 4 people
-    					available_tables.append(attached_table);
-    					available_tables.append("-");
-    					available_tables.append(Integer.valueOf(attached_table) + 1);
-    					available_tables.append(" ");
+    	if(available_tables.length() == 0) {
+    		for(attached_table = 0; attached_table < 20; attached_table++) { //tables can be attached
+    			if(tmp[2][tmp_time][attached_table].contentEquals("0") && tmp[2][tmp_time][attached_table++].contentEquals("0")) {
+					//if attached tables are both empty
+    				if(attached_table >= 0 && attached_table < 6) {
+    					//table 1~6
+    					if(Integer.parseInt(count) > 2 && Integer.parseInt(count) < 5) {
+    						//only more than 2, less than 5 people can use attached tables for 4 people
+    						available_tables.append(attached_table);
+    						available_tables.append("-");
+    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(" ");
+    					}else {
+    						continue;
+    					}
+    				}else if (attached_table >= 6 && attached_table <16) {
+    					//table 7~16
+    					if(Integer.parseInt(count) > 4 && Integer.parseInt(count) < 9) {
+        					//only more than 4, less than 9 people can use attached tables for 8 people
+    						available_tables.append(attached_table);
+    						available_tables.append("-");
+    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(" ");
+        				}else {
+        					continue;
+        				}
     				}else {
-    					continue;
-    				}
-    			}else if (attached_table >= 6 && attached_table <16) {
-    				//table 7~16
-    				if(Integer.parseInt(count) > 4 && Integer.parseInt(count) < 9) {
-        				//only more than 4, less than 9 people can use attached tables for 8 people
-    					available_tables.append(attached_table);
-    					available_tables.append("-");
-    					available_tables.append(Integer.valueOf(attached_table) + 1);
-    					available_tables.append(" ");
-        			}else {
-        				continue;
-        			}
-    			}else {
-    				if(Integer.parseInt(count) > 8) {
-    					//only more than 8 people can use attached tables for 12 people
-    					available_tables.append(attached_table);
-    					available_tables.append("-");
-    					available_tables.append(Integer.valueOf(attached_table) + 1);
-    					available_tables.append(" ");
-    				}else {
-    					continue;
+    					if(Integer.parseInt(count) > 8) {
+    						//only more than 8 people can use attached tables for 12 people
+    						available_tables.append(attached_table);
+    						available_tables.append("-");
+    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(" ");
+    					}else {
+    						continue;
+    					}
     				}
     			}
     		}
