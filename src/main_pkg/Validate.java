@@ -179,7 +179,7 @@ public class Validate {
 		return true;
 	}
 
-	public boolean validate_menu_file() { // menu.txt 문법 검사 및 수정
+	private boolean validate_menu_file() { // menu.txt 문법 검사 및 수정
 		// 메뉴 정보 파일 경로 얻기
 		String directory = this.get_directory() + "menu.txt";
 		menu_list = new ArrayList();
