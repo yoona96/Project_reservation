@@ -51,7 +51,7 @@ public class Validate {
 					if (line.length() == 0)// 빈 줄이라면
 						continue;
 					asc_line += line + "\n";
-					String temp[] = line.split("\t");
+					String temp[] = line.trim().split("\t");
 					is = reservation_file_grammer(temp, date); // 한 줄씩 문법확인
 					if (!is) { // 오류가 있었다면 메소드를 종료합니다
 						br.close();
