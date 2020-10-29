@@ -8,10 +8,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Reservation reservation = new Reservation();
-        Validate validate = new Validate();
 
-       while(true) {
+   Reservation reservation = new Reservation();
+   Validate validate = new Validate();
+
+        /*validate.check_all();*/
+
+        while(true) {
             print_menu();
 
             Scanner input_scan = new Scanner(System.in);
