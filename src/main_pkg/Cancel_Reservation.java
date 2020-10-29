@@ -7,19 +7,18 @@ import java.util.Scanner;
 public class Cancel_Reservation {
 	
 	private ArrayList<int[]> user_inform[] = new ArrayList[3]; // 0: 당일, 1: 내일, 2: 모레
-	private String date;
-	private String time;
-	private String table_number;
-	private String[] user_time_data = new String[2];
+	private String date;	// user_input_date
+	private String time;	// user_input_time
+	private String table_number;	// table number for changing reservation
+	private String[] user_time_data = new String[2];	// Temporary data for return values in input_reservation_date
 	
-	public void cancel_reservation_main() {
-		Reservation_Check RC = new Reservation_Check();
-		user_inform = RC.show_reservation_inform("Cancle");
-		user_time_data = input_reservation_date();
-		date = user_time_data[0];
+	public void cancel_reservation_main() {	
+		Reservation_Check RC = new Reservation_Check();	
+		user_inform = RC.show_reservation_inform("Cancel");	// Get Reserved information
+		user_time_data = input_reservation_date();	// Get user_input information
+		date = user_time_data[0];	
 		time = user_time_data[1];
-		boolean is_exist_reservatrion = compare_reservation_date(user_inform);
-		System.out.println(is_exist_reservatrion);
+		boolean is_exist_reservatrion = compare_reservation_date(user_inform); // Checked for match between Reserved information and user_input information		
 		
 		if (is_exist_reservatrion)
 			confirm_cancel();
@@ -85,19 +84,17 @@ public class Cancel_Reservation {
 		IO.read_file(date);
 		String[][][] db = IO.tb.get_day();
 		
-		for(int i =0; i<=reserved_data[gab].size()-1; i++) {
-			int[] pos = reserved_data[gab].get(i);
-			int table_inform = pos[1];
-			int time_inform = pos[0];
-			String reserved_time = db[3][time_inform][table_inform];
-			System.out.println(reserved_time);
-			System.out.println(time);
+		for(int i =0; i<=reserved_data[gab].size()-1; i=i+2) { // 예약은 두시간씩 묶음으로 저장되니, 예약 시작시간만 입력받도록 한다.
+			int[] pos = reserved_data[gab].get(i);	// i번째 예약정보를 담아온다.
+			int table_inform = pos[1];	// i번쨰의 예약정보의 table 번호를(3차원 배열에서 2번째 항에 해당) 저장한다.
+			int time_inform = pos[0];	//	i번째 예약정보의 시간을(3차원 배열에서 3번째 항에 해당) 저장한다.
+			String reserved_time = db[3][time_inform][table_inform];	// 
 			if(time.equals(reserved_time)) {
 				table_number = db[0][time_inform][table_inform];
 				return true;
 			}
 		}
-		System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
+		System.out.println("예약정보가 존재하지 않습니다. 정확한 예약자의 이름과 전화번호를 입력해주세요");
 		return false;
 				
 	}
@@ -130,7 +127,6 @@ public class Cancel_Reservation {
 	private void file_update() {
 		File_IO IO = new File_IO();
 		IO.read_file(date);
-		System.out.println(date+".txt");
 		String temp[][][] = new String[11][11][20];
 		
 		int i_table_number = Integer.parseInt(table_number);
@@ -144,17 +140,18 @@ public class Cancel_Reservation {
 		int i_time = Integer.parseInt(time);
 		i_time = i_time-10;
 		
-		
-		temp = IO.tb.get_day();
-		temp[0][i_time][i_table_number] = table_number;
-		temp[1][i_time][i_table_number] = table_size;
-		temp[2][i_time][i_table_number] = "0";
-		temp[3][i_time][i_table_number] = time;
-		for (int i=4;i<11;i++){
-          temp[i][i_time][i_table_number] =null;
+		for(int i=0; i<2; i++) {
+			temp = IO.tb.get_day();
+			temp[0][i_time+i][i_table_number] = table_number;
+			temp[1][i_time+i][i_table_number] = table_size;
+			temp[2][i_time+i][i_table_number] = "0";
+			temp[3][i_time+i][i_table_number] = time;
+			for (int j=4;j<11;j++){
+	          temp[j][i_time+i][i_table_number] =null;
+			}
+			IO.tb.set_day(temp);
+			IO.write_file(date);
 		}
-		IO.tb.set_day(temp);
-		IO.write_file(date);
 
 	}
 }
