@@ -18,7 +18,7 @@ public class Reservation_Check {
 		while (check) {
 			if (section.equals("Check"))
 				System.out.println("<예약 조회>");
-			else if (section.equals("Cancle"))
+			else if (section.equals("Cancel"))
 				System.out.println("<예약 취소>");
 			else if (section.equals("Change"))
 				System.out.println("<예약 변경>");
@@ -90,7 +90,7 @@ public class Reservation_Check {
 		return check;
 	}
 
-	public ArrayList[] show_reservation_inform(String section) { // Check, Cancle, Change 중 하나
+	public ArrayList[] show_reservation_inform(String section) { // Check, Cancel, Change 중 하나
 
 		this.input_inform(section);
 		
@@ -136,7 +136,7 @@ public class Reservation_Check {
 					}
 				}
 				DecimalFormat formatter = new DecimalFormat("###,###");
-				System.out.println("\n결제 예정 금액: " + formatter.format(price) + "\n");
+				System.out.println("결제 예정 금액: " + formatter.format(price) + "\n");
 				price = 0;
 
 			}
