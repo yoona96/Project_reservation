@@ -10,7 +10,7 @@ public class Validate {
 	private String date;
 	private static int two, four, six = 0;
 	private ArrayList<String> menu_list = new ArrayList();
-	
+
 	private String get_directory() { // directory를 반환합니다. 반환받은 문자열에 파일 이름만 추가하면 됩니다.
 		String os_name = System.getProperty("os.name").toLowerCase(); // 사용 중인 컴퓨터의 OS 얻기
 		String user_name = "";
@@ -26,7 +26,7 @@ public class Validate {
 			user_name = System.getProperty("user.name");
 			directory = "/Users/" + user_name + "/data/";
 		}
-		
+
 		return directory;
 	}
 

@@ -10,7 +10,7 @@ import java.util.Date;
 public class File_IO {
 
 
-    public String get_date(int n) { // Get date(today + 'n') 
+    public String get_date(int n) { // Get date(today + 'n')
         SimpleDateFormat new_format = new SimpleDateFormat("yyyyMMdd");
         Calendar cal = Calendar.getInstance();
         Date today = new Date(System.currentTimeMillis());
@@ -22,15 +22,15 @@ public class File_IO {
 
     public String get_home_directory() {	// Get home data_directory
         String OS = System.getProperty("os.name").toLowerCase();	// Get current OS name
-        String user_name = new com.sun.security.auth.module.NTSystem().getName(); // Get current User name 
+        String user_name = new com.sun.security.auth.module.NTSystem().getName(); // Get current User name
         String home_directory = "";		// default directory = null
-        if (OS.indexOf("win") >= 0)		
+        if (OS.indexOf("win") >= 0)
             home_directory = "C:\\Users\\";		// home directory in window
         if (OS.indexOf("mac") >= 0)
             home_directory = "/home/"; 	// home directory in mac
         if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0)
             home_directory = "/Users/";		// home directory in linux
-        home_directory += user_name;		
+        home_directory += user_name;
         return home_directory;
 
     }
@@ -41,7 +41,7 @@ public class File_IO {
     public void read_file(String date) {
 
         try {
-
+            /* "date.txt"라는 명칭의 파일을 "src/data/"경로에서 로드합니다. */
             File file = new File("src/data/" + date + ".txt");
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
@@ -52,23 +52,18 @@ public class File_IO {
             while ((line = buffered_reader.readLine()) != null) {
 
                 String[] line_split = line.split("\t");
-
-                if (time > 10) {
+                /* time이 10보다 커지면,(20시까지 모두 정보를 채웠다면) 다음 table을 1증가시킵니다. */
+                if(time > 10){
                     time = 0;
                     table++;
-                } else {
-
-                    for (int i = 0; i < line_split.length; i++) {
-
-                        if (line_split[i] == null) {
-                            break;
-                        } else {
-                            temp[i][time][table] = line_split[i];
-                        }
+                    if(table > 19){
+                     table =19;
                     }
-
-                    time++;
                 }
+                for (int i = 0; i < line_split.length; i++) {
+                    temp[i][time][table] = line_split[i];
+                }
+                time++;
             }
 
             tb.set_day(temp);
@@ -82,44 +77,28 @@ public class File_IO {
     }
 
 
-    public void write_file(String date, int time, int table) {
+    public void write_file(String date) {
 
         try {
             File file = new File("src/data/" + date + ".txt");
-            FileReader file_reader = new FileReader(file);
-            BufferedReader buffered_reader = new BufferedReader(file_reader);
-
-
-            int position = (11 * (table) + (time));
+            FileWriter file_writer = new FileWriter(file);
 
             String line = "";
             String temp = "";
             String change_line = "";
-
-            for (int i = 0; i < 11; i++) {
-                change_line += tb.get_day()[i][time][table] + "\t";
+            for (int j =0;j<20;j++){
+                for (int k=0;k<11;k++){
+                    for (int i = 0; i < 11; i++) {
+                        change_line += tb.get_day()[i][k][j] + "\t";
+                    }
+                    change_line += "\r\n";
+                }
             }
-            change_line += "\r\n";
-
-            for (int i = 0; i < position; i++) {
-                buffered_reader.readLine();
-                temp += (line + "\r\n");
-            }
-
-            buffered_reader.readLine();
-            temp += change_line;
-
-            while ((line = buffered_reader.readLine()) != null) {
-                temp += (line + "\r\n");
-            }
-            file_reader.close();
-            buffered_reader.close();
-
-
-            FileWriter file_writer = new FileWriter(file);
+            temp = change_line;
             file_writer.write(temp);
-
             file_writer.close();
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -127,7 +106,7 @@ public class File_IO {
         }
     }
 
-    public void read_menu() {		
+    public void read_menu() {
         try {
 
             File file = new File("src/data/menu.txt");
@@ -138,7 +117,7 @@ public class File_IO {
             int menu_num = 0;
 
             while ((line = buffered_reader.readLine()) != null) {
-
+                /* 읽은 라인을 공백(" ")을 기준으로 분할하여 line_split[]에 넣어줍니다 */
                 String[] line_split = line.split("\t");
                 for (int i = 0; i < line_split.length; i++) {
                     temp[i][menu_num] = line_split[i];
@@ -169,7 +148,6 @@ public class File_IO {
                 }
                 change_line += "\r\n";
             }
-
            temp = change_line;
            file_writer.write(temp);
            file_writer.close();
@@ -181,7 +159,7 @@ public class File_IO {
 
     }
 
-    public void create_file() {		 
+    public void create_file() {
         String data_directory = "src/data/";
 
         String days[] = new String[3];		// Save the 3-days dates in the array.
@@ -193,7 +171,7 @@ public class File_IO {
             String filename = days[k] + ".txt";
             File file = new File(data_directory + filename);
 
-            boolean file_is_exist = file.exists(); 
+            boolean file_is_exist = file.exists();
             if (!file_is_exist) {
                 try {
                     System.out.println("데이터 경로에 필요한 <예약 정보 파일 : " + days[k]+ ".txt>이 존재하지 않습니다. 필요한 데이터 파일을 생성합니다.");
@@ -233,12 +211,17 @@ public class File_IO {
         for (int i = 0; i < files.length; i++) {
             String file_name = files[i];
             file_name = file_name.replace(".txt", ""); // remove ".txt"
-            int file_date = Integer.parseInt(file_name); // 
-            //TODO Fix all text encoding to UTF-8
-            if (file_date < int_today) {
-                System.out.println("데이터 경로에 과거의 <예약 정보 파일 : " + files[i] + ">이 존재합니다. 해당 데이터를 삭제합니다.");
-                File file_ = new File(data_directory + "\\" + files[i]);
-                file_.delete();
+            if(file_name.equals("menu")) {
+            	continue;
+            }else {
+
+                int file_date = Integer.parseInt(file_name); //
+                //TODO Fix all text encoding to UTF-8
+                if (file_date < int_today) {
+                    System.out.println("데이터 경로에 과거의 <예약 정보 파일 : " + files[i] + ">이 존재합니다. 해당 데이터를 삭제합니다.");
+                    File file_ = new File(data_directory + "\\" + files[i]);
+                    file_.delete();
+                }
             }
         }
           String test = new String();
