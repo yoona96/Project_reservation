@@ -841,8 +841,8 @@ public class Reservation {
 	            menu[2][i] = Integer.toString(new_stock);
 	            //재고 정보 update
 	            file2.tb.set_menu(menu);
-	            file2.write_menu();
 	         }
 	      }
+		  file2.write_menu();
 	   }
 }

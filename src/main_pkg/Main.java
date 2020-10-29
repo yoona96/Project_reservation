@@ -1,5 +1,6 @@
 package main_pkg;
 
+import java.io.File;
 import java.util.Scanner;
 import main_pkg.File_IO;
 import main_pkg.Validate;
@@ -7,6 +8,7 @@ import main_pkg.Validate;
 public class Main {
 
     public static void main(String[] args) {
+
 
         Reservation reservation = new Reservation();
         Reservation_Change rc= new Reservation_Change();
@@ -17,8 +19,8 @@ public class Main {
         validate.check_all();
 
         while (true) {
-            print_menu();
 
+            print_menu();
             Scanner input_scan = new Scanner(System.in);
             Scanner pwd_scan = new Scanner(System.in);
             String menu_choice = input_scan.nextLine();
