@@ -212,12 +212,17 @@ public class File_IO {
         for (int i = 0; i < files.length-1; i++) {
             String file_name = files[i];
             file_name = file_name.replace(".txt", ""); // remove ".txt"
-            int file_date = Integer.parseInt(file_name); //
-            //TODO Fix all text encoding to UTF-8
-            if (file_date < int_today) {
-                System.out.println("데이터 경로에 과거의 <예약 정보 파일 : " + files[i] + ">이 존재합니다. 해당 데이터를 삭제합니다.");
-                File file_ = new File(data_directory + "\\" + files[i]);
-                file_.delete();
+            if(file_name.equals("menu")) {
+            	continue;
+            }else {
+
+                int file_date = Integer.parseInt(file_name); //
+                //TODO Fix all text encoding to UTF-8
+                if (file_date < int_today) {
+                    System.out.println("데이터 경로에 과거의 <예약 정보 파일 : " + files[i] + ">이 존재합니다. 해당 데이터를 삭제합니다.");
+                    File file_ = new File(data_directory + "\\" + files[i]);
+                    file_.delete();
+                }
             }
         }
           String test = new String();
