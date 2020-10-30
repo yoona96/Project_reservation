@@ -138,7 +138,6 @@ public class Reservation_Change {
 			else if(date.equals(after_tomorrow))
 				change_day=2;
 			
-			System.out.println("change_day"+change_day);
 			String change_date = fi.get_date(change_day);
 			fi.read_file(change_date);
 			String[][][] db = fi.tb.get_day();
