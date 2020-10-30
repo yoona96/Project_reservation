@@ -514,27 +514,50 @@ public class Reservation {
 		}else {
 			System.out.println("예약 좌석번호 : " + st_num0 + ", " + st_num1 + "번");
 		}
+			
 		System.out.println("예약한 인원수 : " + count);
 		System.out.println("예약 시간 : " + time + ":00 ~ " + (Integer.parseInt(time) + 2) + ":00");
 		System.out.println("-----------------------------------");
-
-		System.out.println("[필수 입력 정보]");
-		System.out.println("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
-
-    	Scanner sc = new Scanner(System.in);
-		String line = sc.nextLine();
-		String[] line_split = line.split("\t");
-
-		//수정 필요
-		while(line.matches("^[가-힣]*"+"\t"+"(01\\\\d{1}|02|0505|0502|0506|0\\\\d{1,2})-?(\\\\d{3,4})-?(\\\\d{4})")){
-
-			System.out.println("이름+<tab> 1개+전화번호의 형식에 맞춰서 정확히 입력하세요.");
+		
+		
+		while(true) {
+			System.out.println("[필수 입력 정보]");
 			System.out.println("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
-			line = sc.nextLine();
 
-		}
-		this.name = line_split[0];
-		this.phone = line_split[1];
+			Scanner sc = new Scanner(System.in);
+			String line = sc.nextLine();
+			String[] line_split = null;
+
+			//check if format is right
+    		if(line.contains("	") || line.contains(" ")) {
+    			//for the format of input String
+    			line_split = line.split("\t");
+    			if(line_split.length != 2) {
+    				System.out.println("입력하신 문자열이 올바르지 않습니다. 이름+<tab> 1개+전화번호의 형식에 맞춰서 정확히 입력하세요!");
+        			continue;
+    			}
+    		}else {
+    			System.out.println("입력하신 문자열이 올바르지 않습니다. 이름+<tab> 1개+전화번호의 형식에 맞춰서 정확히 입력하세요.");
+    			continue;
+    		}
+    		
+    		if(line_split[0].matches("^[가-힣a-zA-Z ]*$")) {
+    			//for the format of reservation date
+    			this.name = line_split[0];
+    		}else {
+    			System.out.println("입력하신 이름이 올바르지 않습니다.\n");
+    			continue;
+    		}
+    		if(line_split[1].matches("^01(?:0|1)[-](?:\\d{3}|\\d{4})[-]\\d{4}$")||line_split[1].matches("^01(?:0|1)(?:\\d{3}|\\d{4})\\d{4}$")) {
+    			//for the format of reservation time
+    			this.phone = line_split[1];
+    		}else {
+    			System.out.println("입력하신 전화번호가 올바르지 않습니다.\n");
+    			continue;
+    		}
+    		break;
+    	}
+		
 		if (!this.phone.contains("-")) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(this.phone);
