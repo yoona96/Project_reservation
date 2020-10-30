@@ -15,6 +15,8 @@ public class Main {
         Reservation_Check rch = new Reservation_Check();
         Cancel_Reservation cr = new Cancel_Reservation();
         Validate validate = new Validate();
+        
+        String menu_choice;
 
         validate.check_all();
 
@@ -23,8 +25,8 @@ public class Main {
 
             Scanner input_scan = new Scanner(System.in);
             Scanner pwd_scan = new Scanner(System.in);
-            
-            String menu_choice = input_scan.next();
+
+            menu_choice = input_scan.next();
 
             if (menu_choice.matches("[1-7]")) {
                 int chosen_menu = Integer.parseInt(menu_choice);
@@ -57,6 +59,7 @@ public class Main {
                         case 7: {
                             String pwd = pwd_scan.nextLine();
                             if (password(pwd) == true) {
+                                validate.check_all();
 
                             } else {
                             	System.out.println("비밀번호가 올바르지 않습니다.\n");
@@ -99,6 +102,7 @@ public class Main {
     }
 
     public static void print_help() {
+        System.out.println("도움말 쓰기 귀찮아요");
 
     }
 
