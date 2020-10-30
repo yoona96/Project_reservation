@@ -131,13 +131,13 @@ public class Reservation_Check {
 					if (num != 0) {
 						price += (Integer.parseInt(menu[1][k - 6]) * num); // 가격에 주문 개수를 곱
 						if (k == 10)
-							System.out.println(menu[0][k - 6] + " " + num); // 메뉴 이름과 주문 개수를 출력
+							System.out.print(menu[0][k - 6] + " " + num); // 메뉴 이름과 주문 개수를 출력
 						else
 							System.out.print(menu[0][k - 6] + " " + num + ", "); // 메뉴 이름과 주문 개수를 출력
 					}
 				}
 				DecimalFormat formatter = new DecimalFormat("###,###");
-				System.out.println("결제 예정 금액: " + formatter.format(price) + "\n");
+				System.out.println("\n결제 예정 금액: " + formatter.format(price) + "\n");
 				price = 0;
 
 			}
