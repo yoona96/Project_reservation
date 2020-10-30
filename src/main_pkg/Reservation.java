@@ -1,5 +1,6 @@
 package main_pkg;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -316,7 +317,7 @@ public class Reservation {
 			System.out.println("[17] ~ [20] : 6인용 좌석");
 			System.out.println("[//] : 예약 불가능한 좌석");
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
-			System.out.println("좌석을 자동으로 할당 받으시겠습니까? (y/n) : ");
+			System.out.print("좌석을 자동으로 할당 받으시겠습니까? (y/n) : ");
 
 			String table_choice = choose_table_input.next();
 
@@ -438,7 +439,7 @@ public class Reservation {
 			System.out.println("[//] : 예약 불가능한 좌석");
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
 
-			System.out.println("좌석 번호를 입력하세요: ");
+			System.out.print("좌석 번호를 입력하세요: ");
 			// 여기까지 거의 복붙
 
 			String inputed_table_num = table_num.nextLine();
@@ -525,7 +526,7 @@ public class Reservation {
 	}
 
 	private void input_inform() {
-		System.out.println("[예약정보]");
+		System.out.println("\n[예약정보]");
 		if (st_num1 == null) {
 			System.out.println("예약 좌석번호 : " + st_num0 + "번");
 		} else {
@@ -538,7 +539,7 @@ public class Reservation {
 
 		while (true) {
 			System.out.println("[필수 입력 정보]");
-			System.out.println("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
+			System.out.print("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
 
 			Scanner sc = new Scanner(System.in);
 			String line = sc.nextLine();
@@ -606,13 +607,14 @@ public class Reservation {
 			// 화면 출력
 			String temp_num;
 			stock_result_index = 0;
+			DecimalFormat formatter = new DecimalFormat("###,###");
 			price = 0;
-			System.out.println("--------------------------");
+			System.out.println("\n--------------------------");
 			System.out.println("\t메뉴 선택");
 			System.out.println("--------------------------");
-			System.out.println("[메뉴]\t[가격]\t[주문 가능 시간]");
+			System.out.println("[메뉴]\t[가격]\t\t[주문 가능 시간]");
 			for (int i = 0; i < 5; i++) {
-				System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
+				System.out.print(menu[0][i] + "\t￦" + formatter.format(Integer.parseInt(menu[1][i])) + "\t\t");
 				if (menu[3][i] != null) {// all이 아닌경우
 					String[] menu_time = menu[3][i].split("-");
 					System.out.println(menu_time[0] + ":00 ~ " + menu_time[1] + ":00");
@@ -704,19 +706,18 @@ public class Reservation {
 	private void menu_confirm() {
 
 		Scanner scan1 = new Scanner(System.in);
-
+		DecimalFormat formatter = new DecimalFormat("###,###");
 		while (true) {
-			System.out.println("------------------------------");
+			System.out.println("\n------------------------------");
 			System.out.println("\t주문 내역 확인");
 			System.out.println("------------------------------");
 			System.out.println("[메뉴]\t[가격]\t[주문 수량]");
 			for (int i = 0; i < 5; i++) {
-				System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
+				System.out.println(
+						menu[0][i] + "\t￦" + formatter.format(Integer.parseInt(menu[1][i])) + "\t" + str_menu_num[i]);
 				price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
 			}
-			System.out.println();
-
-			System.out.println("결제 예정 금액: " + price);
+			System.out.println("\n결제 예정 금액: ￦" + formatter.format(price) + "\n");
 			System.out.print("주문 내역을 확정하고 주문을 완료하시겠습니까?(y/n) :");
 			String menu_confirm = scan1.next();
 			String[] yorn_value = new String[0];
@@ -748,17 +749,22 @@ public class Reservation {
 
 	// 예약 확정
 	private void reservation_confirm() {
-
+		DecimalFormat formatter = new DecimalFormat("###,###");
 		Scanner scan2 = new Scanner(System.in);
-		// 이 부분은 위쪽이 완료되면 해당 변수로 채우면 됨 - 현재 테이블 번호 없음
+
 		while (true) {
 
-			System.out.println("\n--------------------------\n" + rsv + " 내역 확인\n------------------------------");
+			System.out.println("\n------------------------------\n\t" + rsv + " 내역 확인\n------------------------------");
 			System.out.println(rsv + "자 이름: " + this.name);
 			System.out.println("전화번호: " + this.phone);
 			System.out.println(rsv + " 시간: " + this.time + ":00 ~ " + (Integer.parseInt(this.time) + 2) + ":00");
-			System.out.println("인원 수: " + this.count);
-			System.out.println(rsv + " 좌석: " + 5);// this.table);
+			System.out.println("인원 수: " + this.count+"명");
+			System.out.print(rsv + " 좌석: ");
+			if (st_num1 == null) {
+				System.out.println(st_num0 + "번");
+			} else {
+				System.out.println(st_num0 + ", " + st_num1 + "번");
+			}
 			System.out.print("주문 메뉴: ");
 			for (int i = 0; i < 5; i++) {
 				if (int_menu_num[i] != 0) {
@@ -766,8 +772,7 @@ public class Reservation {
 				}
 			}
 			System.out.println();
-
-			System.out.println("결제 예정 금액: \\" + price + "\n");
+			System.out.println("결제 예정 금액: ￦" + formatter.format(price) + "\n");
 			System.out.print(rsv + "을 확정하시겠습니까?(y/n): ");
 			String reservation_confirm = scan2.next();
 			String[] yorn_value = new String[0];
@@ -790,6 +795,8 @@ public class Reservation {
 		}
 		scan2.close();
 	}
+
+	
 
 	// 예약 취소
 	private void reservation_cancle_confirm() {
@@ -850,14 +857,12 @@ public class Reservation {
 		temp[8][time_fix][st_num0_fix] = Integer.toString(int_menu_num[2]);
 		temp[8][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[2]);
 
-		temp[9][time_fix][st_num0_fix] = Integer.toString(int_menu_num[2]);
-		temp[9][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[2]);
-
-		temp[10][time_fix][st_num0_fix] = Integer.toString(int_menu_num[3]);
-		temp[10][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[3]);
+		temp[9][time_fix][st_num0_fix] = Integer.toString(int_menu_num[3]);
+		temp[9][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[3]);
 
 		temp[10][time_fix][st_num0_fix] = Integer.toString(int_menu_num[4]);
 		temp[10][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[4]);
+
 
 		if (st_num1 != null) {
 			int st_num1_fix = Integer.parseInt(st_num1) - 1;
@@ -880,11 +885,8 @@ public class Reservation {
 			temp[8][time_fix][st_num1_fix] = Integer.toString(int_menu_num[2]);
 			temp[8][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[2]);
 
-			temp[9][time_fix][st_num1_fix] = Integer.toString(int_menu_num[2]);
-			temp[9][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[2]);
-
-			temp[10][time_fix][st_num1_fix] = Integer.toString(int_menu_num[3]);
-			temp[10][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[3]);
+			temp[9][time_fix][st_num1_fix] = Integer.toString(int_menu_num[3]);
+			temp[9][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[3]);
 
 			temp[10][time_fix][st_num1_fix] = Integer.toString(int_menu_num[4]);
 			temp[10][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[4]);
@@ -893,10 +895,10 @@ public class Reservation {
 		file2.tb.set_day(temp);
 
 		// 예약정보 file에 저장
-		file2.write_file(this.date);// 테이블번호));
+		file2.write_file(this.date);
+		// 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
 		file2.read_menu();
 		menu = file2.tb.get_menu();
-		// 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
 		for (int i = 0; i < 5; i++) {
 			if (int_menu_num[i] != 0) {
 				int origin_stock = Integer.parseInt(menu[2][i]);

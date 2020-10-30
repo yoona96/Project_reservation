@@ -137,7 +137,7 @@ public class Reservation_Check {
 					}
 				}
 				DecimalFormat formatter = new DecimalFormat("###,###");
-				System.out.println("\n결제 예정 금액: " + formatter.format(price) + "\n");
+				System.out.println("\n결제 예정 금액: ￦" + formatter.format(price) + "\n");
 				price = 0;
 
 			}
