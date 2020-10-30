@@ -12,6 +12,7 @@ public class Reservation_Change {
 	int[] int_menu_num = new int[5];//menu info before changing int array
 	private ArrayList<int[]> user_inform[]=new ArrayList[3];
 	private int time_inform,table_inform;
+	private boolean is_attached;
 	
 	Scanner s =new Scanner(System.in);
 	Reservation rsv= new Reservation();
@@ -54,21 +55,18 @@ public class Reservation_Change {
 		String temp[][][]=new String[11][11][20];
 		temp=fi.tb.get_day();
 		
-		int i_table1=Integer.parseInt(table1)-1;
-		int i_time=Integer.parseInt(time)-10;
-		temp[2][i_time][i_table1]="0";
-		temp[2][i_time+1][i_table1]="0";
+		temp[2][time_inform][table_inform]="0";
+		temp[2][time_inform+1][table_inform]="0";
 		for(int i=4;i<=10;i++) {
-			temp[i][i_time][i_table1]=null;
-			temp[i][i_time+1][i_table1]=null;
+			temp[i][time_inform][table_inform]=null;
+			temp[i][time_inform+1][table_inform]=null;
 		}
-		if(attached()) {		
-			int i_table2=Integer.parseInt(table2)-1;
-			temp[2][i_time][i_table2]="0";
-			temp[2][i_time+1][i_table2]="0";
+		if(is_attached) {		
+			temp[2][time_inform][table_inform+1]="0";
+			temp[2][time_inform+1][table_inform+1]="0";
 			for(int i=4;i<=10;i++) {
-				temp[i][i_time][i_table2]=null;
-				temp[i][i_time+1][i_table2]=null;
+				temp[i][time_inform][table_inform+1]=null;
+				temp[i][time_inform+1][table_inform]=null;
 			}
 		}
 		fi.tb.set_day(temp);
@@ -123,18 +121,24 @@ public class Reservation_Change {
 		while(true) {
 			String str[]=new String[2];
 			str=cr.input_reservation_date(); 
-			date=str[0]; //ex.20201029
+			date=str[0]; //ex.20201101
 			time=str[1]; //ex.13
 			File_IO fi=new File_IO();
-			String today=fi.get_date(0);
+
+			String today = fi.get_date(0); //20201031
+			String tomorrow= fi.get_date(1); //20201101
+			String after_tomorrow=fi.get_date(2); //20201102
+
 			int change_day=0;
 			
-			if(Integer.parseInt(date)==Integer.parseInt(today)+1) {
-				change_day=1; //tomorrow
-			}
-			else if(Integer.parseInt(date)==Integer.parseInt(today)+2)
-				change_day=2; //a day after tomorrow
-
+			if(date.equals(today))
+				change_day=0;
+			else if(date.equals(tomorrow))
+				change_day=1;
+			else if(date.equals(after_tomorrow))
+				change_day=2;
+			
+			System.out.println("change_day"+change_day);
 			String change_date = fi.get_date(change_day);
 			fi.read_file(change_date);
 			String[][][] db = fi.tb.get_day();
@@ -146,10 +150,11 @@ public class Reservation_Change {
 				//[][time_inform][table_infrom]형식
 				
 				String reserved_time = db[3][time_inform][table_inform];	// 예약된 정보 중 시간을 받아온다.
-				if(Integer.parseInt(reserved_time)==Integer.parseInt(time)) { //입력받은 시간과 같다면
+				System.out.println(reserved_time);
+				if(reserved_time.equals(time)) { //입력받은 시간과 같다면
 					count=db[2][time_inform][table_inform];
 					table1=db[0][time_inform][table_inform];
-					if(attached()) {
+					if(is_attached=attached()) {
 						table2=db[0][time_inform][table_inform+1];
 					}
 					

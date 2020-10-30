@@ -76,10 +76,20 @@ public class Cancel_Reservation {
 		File_IO IO = new File_IO();
 		
 		String today = IO.get_date(0);
+		String tomorrow= IO.get_date(1);
+		String after_tomorrow=IO.get_date(2);
 		int i_today = Integer.parseInt(today);
+		int i_tomorrow=Integer.parseInt(tomorrow);
+		int i_after_tomorrow=Integer.parseInt(after_tomorrow);
 		int i_date = Integer.parseInt(input_date);
-		int gab = i_date - i_today;
-		
+		int gab=0;
+		if(i_date==i_today)
+			gab=0;
+		else if(i_date==i_tomorrow)
+			gab=1;
+		else if(i_date==i_after_tomorrow)
+			gab=2;
+			
 		String date = IO.get_date(gab);
 		IO.read_file(date);
 		String[][][] db = IO.tb.get_day();
