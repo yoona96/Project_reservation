@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
+
 import main_pkg.File_IO;
 import main_pkg.textDB;
 import main_pkg.File_IO;
@@ -63,6 +64,10 @@ public class Reservation {
     		if(reservation_input.contains("	") || reservation_input.contains(" ")) {
     			//for the format of input String
     			input_value = reservation_input.trim().split("	");
+    			if(input_value.length != 3) {
+    				System.out.println("입력하신 문자열이 올바르지 않습니다. <예약 희망일> + <tab> 1개 + <시간> + <tab> 1개 + <인원수>에 알맞은 형식으로 문자열을 입력해주세요!\n");
+        			continue;
+    			}
     		}else {
     			System.out.println("입력하신 문자열이 올바르지 않습니다. <예약 희망일> + <tab> 1개 + <시간> + <tab> 1개 + <인원수>에 알맞은 형식으로 문자열을 입력해주세요!\n");
     			continue;
@@ -81,12 +86,17 @@ public class Reservation {
     			System.out.println("입력하신 문자열이 올바르지 않습니다. <시간>은 hh 또는 hh:00 또는 hh시의 형식으로 입력해주세요!\n");
     			continue;
     		}
-    		if(Integer.parseInt(input_value[2]) >=1 && Integer.parseInt(input_value[2]) <= 12) { //for the format of reservation count
-    			reserv_count = input_value[2];
-    		}else {
-    			System.out.println("입력하신 문자열이 올바르지 않습니다. 예약 가능 인원은 최소 1명, 최대 12명입니다!\n");
-    			continue;
-    		}
+    		if(input_value[2].matches("[0-9]") || input_value[2].matches("[0-9][0-9]")) {
+                if(Integer.parseInt(input_value[2]) >=1 && Integer.parseInt(input_value[2]) <= 12) { //for the format of reservation count
+                    reserv_count = input_value[2];
+                 }else {
+                    System.out.println("입력하신 문자열이 올바르지 않습니다. 예약 가능 인원은 최소 1명, 최대 12명입니다!\n");
+                    continue;
+                 }
+             }else {
+                System.out.println("입력하신 문자열이 올바르지 않습니다. <>은 hh 또는 hh:00 또는 hh시의 형식으로 입력해주세요!\n");
+                continue;
+             }
 
 			sub_time = reserv_time.substring(0, 2);
 
