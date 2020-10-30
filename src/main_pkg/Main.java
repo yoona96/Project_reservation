@@ -92,6 +92,8 @@ public class Main {
         System.out.println("7. 무결성 검사\n");
         System.out.print("원하시는 번호를 선택하세요: ");
     }
+    
+   
 
     private static boolean password(String pwd) {
 
@@ -102,8 +104,28 @@ public class Main {
     }
 
     public static void print_help() {
-        System.out.println("도움말 쓰기 귀찮아요");
-
+        System.out.println("1. 프로그램 안내");
+        System.out.println("- 예약제로만 운영되는 레스토랑을 위한 예약 프로그램입니다.");
+        System.out.println("- 해당 프로그램에서는 고객분들을 위해 예약, 예약 조회, 예약 취소, 예약 변경 총 네가지 기능을 제공합니다.");
+        System.out.println("");
+        System.out.println("2. 레스토랑 이용 정보");
+        System.out.println("- 레스토랑의 영업 시간은 10:00 ~ 22:00입니다.");
+        System.out.println("- 2인 테이블 6개, 4인 테이블 10개, 6인 테이블 4개로 총 20개의 테이블이 존재합니다. 동시 최대 수용 가능 인원은 76인입니다.");
+        System.out.println("- 하나의 예약 건당 최대 예약 가능한 인원은 12명입니다.");
+        System.out.println("");
+        System.out.println("3. 예약 관련 정보");
+        System.out.println("- 당일 방문 건에 대한 예약은 불가능하며, 예약 접수일로부터 최대 이틀 후까지 가능합니다.");
+        System.out.println("- 이미 확정하신 예약에 대해, 예약하셨던 당일에 방문하셔서 변경하시거나 취소하시는 것은 불가능하며, 최소 하루 전에 진행해 주셔야 합니다. ");
+        System.out.println("- 예약 시 예약 당일에 이용하고자 하는 코스 요리를 함께 주문해 주셔야 합니다.");
+        System.out.println("");
+        System.out.println("4. 메뉴 관련 정보");
+        System.out.println("- 이용 가능한 코스 요리는 총 5가지입니다.");
+        System.out.println("- 런치의 경우 11:00~14:00, 디너의 경우 17:00~20:00에 이용 가능합니다.");
+        System.out.println("- 런치와 디너를 제외한 나머지 3가지 코스 요리는 이용 시간에 제약이 없으며, 레스토랑의 사정에 따라 변동될 수 있습니다.");
+        System.out.println("");
+        System.out.println("5. 관리자 전용 메뉴");
+        System.out.println("- 메인 메뉴의 5. 프로그램 종료와 7. 무결성 검사는 관리자 전용 메뉴입니다. 해당 메뉴를 이용하기 위해서는 추가적인 접근 권한이 필요합니다.");
+        System.out.println("");
     }
 
 }

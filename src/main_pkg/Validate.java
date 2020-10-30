@@ -108,7 +108,7 @@ public class Validate {
 		for (int i = 0; i < temp.length; i++) {
 			switch (i) {
 			case 0: { // 테이블 번호
-				if (Integer.parseInt(temp[i]) >= 1 && Integer.parseInt(temp[i]) <= 20)
+				if (temp[i].matches("^[0-9]*$")&&Integer.parseInt(temp[i]) >= 1 && Integer.parseInt(temp[i]) <= 20)
 					break;
 				else {
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
@@ -117,7 +117,7 @@ public class Validate {
 
 			}
 			case 1: { // 테이블 인원수
-				if (Integer.parseInt(temp[i]) == 2 || Integer.parseInt(temp[i]) == 4
+				if (temp[i].matches("^[0-9]*$")&&Integer.parseInt(temp[i]) == 2 || Integer.parseInt(temp[i]) == 4
 						|| Integer.parseInt(temp[i]) == 6) {
 					if (Integer.parseInt(temp[i]) == 2)
 						two++;
@@ -132,7 +132,7 @@ public class Validate {
 				}
 			}
 			case 2: { // 예약 인원 수
-				if (Integer.parseInt(temp[i]) >= 0 && Integer.parseInt(temp[i]) <= 12)
+				if (temp[i].matches("^[0-9]*$")&&Integer.parseInt(temp[i]) >= 0 && Integer.parseInt(temp[i]) <= 12)
 					break;
 				else {
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
@@ -141,7 +141,7 @@ public class Validate {
 
 			}
 			case 3: {// 시간
-				if (Integer.parseInt(temp[i]) >= 10 && Integer.parseInt(temp[i]) <= 20)
+				if (temp[i].matches("^[0-9]*$")&&Integer.parseInt(temp[i]) >= 10 && Integer.parseInt(temp[i]) <= 20)
 					break;
 				else {
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
