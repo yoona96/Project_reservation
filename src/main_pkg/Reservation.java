@@ -480,7 +480,9 @@ public class Reservation {
 		if(rsv.equals("예약 변경")) {
 			choose_menu();
 		}
-		input_inform();
+		else {
+			input_inform();
+		}
 	}
 
 	private void auto_table() {
@@ -495,7 +497,12 @@ public class Reservation {
 			this.st_num0 =sp[0];
 			this.st_num1 = sp[1];
 			System.out.println("할당된 테이블은 [" + st_num0 + "], [" + st_num1 + "]번 입니다.");
-			input_inform();
+			if(rsv.equals("예약 변경")) {
+				choose_menu();
+			}
+			else {
+				input_inform();
+			}
 		}
 		else{
 			this.st_num0 = available_table[0];
@@ -503,7 +510,9 @@ public class Reservation {
 			if(rsv.equals("예약 변경")) {
 				choose_menu();
 			}
-			input_inform();
+			else {
+				input_inform();
+			}
 		}
 	}
 

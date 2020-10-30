@@ -11,7 +11,7 @@ public class Reservation_Change {
 	private String date,time,table1,table2,count; //index of the old reservation
 	int[] int_menu_num = new int[5];//menu info before changing int array
 	private ArrayList<int[]> user_inform[]=new ArrayList[3];
-	private String temp[]=new String[11];
+	private int time_inform,table_inform;
 	
 	Scanner s =new Scanner(System.in);
 	Reservation rsv= new Reservation();
@@ -49,52 +49,38 @@ public class Reservation_Change {
 	}
 	
 	private void delete_old_reservation() {
-		try {
-			File file=new File(v.get_directory()+date+".txt");
-			FileReader fr=new FileReader(file);
-			BufferedReader br=new BufferedReader(fr);
-			String line="";
-			String new_line="";
-			String time2=Integer.toString(Integer.parseInt(time+1));
-			
-			if(attached()) {
-				while((line=br.readLine())!=null) { //read file
-					if(line.trim().split("\t")[0].equals(table1)||line.trim().split("\t")[0].equals(table2)) {
-						if(line.trim().split("\t")[3].equals(time)||line.trim().split("\t")[3].equals(time2))
-							new_line+=line.trim().split("\t")[0]+"\t"+line.trim().split("\t")[1]+"\t0\t"+line.trim().split("\t")[3]+"\n";
-					}
-					new_line+=line+"\n";
-				}
-			}
-			else {
-				while((line=br.readLine())!=null) { //read file
-					if(line.trim().split("\t")[0].equals(table1)) {
-						if(line.trim().split("\t")[3].equals(time))
-							new_line+=line.trim().split("\t")[0]+"\t"+line.trim().split("\t")[1]+"\t0\t"+line.trim().split("\t")[3]+"\n";
-					}
-					new_line+=line+"\n";
-				}
-			}
-			
-			
-			FileWriter fw=new FileWriter(file);
-			fw.write(new_line); //overwrite file with new_line
-			
-			fr.close();
-			br.close();
-			fw.close();
-			
-		}catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		
-		
 		File_IO fi=new File_IO();
-		fi.read_menu();
+		fi.read_file(date);
+		String temp[][][]=new String[11][11][20];
+		temp=fi.tb.get_day();
+		
+		int i_table1=Integer.parseInt(table1)-1;
+		int i_time=Integer.parseInt(time)-10;
+		temp[2][i_time][i_table1]="0";
+		temp[2][i_time+1][i_table1]="0";
+		for(int i=4;i<=10;i++) {
+			temp[i][i_time][i_table1]=null;
+			temp[i][i_time+1][i_table1]=null;
+		}
+		if(attached()) {		
+			int i_table2=Integer.parseInt(table2)-1;
+			temp[2][i_time][i_table2]="0";
+			temp[2][i_time+1][i_table2]="0";
+			for(int i=4;i<=10;i++) {
+				temp[i][i_time][i_table2]=null;
+				temp[i][i_time+1][i_table2]=null;
+			}
+		}
+		fi.tb.set_day(temp);
+		fi.write_file(date);
+		
+	
+		
+		
+		File_IO fi2=new File_IO();
+		fi2.read_menu();
 		String[][] menu = new String[4][5]; //menu file array
-	    menu = fi.tb.get_menu();
+	    menu = fi2.tb.get_menu();
 	    for (int i = 0; i < 5; i++) {
 	        if (int_menu_num[i] != 0) {
 	           int origin_stock = Integer.parseInt(menu[2][i]);
@@ -155,19 +141,16 @@ public class Reservation_Change {
 			
 			for(int i =0; i<user_inform[change_day].size(); i=i+2) { // 예약은 두시간씩 묶음으로 저장되니, 예약 시작시간만 입력받도록 한다.
 				int[] pos = user_inform[change_day].get(i);	// user_inform[change_day]에 있는 정보 값을 하나씩 불러온다
-				int table_inform = pos[1];	//만약 붙어있는 좌석이라면 7,8 중 7번째 테이블 값을 가져온다
-				int time_inform = pos[0];	//예약 시작 시간
+				table_inform = pos[1];	//만약 붙어있는 좌석이라면 7,8 중 7번째 테이블 값을 가져온다
+				time_inform = pos[0];	//예약 시작 시간
 				//[][time_inform][table_infrom]형식
 				
 				String reserved_time = db[3][time_inform][table_inform];	// 예약된 정보 중 시간을 받아온다.
 				if(Integer.parseInt(reserved_time)==Integer.parseInt(time)) { //입력받은 시간과 같다면
 					count=db[2][time_inform][table_inform];
+					table1=db[0][time_inform][table_inform];
 					if(attached()) {
-						table1=db[0][time_inform][table_inform];
 						table2=db[0][time_inform][table_inform+1];
-					}
-					else {
-						table1=db[0][time_inform][table_inform];
 					}
 					
 					name=db[4][time_inform][table_inform];
@@ -177,6 +160,7 @@ public class Reservation_Change {
 					int_menu_num[2]=Integer.parseInt(db[8][time_inform][table_inform]);
 					int_menu_num[3]=Integer.parseInt(db[9][time_inform][table_inform]);
 					int_menu_num[4]=Integer.parseInt(db[10][time_inform][table_inform]);
+					break;
 				}
 					
 					
@@ -191,7 +175,9 @@ public class Reservation_Change {
 			}
 			else {
 				System.out.println("예약정보가 존재하지 않습니다. 선택한 예약 일자와 시간을 다시 한번 확인 후 입력바랍니다.");
+				continue;
 			}
+			return; //go to main
 		}
 
 	}
