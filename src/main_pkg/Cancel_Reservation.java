@@ -138,6 +138,8 @@ public class Cancel_Reservation {
 		File_IO IO = new File_IO();
 		IO.read_file(date);
 		String temp[][][] = new String[11][11][20];
+		temp = IO.tb.get_day();
+		int int_menu_num[]=new int[5];
 		
 		int i_table_number = Integer.parseInt(table_number);
 		i_table_number--;
@@ -150,18 +152,71 @@ public class Cancel_Reservation {
 		int i_time = Integer.parseInt(time);
 		i_time = i_time-10;
 		
+		String count=temp[2][i_time][i_table_number];
+		for(int i=0;i<5;i++) {
+			int_menu_num[i]=Integer.parseInt(temp[6+i][i_time][i_table_number]);
+		}
+		
 		for(int i=0; i<2; i++) {
-			temp = IO.tb.get_day();
 			temp[0][i_time+i][i_table_number] = table_number;
 			temp[1][i_time+i][i_table_number] = table_size;
 			temp[2][i_time+i][i_table_number] = "0";
 			temp[3][i_time+i][i_table_number] = time;
 			for (int j=4;j<11;j++){
-	          temp[j][i_time+i][i_table_number] =null;
+				temp[j][i_time+i][i_table_number] =null;
 			}
-			IO.tb.set_day(temp);
-			IO.write_file(date);
 		}
+		if(attached(count)) {
+			for(int i=0; i<2; i++) {
+				temp[0][i_time+i][i_table_number+1] = table_number;
+				temp[1][i_time+i][i_table_number+1] = table_size;
+				temp[2][i_time+i][i_table_number+1] = "0";
+				temp[3][i_time+i][i_table_number+1] = time;
+				for (int j=4;j<11;j++){
+		          temp[j][i_time+i][i_table_number+1] =null;
+				}
+			}
+		}
+		IO.tb.set_day(temp);
+		IO.write_file(date);
+		
+		File_IO IO2=new File_IO();
+		IO2.read_menu();
+		String[][] menu = new String[4][5]; //menu file array
+	    menu = IO2.tb.get_menu();
+	    for (int i = 0; i < 5; i++) {
+	        if (int_menu_num[i] != 0) {
+	           int origin_stock = Integer.parseInt(menu[2][i]);
+	           int new_stock = origin_stock + int_menu_num[i];
+	           menu[2][i] = Integer.toString(new_stock);
+	           //재고 정보 update
+	           IO2.tb.set_menu(menu);
+	           IO2.write_menu();
+	       }
+	    }
 
+	}
+	private boolean attached(String count) {
+		int i_table1=Integer.parseInt(table_number);
+		int i_count=Integer.parseInt(count);
+		if(i_table1>=1&&i_table1<=5) {//2인용 좌석인데
+			if(i_count>2&&i_count<=4) //3,4명이라면
+				return true;
+			else
+				return false;
+		}
+		else if(i_table1>=7&&i_table1<=15) {//4인용 좌석인데
+			if(i_count>4&&i_count<=8) //인원수가 5~8명이라면
+				return true;
+			else
+				return false;
+		}
+		else if(i_table1>=17&&i_table1<=19) { //6인용 좌석인데
+			if(i_count>7&&i_count<=12) //인원수가 9~12명이라면
+				return true;
+			else
+				return false;
+		}
+		return false;
 	}
 }

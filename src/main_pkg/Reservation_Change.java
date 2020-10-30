@@ -85,8 +85,8 @@ public class Reservation_Change {
 	           int new_stock = origin_stock + int_menu_num[i];
 	           menu[2][i] = Integer.toString(new_stock);
 	           //재고 정보 update
-	           fi.tb.set_menu(menu);
-	           fi.write_menu();
+	           fi2.tb.set_menu(menu);
+	           fi2.write_menu();
 	       }
 	    }
 		
