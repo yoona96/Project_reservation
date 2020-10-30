@@ -32,7 +32,7 @@ public class Cancel_Reservation {
 		String input_time;
 		
 		Scanner scan = new Scanner(System.in);
-		System.out.println("예약일자와 시간을 입력해주세요(ex: 20201012	13) : ");
+		System.out.print("예약일자와 시간을 입력해주세요(ex: 20201012	13) : ");
 		
 		while(true) {
 		String reservation_input = scan.nextLine();

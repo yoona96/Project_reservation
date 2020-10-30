@@ -28,7 +28,7 @@ public class Reservation_Change {
 	
 	private boolean confirm_change() {
 		while(true) {
-			System.out.println("선택하신 예약정보를 변경하시겠습니까?");	
+			System.out.print("선택하신 예약정보를 변경하시겠습니까?(y/n): ");	
 			String confirm = s.next();
 	        String[] yorn_value = new String[0];
 	
