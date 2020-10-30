@@ -14,10 +14,6 @@ import main_pkg.File_IO;
 
 public class Reservation {
 
-	String[] input_value = new String[0];
-	File_IO file = new File_IO();
-	textDB db = new textDB();
-
     private String count, date, time;
     private String name;
     private String phone;
@@ -669,7 +665,7 @@ public class Reservation {
 	            } else {
 	               String[] menu_time = menu[3][i].split("-");
 	               if ((Integer.parseInt(this.time) < Integer.parseInt(menu_time[0]))
-	                     || (Integer.parseInt(menu_time[1]) < Integer.parseInt(this.time + 2))) {// 주문가능시간 // 벗어남
+	                     || Integer.parseInt(this.time)>(Integer.parseInt(menu_time[1]))) {// 주문가능시간 // 벗어남
 	                  return i;
 	               }
 	            }
