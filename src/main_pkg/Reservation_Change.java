@@ -66,7 +66,7 @@ public class Reservation_Change {
 			temp[2][time_inform+1][table_inform+1]="0";
 			for(int i=4;i<=10;i++) {
 				temp[i][time_inform][table_inform+1]=null;
-				temp[i][time_inform+1][table_inform]=null;
+				temp[i][time_inform+1][table_inform+1]=null;
 			}
 		}
 		fi.tb.set_day(temp);
@@ -149,7 +149,6 @@ public class Reservation_Change {
 				//[][time_inform][table_infrom]형식
 				
 				String reserved_time = db[3][time_inform][table_inform];	// 예약된 정보 중 시간을 받아온다.
-				System.out.println(reserved_time);
 				if(reserved_time.equals(time)) { //입력받은 시간과 같다면
 					count=db[2][time_inform][table_inform];
 					table1=db[0][time_inform][table_inform];
