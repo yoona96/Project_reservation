@@ -634,13 +634,38 @@ public class Reservation {
 				str_menu_num = temp_num.trim().split("\t");
 			}
 			// 문법 규칙 위배시
+			boolean grammer = true;
+			for (int i = 0; i < 5; i++) {
+				try {
+					if ((Integer.parseInt(str_menu_num[i]) < 0) || (str_menu_num.length != 5)) {
+						System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
+						grammer = false;
+						break;
+					}
+				} catch (NumberFormatException e) {
+					System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
+					grammer = false;
+					break;
+				}
+			}
+			if(!grammer) {
+				continue;
+			}
+			
+			/*if (!temp_num.matches(patterns1 + patterns0 + patterns1 + patterns0 + patterns1 + patterns0 + patterns1
+					+ patterns0 + patterns1) || (str_menu_num.length != 5)) {
+				System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
+				continue;
+			}
+
 			if (temp_num.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1
 					+ patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns2 + patterns3 + patterns3
 					+ patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3
 					+ patterns1) || (str_menu_num.length != 5)) {
 				System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
 				continue;
-			}
+			}*/
+
 			// 사용자가 입력한 주문 수량 integer 배열에 저장
 			for (int i = 0; i < 5; i++) {
 				int_menu_num[i] = Integer.parseInt(str_menu_num[i]);
@@ -758,7 +783,7 @@ public class Reservation {
 			System.out.println(rsv + "자 이름: " + this.name);
 			System.out.println("전화번호: " + this.phone);
 			System.out.println(rsv + " 시간: " + this.time + ":00 ~ " + (Integer.parseInt(this.time) + 2) + ":00");
-			System.out.println("인원 수: " + this.count+"명");
+			System.out.println("인원 수: " + this.count + "명");
 			System.out.print(rsv + " 좌석: ");
 			if (st_num1 == null) {
 				System.out.println(st_num0 + "번");
@@ -795,8 +820,6 @@ public class Reservation {
 		}
 		scan2.close();
 	}
-
-	
 
 	// 예약 취소
 	private void reservation_cancle_confirm() {
@@ -862,7 +885,6 @@ public class Reservation {
 
 		temp[10][time_fix][st_num0_fix] = Integer.toString(int_menu_num[4]);
 		temp[10][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[4]);
-
 
 		if (st_num1 != null) {
 			int st_num1_fix = Integer.parseInt(st_num1) - 1;
