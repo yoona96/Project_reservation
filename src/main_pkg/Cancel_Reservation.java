@@ -61,7 +61,7 @@ public class Cancel_Reservation {
 			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
-		if(input_value[1].matches("[0-9][0-9]") || input_value[1].matches("[0-9][0-9]:00") || input_value[1].matches("[0-9][0-9]��")) {
+		if(input_value[1].matches("[0-9][0-9]") || input_value[1].matches("[0-9][0-9]:00") || input_value[1].matches("[0-9][0-9]시")) {
 			//for the format of reservation time
 			reserv_time = input_value[1];
 		}else {
@@ -118,8 +118,8 @@ public class Cancel_Reservation {
 	
 	private void confirm_cancel() {	//	예약 취소를 확정짓는 메소드
 		Scanner scan = new Scanner(System.in);
-		System.out.print("정말 예약을 취소하시겠습니까? (y/n): ");
 		while(true) {
+			System.out.print("정말 예약을 취소하시겠습니까? (y/n): ");
 			String reservation_cancel = scan.next();
 	        String[] yorn_value = new String[0];
 	        
