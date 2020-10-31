@@ -257,7 +257,7 @@ public class Reservation {
 		while (true) {
 
 			System.out.println("\n" + tmp_date_arr[0] + "년 " + tmp_date_arr[1] + "월 " + tmp_date_arr[2] + "일 " + time
-					+ "시 예약 가능 좌석 현황");
+					+ "시 "+rsv+" 가능 좌석 현황");
 			System.out.println("--------------------------------------------------");
 
 			// if any available table exists, table view array will be adding . to the table
@@ -315,7 +315,7 @@ public class Reservation {
 			System.out.println("[01] ~ [06] : 2인용 좌석");
 			System.out.println("[07] ~ [16] : 4인용 좌석");
 			System.out.println("[17] ~ [20] : 6인용 좌석");
-			System.out.println("[//] : 예약 불가능한 좌석");
+			System.out.println("[//] : "+rsv+" 불가능한 좌석");
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
 			System.out.print("좌석을 자동으로 할당 받으시겠습니까? (y/n) : ");
 
@@ -378,7 +378,7 @@ public class Reservation {
 		while (true) {
 
 			System.out.println("\n" + tmp_date_arr[0] + "년 " + tmp_date_arr[1] + "월 " + tmp_date_arr[2] + "일 " + time
-					+ "시 예약 가능 좌석 현황");
+					+ "시 "+rsv+" 가능 좌석 현황");
 			System.out.println("--------------------------------------------------");
 
 			// if any available table exists, table view array will be adding . to the table
@@ -436,7 +436,7 @@ public class Reservation {
 			System.out.println("[01] ~ [06] : 2인용 좌석");
 			System.out.println("[07] ~ [16] : 4인용 좌석");
 			System.out.println("[17] ~ [20] : 6인용 좌석");
-			System.out.println("[//] : 예약 불가능한 좌석");
+			System.out.println("[//] : "+rsv+" 불가능한 좌석");
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
 
 			System.out.print("좌석 번호를 입력하세요: ");

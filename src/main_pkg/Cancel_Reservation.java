@@ -32,9 +32,9 @@ public class Cancel_Reservation {
 		String input_time;
 		
 		Scanner scan = new Scanner(System.in);
-		System.out.print("예약일자와 시간을 입력해주세요(ex: 20201012	13) : ");
 		
 		while(true) {
+		System.out.print("예약일자와 시간을 입력해주세요(ex: 20201012	13) : ");
 		String reservation_input = scan.nextLine();
 		String[] input_value = null;
 		
@@ -65,7 +65,7 @@ public class Cancel_Reservation {
 		input_date = reserv_date.replace("-", "");
 		input_time = reserv_time.substring(0, 2);
 		break;	
-	}
+		}
 		String[] input_data = new String[2];
 		input_data[0] = input_date;
 		input_data[1] = input_time;
@@ -89,7 +89,7 @@ public class Cancel_Reservation {
 			gab=1;
 		else if(i_date==i_after_tomorrow)
 			gab=2;
-			
+		
 		String date = IO.get_date(gab);
 		IO.read_file(date);
 		String[][][] db = IO.tb.get_day();
@@ -111,8 +111,8 @@ public class Cancel_Reservation {
 	
 	private void confirm_cancel() {	//	예약 취소를 확정짓는 메소드
 		Scanner scan = new Scanner(System.in);
-		System.out.print("정말 예약을 취소하시겠습니까? (y/n): ");
 		while(true) {
+			System.out.print("정말 예약을 취소하시겠습니까? (y/n): ");
 			String reservation_cancel = scan.next();
 	        String[] yorn_value = new String[0];
 	        
