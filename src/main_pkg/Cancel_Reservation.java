@@ -15,13 +15,19 @@ public class Cancel_Reservation {
 	public void cancel_reservation_main() {	
 		Reservation_Check RC = new Reservation_Check();	
 		user_inform = RC.show_reservation_inform("Cancel");	// Get Reserved information
-		user_time_data = input_reservation_date();	// Get user_input information
-		date = user_time_data[0];	
-		time = user_time_data[1];
-		boolean is_exist_reservatrion = compare_reservation_date(user_inform,date,time); // Checked for match between Reserved information and user_input information		
-		
-		if (is_exist_reservatrion)
-			confirm_cancel();
+		while(true) {
+			user_time_data = input_reservation_date();	// Get user_input information
+			date = user_time_data[0];	
+			time = user_time_data[1];
+			boolean is_exist_reservatrion = compare_reservation_date(user_inform,date,time); // Checked for match between Reserved information and user_input information		
+			if (is_exist_reservatrion) {
+				confirm_cancel();
+				break;
+			}
+			else {
+				continue;
+			}
+		}
 	}
 
 	public String[] input_reservation_date() {	//	사용자로부터 예약을 변경하려는 날짜와 시간을 입력받아서 1차원 배열에 저장한다.
@@ -32,9 +38,10 @@ public class Cancel_Reservation {
 		String input_time;
 		
 		Scanner scan = new Scanner(System.in);
-		System.out.print("예약일자와 시간을 입력해주세요(ex: 20201012	13) : ");
+		
 		
 		while(true) {
+		System.out.print("예약일자와 시간을 입력해주세요(ex: 20201012	13) : ");
 		String reservation_input = scan.nextLine();
 		String[] input_value = null;
 		
@@ -104,7 +111,7 @@ public class Cancel_Reservation {
 				return true;	
 			}
 		}
-		System.out.println("예약정보가 존재하지 않습니다. 정확한 예약자의 이름과 전화번호를 입력해주세요");
+		System.out.println("예약정보가 존재하지 않습니다. 선택한 예약 일자와 시간을 다시 한번 확인 후 입력 바랍니다.");
 		return false;
 				
 	}
