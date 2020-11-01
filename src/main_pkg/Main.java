@@ -99,8 +99,12 @@ public class Main {
 
     private static boolean password(String pwd) {
 
-        if (pwd.trim().equals("1234"))
-     
+        if (pwd.trim().equals("1234")) {
+        	return true;
+        }
+        return false;
+        
+    }
 
     
     public static void print_help() {
