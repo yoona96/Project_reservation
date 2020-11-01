@@ -28,7 +28,7 @@ public class Main {
 
             menu_choice = input_scan.next();
 
-            if (menu_choice.matches("[1-7]")) {
+            if (menu_choice.trim().matches("[1-7]")) {
                 int chosen_menu = Integer.parseInt(menu_choice);
                 if (chosen_menu >= 1 && chosen_menu <= 7) {
                     switch (chosen_menu) {

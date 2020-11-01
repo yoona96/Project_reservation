@@ -86,10 +86,8 @@ public class Reservation {
 				continue;
 			}
 			if (input_value[2].matches("[0-9]") || input_value[2].matches("[0-9][0-9]")) {
-				if (Integer.parseInt(input_value[2]) >= 1 && Integer.parseInt(input_value[2]) <= 12) { // for the format
-																										// of
-																										// reservation
-																										// count
+				if (Integer.parseInt(input_value[2]) >= 1 && Integer.parseInt(input_value[2]) <= 12) {
+					// for the format of reservation count
 					reserv_count = input_value[2];
 				} else {
 					System.out.println("입력하신 문자열이 올바르지 않습니다. 예약 가능 인원은 최소 1명, 최대 12명입니다!\n");
