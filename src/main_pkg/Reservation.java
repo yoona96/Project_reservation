@@ -556,6 +556,14 @@ public class Reservation {
 				System.out.println("입력하신 이름이 올바르지 않습니다.\n");
 				continue;
 			}
+			
+			if (this.name.length()<2) {
+				// for the format of reservation date
+				System.out.println("입력하신 이름이 올바르지 않습니다.\n");
+				continue;
+			} 
+			
+			
 			if (line_split[1].matches("^01(?:0|1)[-](?:\\d{3}|\\d{4})[-]\\d{4}$")
 					|| line_split[1].matches("^01(?:0|1)(?:\\d{3}|\\d{4})\\d{4}$")) {
 				// for the format of reservation time
