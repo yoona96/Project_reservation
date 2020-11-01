@@ -13,7 +13,7 @@ public class Reservation_Check {
 	private String phone_num;
 
 	private void input_inform(String section) throws UnsupportedEncodingException {
-		Scanner scan = new Scanner(System.in, "euc-kr");
+		Scanner scan = new Scanner(System.in,"euc-kr"); 
 
 		boolean check = true;
 
