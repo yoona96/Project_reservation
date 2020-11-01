@@ -549,7 +549,7 @@ public class Reservation {
 				continue;
 			}
 
-			if (line_split[0].matches("^[가-힣a-zA-Z ]*$")) {
+			if (line_split[0].matches("^[가-힣a-zA-Z]*$")) {
 				// for the format of reservation date
 				this.name = line_split[0];
 			} else {
