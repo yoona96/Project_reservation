@@ -53,7 +53,7 @@ public class File_IO {
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = " ";
-            String[][][] temp = new String[11][11][20];
+            String[][][] temp = new String[11][12][20];
             // 정보, 시간, 테이블
             int time = 0, table = 0;
 
@@ -95,7 +95,7 @@ public class File_IO {
             String temp = "";
             String change_line = "";
             for (int j =0;j<20;j++){
-                for (int k=0;k<11;k++){
+                for (int k=0;k<12;k++){
                     for (int i = 0; i < 11; i++) {
                         if(tb.get_day()[i][k][j] == null){
                             change_line += "";
@@ -201,7 +201,7 @@ public class File_IO {
                     FileWriter fw = new FileWriter(file, false);
                     String line = "";
                     for (int i = 1; i <= 20; i++) {
-                        for (int j = 10; j <= 20; j++) {
+                        for (int j = 10; j <= 21; j++) {
                             line += i + "\t";
                             if (1 <= i && i <= 6)
                                 line += 2 + "\t";
