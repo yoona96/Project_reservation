@@ -310,7 +310,7 @@ public class Reservation {
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
 			System.out.print("좌석을 자동으로 할당 받으시겠습니까? (y/n) : ");
 
-			String table_choice = choose_table_input.next();
+			String table_choice = choose_table_input.nextLine();
 
 			if (table_choice.equals("y")) {
 				auto_table();
