@@ -655,20 +655,6 @@ public class Reservation {
 				continue;
 			}
 			
-			/*if (!temp_num.matches(patterns1 + patterns0 + patterns1 + patterns0 + patterns1 + patterns0 + patterns1
-					+ patterns0 + patterns1) || (str_menu_num.length != 5)) {
-				System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
-				continue;
-			}
-
-			if (temp_num.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1
-					+ patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns2 + patterns3 + patterns3
-					+ patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3
-					+ patterns1) || (str_menu_num.length != 5)) {
-				System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
-				continue;
-			}*/
-
 			// 사용자가 입력한 주문 수량 integer 배열에 저장
 			for (int i = 0; i < 5; i++) {
 				int_menu_num[i] = Integer.parseInt(str_menu_num[i]);
@@ -736,6 +722,7 @@ public class Reservation {
 		Scanner scan1 = new Scanner(System.in);
 		DecimalFormat formatter = new DecimalFormat("###,###");
 		while (true) {
+			price = 0;
 			System.out.println("\n------------------------------");
 			System.out.println("\t주문 내역 확인");
 			System.out.println("------------------------------");
