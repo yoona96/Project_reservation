@@ -80,8 +80,8 @@ public class Reservation_Check {
 			db = file.tb.get_day();
 			user_inform[i] = new ArrayList();
 
-			for (int j = 0; j < 21; j++) {
-				for (int k = 0; k < 11; k++) {
+			for (int j = 0; j < 20; j++) {
+				for (int k = 0; k < 12; k++) {
 					if (user_name.equals(db[4][k][j]) && phone_num.equals(db[5][k][j])) {
 						int[] pos = new int[2]; // k와 j가 순서대로 들어갑니다.
 						pos[0] = k; // pos[0]: time
