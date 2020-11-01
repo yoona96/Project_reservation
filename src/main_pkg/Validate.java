@@ -182,7 +182,7 @@ public class Validate {
 			}
 			}
 		}
-		if(temp[2]=="0") { //빈 예약인데
+		if(temp[2].equals("0")) { //빈 예약인데
 			if(temp.length!=4) {
 				System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 				return false;
