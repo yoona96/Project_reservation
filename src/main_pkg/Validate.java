@@ -50,7 +50,7 @@ public class Validate {
 				while ((line = br.readLine()) != null) {
 					if (line.length() == 0)// 빈 줄이라면
 						continue;
-					if(line.trim().matches("\t{2,}") || line.trim().contains(" ")) {
+					if(line.trim().contains("		") || line.trim().contains(" ")) {
 						System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 						return false;
 						
@@ -183,14 +183,18 @@ public class Validate {
 			}
 		}
 		if(temp[2].equals("0")) { //빈 예약인데
-			if(temp.length!=4) {
+			if(temp.length>=5&&temp.length<=9) {
 				System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 				return false;
 			}
 				
 		}
 		else { //빈 예약이 아닌데
-			if(temp.length==4) {
+			if(temp.length<=4) { //아무 내용도 안 적혀있다면
+				System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
+				return false;
+			}
+			if(temp.length>=5&&temp.length<=9) {//사용자 정보가 다 안 적혀있다면
 				System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 				return false;
 			}
