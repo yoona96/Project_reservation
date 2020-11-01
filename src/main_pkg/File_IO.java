@@ -53,7 +53,7 @@ public class File_IO {
             FileReader file_reader = new FileReader(file);
             BufferedReader buffered_reader = new BufferedReader(file_reader);
             String line = " ";
-            String[][][] temp = new String[11][11][20];
+            String[][][] temp = new String[11][12][20];
             // 정보, 시간, 테이블
             int time = 0, table = 0;
 
@@ -61,11 +61,11 @@ public class File_IO {
 
                 String[] line_split = line.split("\t");
                 /* time이 10보다 커지면,(20시까지 모두 정보를 채웠다면) 다음 table을 1증가시킵니다. */
-                if(time > 10){
+                if(time > 11){
                     time = 0;
                     table++;
-                    if(table > 19){
-                     table =19;
+                    if(table > 20){
+                     table =20;
                     }
                 }
                 for (int i = 0; i < line_split.length; i++) {
@@ -95,7 +95,7 @@ public class File_IO {
             String temp = "";
             String change_line = "";
             for (int j =0;j<20;j++){
-                for (int k=0;k<11;k++){
+                for (int k=0;k<12;k++){
                     for (int i = 0; i < 11; i++) {
                         if(tb.get_day()[i][k][j] == null){
                             change_line += "";
