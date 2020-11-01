@@ -66,15 +66,15 @@ public class Validate {
 					
 				}
 
-				String buffer[] = asc_line.split("\n");
+				String buffer[] = asc_line.trim().split("\n");
 				Arrays.sort(buffer, new Comparator<String>() {
 					public int compare(String o1, String o2) {
-						int t1 = Integer.parseInt(o1.split("\t")[0]);
-						int t2 = Integer.parseInt(o2.split("\t")[0]);
+						int t1 = Integer.parseInt(o1.trim().split("\t")[0]);
+						int t2 = Integer.parseInt(o2.trim().split("\t")[0]);
 						if (t1 == t2) // 테이블 번호가 같다면 시간순으로 오름차순
-							return Integer.parseInt(o1.split("\t")[3]) - Integer.parseInt(o2.split("\t")[3]);
+							return Integer.parseInt(o1.trim().split("\t")[3]) - Integer.parseInt(o2.trim().split("\t")[3]);
 						else // 테이블 번호로 오름차순
-							return Integer.parseInt(o1.split("\t")[0]) - Integer.parseInt(o2.split("\t")[0]);
+							return Integer.parseInt(o1.trim().split("\t")[0]) - Integer.parseInt(o2.trim().split("\t")[0]);
 					}
 				}); // 오름차순 정렬
 				FileWriter fw = new FileWriter(file);
