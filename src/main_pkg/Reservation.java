@@ -532,7 +532,7 @@ public class Reservation {
 			System.out.println("[필수 입력 정보]");
 			System.out.print("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
 
-			Scanner sc = new Scanner(System.in);
+			Scanner sc = new Scanner(System.in,"euc-kr");
 			String line = sc.nextLine();
 			String[] line_split = null;
 
