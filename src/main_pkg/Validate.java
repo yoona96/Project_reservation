@@ -50,14 +50,20 @@ public class Validate {
 				while ((line = br.readLine()) != null) {
 					if (line.length() == 0)// 빈 줄이라면
 						continue;
+					if(line.trim().matches("\t{2,}") || line.trim().contains(" ")) {
+						System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
+						return false;
+						
+					}
+					String temp[]= line.trim().split("	");
 					asc_line += line + "\n";
-					String temp[] = line.trim().split("\t");
 					is = reservation_file_grammer(temp, date); // 한 줄씩 문법확인
 					if (!is) { // 오류가 있었다면 메소드를 종료합니다
 						br.close();
 						fr.close();
 						return false;
 					}
+					
 				}
 
 				String buffer[] = asc_line.split("\n");
@@ -105,10 +111,10 @@ public class Validate {
 	}
 
 	private boolean reservation_file_grammer(String[] temp, String date) {
-		for (int i = 0; i < temp.length; i++) {
+		for (int i = 0; i < temp.length; i++) { //요소 하나씩 검사
 			switch (i) {
 			case 0: { // 테이블 번호
-				if (temp[i].matches("^[0-9]*$")&&Integer.parseInt(temp[i]) >= 1 && Integer.parseInt(temp[i]) <= 20)
+				if (temp[i].matches("^[0-9]{1,2}$")&&Integer.parseInt(temp[i]) >= 1 && Integer.parseInt(temp[i]) <= 20)
 					break;
 				else {
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
@@ -117,7 +123,7 @@ public class Validate {
 
 			}
 			case 1: { // 테이블 인원수
-				if (temp[i].matches("^[0-9]*$")&&Integer.parseInt(temp[i]) == 2 || Integer.parseInt(temp[i]) == 4
+				if (temp[i].matches("^[0-9]{1}$")&&Integer.parseInt(temp[i]) == 2 || Integer.parseInt(temp[i]) == 4
 						|| Integer.parseInt(temp[i]) == 6) {
 					if (Integer.parseInt(temp[i]) == 2)
 						two++;
@@ -132,7 +138,7 @@ public class Validate {
 				}
 			}
 			case 2: { // 예약 인원 수
-				if (temp[i].matches("^[0-9]*$")&&Integer.parseInt(temp[i]) >= 0 && Integer.parseInt(temp[i]) <= 12)
+				if (temp[i].matches("^[0-9]{1,2}$")&&Integer.parseInt(temp[i]) >= 0 && Integer.parseInt(temp[i]) <= 12)
 					break;
 				else {
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
@@ -141,7 +147,7 @@ public class Validate {
 
 			}
 			case 3: {// 시간
-				if (temp[i].matches("^[0-9]*$")&&Integer.parseInt(temp[i]) >= 10 && Integer.parseInt(temp[i]) <= 20)
+				if (temp[i].matches("^[0-9]{2}$")&&Integer.parseInt(temp[i]) >= 10 && Integer.parseInt(temp[i]) <= 20)
 					break;
 				else {
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
@@ -174,6 +180,19 @@ public class Validate {
 					return false;
 				}
 			}
+			}
+		}
+		if(temp[2].equals("0")) { //빈 예약인데
+			if(temp.length!=4) {
+				System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
+				return false;
+			}
+				
+		}
+		else { //빈 예약이 아닌데
+			if(temp.length==4) {
+				System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
+				return false;
 			}
 		}
 		return true;

@@ -91,10 +91,37 @@ public class Reservation_Check {
 		return check;
 	}
 
+	private void sort_user_inform() { // 붙어있는 좌석 순서대로 ArrayList에 저장되게 수정
+		for (int i = 0; i < 3; i++) {		
+			String date = file.get_date(i);
+			file.read_file(date);
+			db = file.tb.get_day();
+			for (int j = 0; j < user_inform[i].size(); j += 2) {
+				int[] pos = user_inform[i].get(j);
+				int limit = Integer.parseInt(db[1][pos[0]][pos[1]]);
+				int num = Integer.parseInt(db[2][pos[0]][pos[1]]);
+				if (limit < num) { // 붙어있는 좌석 예약이라면
+					for (int k = j + 2; k < user_inform[i].size(); k += 2) {
+						int[] pos2 = user_inform[i].get(k);
+						int[] pos3 = user_inform[i].get(k + 1);
+						if ((pos[0] == pos2[0]) && (pos[1] + 1 == pos2[1])) {
+							user_inform[i].remove(k);
+							user_inform[i].remove(k);
+							user_inform[i].add(j + 2, pos2);
+							user_inform[i].add(j + 3, pos3);
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public ArrayList[] show_reservation_inform(String section) { // Check, Cancel, Change 중 하나
 
 		this.input_inform(section);
-		
+		this.sort_user_inform();
+
 		System.out.println("\n[예약 내용]\n");
 
 		for (int i = 0; i < 3; i++) {
@@ -112,7 +139,8 @@ public class Reservation_Check {
 
 			if (user_inform[i].size() == 0)
 				continue;
-			for (int j = 0; j < user_inform[i].size(); j += 2) { // 예약 시간이 10시라면 텍스트 파일에는 10시, 11시 행에 똑같은 정보가 쓰여있기 때문에 J += 2를 해줬습니다.
+			for (int j = 0; j < user_inform[i].size(); j += 2) { // 예약 시간이 10시라면 텍스트 파일에는 10시, 11시 행에 똑같은 정보가 쓰여있기 때문에
+																	// j += 2
 				int[] pos = user_inform[i].get(j);
 				int time = pos[0]; // 항상 textDB에 존재하는 3차원 배열에 [][pos[0]][pos[1]] 넣어서 사용하시면 됩니다.
 				int table = pos[1];
@@ -124,20 +152,30 @@ public class Reservation_Check {
 				int start_time = Integer.parseInt(db[3][time][table]);
 				System.out.println("예약 시간: " + start_time + ":00 ~ " + (start_time + 2) + ":00");
 				System.out.println("인원 수: " + db[2][time][table] + "명");
-				System.out.println("예약 좌석: " + db[0][time][table] + "번");
+
+				int limit = Integer.parseInt(db[1][pos[0]][pos[1]]);
+				int cnt = Integer.parseInt(db[2][pos[0]][pos[1]]);
+				int seat = Integer.parseInt(db[0][time][table]);
+				if (limit < cnt) {
+					System.out.println("예약 좌석: " + seat + ", " + (seat + 1) + "번");
+					j += 2;
+				} else {
+					System.out.println("예약 좌석: " + seat + "번");
+				}
+
 				System.out.print("주문 메뉴: ");
 				for (int k = 6; k < 11; k++) { // 메뉴 출력을 위한 for문
 					int num = Integer.parseInt(db[k][time][table]); // 메뉴 주문 개수 num에 대입
 					if (num != 0) {
 						price += (Integer.parseInt(menu[1][k - 6]) * num); // 가격에 주문 개수를 곱
 						if (k == 10)
-							System.out.println(menu[0][k - 6] + " " + num); // 메뉴 이름과 주문 개수를 출력
+							System.out.print(menu[0][k - 6] + " " + num); // 메뉴 이름과 주문 개수를 출력
 						else
 							System.out.print(menu[0][k - 6] + " " + num + ", "); // 메뉴 이름과 주문 개수를 출력
 					}
 				}
 				DecimalFormat formatter = new DecimalFormat("###,###");
-				System.out.println("결제 예정 금액: " + formatter.format(price) + "\n");
+				System.out.println("\n결제 예정 금액: ￦" + formatter.format(price) + "\n");
 				price = 0;
 
 			}

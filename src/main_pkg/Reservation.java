@@ -1,5 +1,6 @@
 package main_pkg;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -84,131 +85,123 @@ public class Reservation {
 				continue;
 			}
 			if (input_value[2].matches("[0-9]") || input_value[2].matches("[0-9][0-9]")) {
-				if (Integer.parseInt(input_value[2]) >= 1 && Integer.parseInt(input_value[2]) <= 12) { // for the format
-																										// of
-																										// reservation
-																										// count
+				if (Integer.parseInt(input_value[2]) >= 1 && Integer.parseInt(input_value[2]) <= 12) {
+					// for the format of reservation count
 					reserv_count = input_value[2];
 				} else {
 					System.out.println("입력하신 문자열이 올바르지 않습니다. 예약 가능 인원은 최소 1명, 최대 12명입니다!\n");
 					continue;
 				}
 			} else {
-				System.out.println("입력하신 문자열이 올바르지 않습니다. <>은 hh 또는 hh:00 또는 hh시의 형식으로 입력해주세요!\n");
+				System.out.println("입력하신 문자열이 올바르지 않습니다. <인원수>은 n 또는 nn의 형식으로 입력해주세요!\n");
 				continue;
 			}
 
 			sub_time = reserv_time.substring(0, 2);
 
-			if ((reserv_date.contentEquals(date_format.plusDays(1).toString())
-					|| reserv_date.replace("-", "").contentEquals(date_format.plusDays(1).toString().replace("-", ""))
-					|| reserv_date.contentEquals(date_format.plusDays(2).toString())
-					|| reserv_date.replace("-", "").contentEquals(date_format.plusDays(2).toString().replace("-", "")))
-					&& (Integer.parseInt(sub_time) >= 10 && Integer.parseInt(sub_time) <= 20)) {
-				// check if value inputed fits data rule
-				this.date = reserv_date;
-				this.time = sub_time;
-				this.count = reserv_count;
-				if (search_table(reserv_date, sub_time, reserv_count).isBlank() == false) {
-					// check if value inputed is available for reservation
-					break;
-				} else {
-					System.out.println("입력하신 시간대에 해당 인원수가 앉을 수 있는 좌석이 존재하지 않습니다. 다른 시간대를 입력해주시기 바랍니다.\n");
-					continue;
-				}
-			} else {
-				System.out
-						.println("입력하신 문자열이 올바르지 않습니다. 예약은 예약접수일 당일을 제외하고 +2일까지 가능하며, 입력 가능한 시간은 10:00 ~ 20:00입니다.\n");
-				continue;
-			}
-		}
-		show_table(reserv_date, sub_time, reserv_count);
-		scanner.close();
-	}
+    		if((reserv_date.contentEquals(date_format.plusDays(1).toString()) || reserv_date.replace("-", "").contentEquals(date_format.plusDays(1).toString().replace("-", ""))
+    			|| reserv_date.contentEquals(date_format.plusDays(2).toString()) || reserv_date.replace("-", "").contentEquals(date_format.plusDays(2).toString().replace("-", "")))
+    			&& (Integer.parseInt(sub_time) >= 10 && Integer.parseInt(sub_time) <= 20)) {
+    			//check if value inputed fits data rule
+    			this.date = reserv_date;
+    			this.time = sub_time;
+    			this.count = reserv_count;
+    			if(search_table(reserv_date, sub_time, reserv_count).isBlank() == false) {
+    				//check if value inputed is available for reservation
+        			break;
+    			}else {
+    				System.out.println("입력하신 시간대에 해당 인원수가 앉을 수 있는 좌석이 존재하지 않습니다. 다른 시간대를 입력해주시기 바랍니다.\n");
+    				continue;
+    			}
+    		}else {
+    			System.out.println("입력하신 문자열이 올바르지 않습니다. 예약은 예약접수일 당일을 제외하고 +2일까지 가능하며, 입력 가능한 시간은 10:00 ~ 20:00입니다.\n");
+    			continue;
+    		}
+    	}
+    	show_table(reserv_date, sub_time, reserv_count);
+    	scanner.close();
+    }
 
-	/*
-	 * search for available table with inputed day, time, count
-	 */
-	private String search_table(String date, String time, String count) {
-		fio.read_file(date.replaceAll("-", ""));
-		String[][][] tmp = fio.tb.get_day();
+    /*
+     * search for available table with inputed day, time, count
+     */
+    private String search_table(String date, String time, String count){
+    	fio.read_file(date.replaceAll("-", ""));
+    	String[][][]
+    			tmp = fio.tb.get_day();
 
-		int attached_table = 0;
+    	int attached_table = 0;
 
-		StringBuilder available_tables = new StringBuilder();
-		// should split it with space(" ") to check each available table number
-		// for tables attached, format is "(table number)-(table number)"
+    	StringBuilder available_tables = new StringBuilder();
+    	//should split it with space(" ") to check each available table number
+    	//for tables attached, format is "(table number)-(table number)"
 
-		int tmp_count = 1; // index no. of available number of people to use table
-		int tmp_table = 0; // table number
-		int tmp_time = Integer.parseInt(time) - 10;
 
-		for (tmp_table = 0; tmp_table < 20; tmp_table++) { // check if there are any table available with chosen
-															// day,time,count with availability(3rd value)
-			if (tmp[2][tmp_time][tmp_table].equals("0")) { // if number of people using table is 0
-				if (Integer.parseInt(tmp[tmp_count][tmp_time][tmp_table]) >= Integer.parseInt(count)) {
-					// compare available number or people to use table with inputed number of people
-					if (Integer.parseInt(count) < 3 && (tmp[tmp_count][tmp_time][tmp_table]).contentEquals("4")
-							|| tmp[tmp_count][tmp_time][tmp_table].equals("6")) {
-						// if current number of people is less than 3, cannot use table for 4 or 6
-						// people
-						continue;
-					} else if (Integer.parseInt(count) < 4 && tmp[tmp_count][tmp_time][tmp_table].contentEquals("6")) {
-						// if current number of people is less than 4, cannot use table for 6 people
-						continue;
-					} else { // add string in available_tables
-						available_tables.append(tmp_table + 1);
-						available_tables.append(" ");
-					}
-				} else {
-					continue;
-				}
-			} else {
-				continue;
-			}
-		}
-		if (available_tables.length() == 0) {
-			for (attached_table = 0; attached_table < 20; attached_table++) { // tables can be attached
-				if (tmp[2][tmp_time][attached_table].contentEquals("0")
-						&& tmp[2][tmp_time][attached_table++].contentEquals("0")) {
-					// if attached tables are both empty
-					if (attached_table >= 0 && attached_table < 6) {
-						// table 1~6
-						if (Integer.parseInt(count) > 2 && Integer.parseInt(count) < 5) {
-							// only more than 2, less than 5 people can use attached tables for 4 people
-							available_tables.append(attached_table);
-							available_tables.append("-");
-							available_tables.append(Integer.valueOf(attached_table) + 1);
-							available_tables.append(" ");
-						} else {
-							continue;
-						}
-					} else if (attached_table >= 6 && attached_table < 16) {
-						// table 7~16
-						if (Integer.parseInt(count) > 4 && Integer.parseInt(count) < 9) {
-							// only more than 4, less than 9 people can use attached tables for 8 people
-							available_tables.append(attached_table);
-							available_tables.append("-");
-							available_tables.append(Integer.valueOf(attached_table) + 1);
-							available_tables.append(" ");
-						} else {
-							continue;
-						}
-					} else {
-						if (Integer.parseInt(count) > 8) {
-							// only more than 8 people can use attached tables for 12 people
-							available_tables.append(attached_table);
-							available_tables.append("-");
-							available_tables.append(Integer.valueOf(attached_table) + 1);
-							available_tables.append(" ");
-						} else {
-							continue;
-						}
-					}
-				}
-			}
-		}
+    	int tmp_count = 1; //index no. of available number of people to use table
+    	int tmp_table = 0; //table number
+    	int tmp_time = Integer.parseInt(time) - 10;
 
+    	for(tmp_table = 0; tmp_table < 20; tmp_table++) { //check if there are any table available with chosen day,time,count with availability(3rd value)
+    		if(tmp[2][tmp_time][tmp_table].equals("0")) { //if number of people using table is 0
+    			if(Integer.parseInt(tmp[tmp_count][tmp_time][tmp_table]) >= Integer.parseInt(count)){
+    				//compare available number or people to use table with inputed number of people
+    				if(Integer.parseInt(count) < 3 && (tmp[tmp_count][tmp_time][tmp_table]).contentEquals("4") || tmp[tmp_count][tmp_time][tmp_table].equals("6")) {
+    					//if current number of people is less than 3, cannot use table for 4 or 6 people
+    					continue;
+    				}else if(Integer.parseInt(count) < 4 && tmp[tmp_count][tmp_time][tmp_table].contentEquals("6")){
+    					//if current number of people is less than 4, cannot use table for 6 people
+    					continue;
+    				}else { //add string in available_tables
+    					available_tables.append(tmp_table + 1);
+    					available_tables.append(" ");
+    				}
+    			}else {
+    				continue;
+    			}
+    		}else {
+    			continue;
+    		}
+    	}
+    	if(available_tables.length() == 0) {
+    		for(attached_table = 0; attached_table < 20; attached_table++) { //tables can be attached
+    			if(tmp[2][tmp_time][attached_table].contentEquals("0") && tmp[2][tmp_time][attached_table++].contentEquals("0")) {
+					//if attached tables are both empty
+    				if(attached_table >= 0 && attached_table < 6) {
+    					//table 1~6
+    					if(Integer.parseInt(count) > 2 && Integer.parseInt(count) < 5) {
+    						//only more than 2, less than 5 people can use attached tables for 4 people
+    						available_tables.append(attached_table);
+    						available_tables.append("-");
+    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(" ");
+    					}else {
+    						continue;
+    					}
+    				}else if (attached_table >= 6 && attached_table <16) {
+    					//table 7~16
+    					if(Integer.parseInt(count) > 4 && Integer.parseInt(count) < 9) {
+        					//only more than 4, less than 9 people can use attached tables for 8 people
+    						available_tables.append(attached_table);
+    						available_tables.append("-");
+    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(" ");
+        				}else {
+        					continue;
+        				}
+    				}else if(attached_table >= 16 && attached_table <20){
+    					if(Integer.parseInt(count) > 8) {
+    						//only more than 8 people can use attached tables for 12 people
+    						available_tables.append(attached_table);
+    						available_tables.append("-");
+    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(" ");
+    					}else {
+    						continue;
+    					}
+    				}
+    			}
+    		}
+    	}
 		return available_tables.toString();
 	}
 
@@ -255,7 +248,7 @@ public class Reservation {
 		while (true) {
 
 			System.out.println("\n" + tmp_date_arr[0] + "년 " + tmp_date_arr[1] + "월 " + tmp_date_arr[2] + "일 " + time
-					+ "시 예약 가능 좌석 현황");
+					+ "시 "+rsv+" 가능 좌석 현황");
 			System.out.println("--------------------------------------------------");
 
 			// if any available table exists, table view array will be adding . to the table
@@ -313,9 +306,9 @@ public class Reservation {
 			System.out.println("[01] ~ [06] : 2인용 좌석");
 			System.out.println("[07] ~ [16] : 4인용 좌석");
 			System.out.println("[17] ~ [20] : 6인용 좌석");
-			System.out.println("[//] : 예약 불가능한 좌석");
+			System.out.println("[//] : "+rsv+" 불가능한 좌석");
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
-			System.out.println("좌석을 자동으로 할당 받으시겠습니까? (y/n) : ");
+			System.out.print("좌석을 자동으로 할당 받으시겠습니까? (y/n) : ");
 
 			String table_choice = choose_table_input.next();
 
@@ -376,7 +369,7 @@ public class Reservation {
 		while (true) {
 
 			System.out.println("\n" + tmp_date_arr[0] + "년 " + tmp_date_arr[1] + "월 " + tmp_date_arr[2] + "일 " + time
-					+ "시 예약 가능 좌석 현황");
+					+ "시 "+rsv+" 가능 좌석 현황");
 			System.out.println("--------------------------------------------------");
 
 			// if any available table exists, table view array will be adding . to the table
@@ -434,10 +427,10 @@ public class Reservation {
 			System.out.println("[01] ~ [06] : 2인용 좌석");
 			System.out.println("[07] ~ [16] : 4인용 좌석");
 			System.out.println("[17] ~ [20] : 6인용 좌석");
-			System.out.println("[//] : 예약 불가능한 좌석");
+			System.out.println("[//] : "+rsv+" 불가능한 좌석");
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
 
-			System.out.println("좌석 번호를 입력하세요: ");
+			System.out.print("좌석 번호를 입력하세요: ");
 			// 여기까지 거의 복붙
 
 			String inputed_table_num = table_num.nextLine();
@@ -524,7 +517,7 @@ public class Reservation {
 	}
 
 	private void input_inform() {
-		System.out.println("[예약정보]");
+		System.out.println("\n[예약정보]");
 		if (st_num1 == null) {
 			System.out.println("예약 좌석번호 : " + st_num0 + "번");
 		} else {
@@ -537,7 +530,7 @@ public class Reservation {
 
 		while (true) {
 			System.out.println("[필수 입력 정보]");
-			System.out.println("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
+			System.out.print("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
 
 			Scanner sc = new Scanner(System.in);
 			String line = sc.nextLine();
@@ -605,13 +598,14 @@ public class Reservation {
 			// 화면 출력
 			String temp_num;
 			stock_result_index = 0;
+			DecimalFormat formatter = new DecimalFormat("###,###");
 			price = 0;
-			System.out.println("--------------------------");
+			System.out.println("\n--------------------------");
 			System.out.println("\t메뉴 선택");
 			System.out.println("--------------------------");
-			System.out.println("[메뉴]\t[가격]\t[주문 가능 시간]");
+			System.out.println("[메뉴]\t[가격]\t\t[주문 가능 시간]");
 			for (int i = 0; i < 5; i++) {
-				System.out.print(menu[0][i] + "\t\\" + menu[1][i] + "\t");
+				System.out.print(menu[0][i] + "\t￦" + formatter.format(Integer.parseInt(menu[1][i])) + "\t\t");
 				if (menu[3][i] != null) {// all이 아닌경우
 					String[] menu_time = menu[3][i].split("-");
 					System.out.println(menu_time[0] + ":00 ~ " + menu_time[1] + ":00");
@@ -631,13 +625,38 @@ public class Reservation {
 				str_menu_num = temp_num.trim().split("\t");
 			}
 			// 문법 규칙 위배시
+			boolean grammer = true;
+			for (int i = 0; i < 5; i++) {
+				try {
+					if ((Integer.parseInt(str_menu_num[i]) < 0) || (str_menu_num.length != 5)) {
+						System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
+						grammer = false;
+						break;
+					}
+				} catch (NumberFormatException e) {
+					System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
+					grammer = false;
+					break;
+				}
+			}
+			if(!grammer) {
+				continue;
+			}
+			
+			/*if (!temp_num.matches(patterns1 + patterns0 + patterns1 + patterns0 + patterns1 + patterns0 + patterns1
+					+ patterns0 + patterns1) || (str_menu_num.length != 5)) {
+				System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
+				continue;
+			}
+
 			if (temp_num.matches(patterns0 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1
 					+ patterns3 + patterns1 + patterns3 + patterns1 + "|" + patterns2 + patterns3 + patterns3
 					+ patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3 + patterns1 + patterns3
 					+ patterns1) || (str_menu_num.length != 5)) {
 				System.out.println("주문입력 형식에 오류가 있습니다. 입력 방식은 (ex.\t2\t3\t0\t0\t0) 형식입니다 ");
 				continue;
-			}
+			}*/
+
 			// 사용자가 입력한 주문 수량 integer 배열에 저장
 			for (int i = 0; i < 5; i++) {
 				int_menu_num[i] = Integer.parseInt(str_menu_num[i]);
@@ -703,19 +722,18 @@ public class Reservation {
 	private void menu_confirm() {
 
 		Scanner scan1 = new Scanner(System.in);
-
+		DecimalFormat formatter = new DecimalFormat("###,###");
 		while (true) {
-			System.out.println("------------------------------");
+			System.out.println("\n------------------------------");
 			System.out.println("\t주문 내역 확인");
 			System.out.println("------------------------------");
 			System.out.println("[메뉴]\t[가격]\t[주문 수량]");
 			for (int i = 0; i < 5; i++) {
-				System.out.println(menu[0][i] + "\t\\" + menu[1][i] + "\t" + str_menu_num[i]);
+				System.out.println(
+						menu[0][i] + "\t￦" + formatter.format(Integer.parseInt(menu[1][i])) + "\t" + str_menu_num[i]);
 				price += Integer.parseInt(menu[1][i]) * int_menu_num[i];
 			}
-			System.out.println();
-
-			System.out.println("결제 예정 금액: " + price);
+			System.out.println("\n결제 예정 금액: ￦" + formatter.format(price) + "\n");
 			System.out.print("주문 내역을 확정하고 주문을 완료하시겠습니까?(y/n) :");
 			String menu_confirm = scan1.next();
 			String[] yorn_value = new String[0];
@@ -747,17 +765,22 @@ public class Reservation {
 
 	// 예약 확정
 	private void reservation_confirm() {
-
+		DecimalFormat formatter = new DecimalFormat("###,###");
 		Scanner scan2 = new Scanner(System.in);
-		// 이 부분은 위쪽이 완료되면 해당 변수로 채우면 됨 - 현재 테이블 번호 없음
+
 		while (true) {
 
-			System.out.println("\n--------------------------\n" + rsv + " 내역 확인\n------------------------------");
+			System.out.println("\n------------------------------\n\t" + rsv + " 내역 확인\n------------------------------");
 			System.out.println(rsv + "자 이름: " + this.name);
 			System.out.println("전화번호: " + this.phone);
 			System.out.println(rsv + " 시간: " + this.time + ":00 ~ " + (Integer.parseInt(this.time) + 2) + ":00");
-			System.out.println("인원 수: " + this.count);
-			System.out.println(rsv + " 좌석: " + 5);// this.table);
+			System.out.println("인원 수: " + this.count + "명");
+			System.out.print(rsv + " 좌석: ");
+			if (st_num1 == null) {
+				System.out.println(st_num0 + "번");
+			} else {
+				System.out.println(st_num0 + ", " + st_num1 + "번");
+			}
 			System.out.print("주문 메뉴: ");
 			for (int i = 0; i < 5; i++) {
 				if (int_menu_num[i] != 0) {
@@ -765,8 +788,7 @@ public class Reservation {
 				}
 			}
 			System.out.println();
-
-			System.out.println("결제 예정 금액: \\" + price + "\n");
+			System.out.println("결제 예정 금액: ￦" + formatter.format(price) + "\n");
 			System.out.print(rsv + "을 확정하시겠습니까?(y/n): ");
 			String reservation_confirm = scan2.next();
 			String[] yorn_value = new String[0];
@@ -849,11 +871,8 @@ public class Reservation {
 		temp[8][time_fix][st_num0_fix] = Integer.toString(int_menu_num[2]);
 		temp[8][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[2]);
 
-		temp[9][time_fix][st_num0_fix] = Integer.toString(int_menu_num[2]);
-		temp[9][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[2]);
-
-		temp[10][time_fix][st_num0_fix] = Integer.toString(int_menu_num[3]);
-		temp[10][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[3]);
+		temp[9][time_fix][st_num0_fix] = Integer.toString(int_menu_num[3]);
+		temp[9][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[3]);
 
 		temp[10][time_fix][st_num0_fix] = Integer.toString(int_menu_num[4]);
 		temp[10][time_fix + 1][st_num0_fix] = Integer.toString(int_menu_num[4]);
@@ -879,11 +898,8 @@ public class Reservation {
 			temp[8][time_fix][st_num1_fix] = Integer.toString(int_menu_num[2]);
 			temp[8][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[2]);
 
-			temp[9][time_fix][st_num1_fix] = Integer.toString(int_menu_num[2]);
-			temp[9][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[2]);
-
-			temp[10][time_fix][st_num1_fix] = Integer.toString(int_menu_num[3]);
-			temp[10][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[3]);
+			temp[9][time_fix][st_num1_fix] = Integer.toString(int_menu_num[3]);
+			temp[9][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[3]);
 
 			temp[10][time_fix][st_num1_fix] = Integer.toString(int_menu_num[4]);
 			temp[10][time_fix + 1][st_num1_fix] = Integer.toString(int_menu_num[4]);
@@ -892,10 +908,10 @@ public class Reservation {
 		file2.tb.set_day(temp);
 
 		// 예약정보 file에 저장
-		file2.write_file(this.date);// 테이블번호));
+		file2.write_file(this.date);
+		// 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
 		file2.read_menu();
 		menu = file2.tb.get_menu();
-		// 메뉴파일에서 메뉴이름에 해당하는 메뉴의 메뉴 재고 주문 수량만큼 제외
 		for (int i = 0; i < 5; i++) {
 			if (int_menu_num[i] != 0) {
 				int origin_stock = Integer.parseInt(menu[2][i]);
