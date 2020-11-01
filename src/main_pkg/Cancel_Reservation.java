@@ -36,6 +36,10 @@ public class Cancel_Reservation {
 		String reserv_time = "";
 		String input_date;
 		String input_time;
+		File_IO IO = new File_IO();
+		String today = IO.get_date(0);
+		String tomorrow= IO.get_date(1);
+		String after_tomorrow=IO.get_date(2);
 		
 		Scanner scan = new Scanner(System.in);
 		
@@ -68,7 +72,18 @@ public class Cancel_Reservation {
 			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
-		
+		if(!(reserv_date.equals(today))&&!(reserv_date.equals(tomorrow))&&!(reserv_date.contentEquals(after_tomorrow))) {
+			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
+			continue;
+		}
+		if(reserv_time.matches("[0-9][0-9]")&&Integer.parseInt(reserv_time)>=10&&Integer.parseInt(reserv_time)<=20) {
+			reserv_time=reserv_time;
+		}
+		else {
+			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
+			continue;
+		}
+			
 		input_date = reserv_date.replace("-", "");
 		input_time = reserv_time.substring(0, 2);
 		break;	
@@ -81,10 +96,10 @@ public class Cancel_Reservation {
 	
 	public boolean compare_reservation_date(ArrayList<int[]>[] reserved_data,String input_date,String input_time) {	
 		File_IO IO = new File_IO();
-		
 		String today = IO.get_date(0);
 		String tomorrow= IO.get_date(1);
 		String after_tomorrow=IO.get_date(2);
+		
 		int i_today = Integer.parseInt(today);
 		int i_tomorrow=Integer.parseInt(tomorrow);
 		int i_after_tomorrow=Integer.parseInt(after_tomorrow);
