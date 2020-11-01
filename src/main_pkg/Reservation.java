@@ -119,7 +119,7 @@ public class Reservation {
     		}
     	}
     	show_table(reserv_date, sub_time, reserv_count);
-    	scanner.close();
+
     }
 
     /*
@@ -323,7 +323,7 @@ public class Reservation {
 				continue;
 			}
 		}
-		choose_table_input.close();
+
 	}
 
 	private void choose_table() {
@@ -682,7 +682,7 @@ public class Reservation {
 		}
 
 		menu_confirm();
-		scan.close();
+
 	}
 
 	// 주문시간대 체크
@@ -760,7 +760,7 @@ public class Reservation {
 				continue;
 			}
 		}
-		scan1.close();
+
 	}
 
 	// 예약 확정
@@ -809,7 +809,7 @@ public class Reservation {
 				continue;
 			}
 		}
-		scan2.close();
+
 	}
 
 	// 예약 취소
@@ -840,7 +840,7 @@ public class Reservation {
 				continue;
 			}
 		}
-		scan3.close();
+
 	}
 
 	// 예약 확정후 파일에 새로운 정보 저장
