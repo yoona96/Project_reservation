@@ -539,7 +539,7 @@ public class Reservation {
 			Scanner sc = new Scanner(System.in);
 			String line = sc.nextLine();
 			String[] line_split = null;
-
+			line = line.trim();
 			// check if format is right
 			if (line.contains("	") || line.contains(" ")) {
 				// for the format of input String
@@ -565,7 +565,6 @@ public class Reservation {
 				// for the format of reservation date
 				System.out.println("입력하신 이름이 올바르지 않습니다.\n");
 				continue;
-				
 			} 
 			
 			
