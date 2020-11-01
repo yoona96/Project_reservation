@@ -16,7 +16,7 @@ public class Main {
         Cancel_Reservation cr = new Cancel_Reservation();
         Validate validate = new Validate();
         
-        String menu_choice;
+
 
         validate.check_all();
 
@@ -25,8 +25,10 @@ public class Main {
 
             Scanner input_scan = new Scanner(System.in);
             Scanner pwd_scan = new Scanner(System.in);
-
+            String menu_choice;
             menu_choice = input_scan.next();
+
+
 
             if (menu_choice.trim().matches("[1-7]")) {
                 int chosen_menu = Integer.parseInt(menu_choice);
