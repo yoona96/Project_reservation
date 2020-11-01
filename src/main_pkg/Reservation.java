@@ -96,7 +96,7 @@ public class Reservation {
 					continue;
 				}
 			} else {
-				System.out.println("입력하신 문자열이 올바르지 않습니다. <>은 hh 또는 hh:00 또는 hh시의 형식으로 입력해주세요!\n");
+				System.out.println("입력하신 문자열이 올바르지 않습니다. <인원수>은 n 또는 nn의 형식으로 입력해주세요!\n");
 				continue;
 			}
 
