@@ -39,10 +39,10 @@ public class Main {
                             rch.show_reservation_inform("Check");
                             break;
                         case 3:
-                            rc.change_main();
+                        	cr.cancel_reservation_main();
                             break;
                         case 4:
-                            cr.cancel_reservation_main();
+                        	rc.change_main();
                             break;
                         case 5: {
                             String pwd = pwd_scan.nextLine();
