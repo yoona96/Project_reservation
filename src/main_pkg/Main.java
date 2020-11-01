@@ -15,15 +15,18 @@ public class Main {
         Reservation_Check rch = new Reservation_Check();
         Cancel_Reservation cr = new Cancel_Reservation();
         Validate validate = new Validate();
+        
+        String menu_choice;
 
         validate.check_all();
 
-        while (true) {
-
+        do {
             print_menu();
+
             Scanner input_scan = new Scanner(System.in);
             Scanner pwd_scan = new Scanner(System.in);
-            String menu_choice = input_scan.nextLine();
+
+            menu_choice = input_scan.next();
 
             if (menu_choice.trim().matches("[1-7]")) {
                 int chosen_menu = Integer.parseInt(menu_choice);
@@ -42,7 +45,7 @@ public class Main {
                         	rc.change_main();
                             break;
                         case 5: {
-                            String pwd = pwd_scan.next();
+                            String pwd = pwd_scan.nextLine();
                             if (password(pwd) == true) {
                                 System.exit(0);
                             } else {
@@ -54,25 +57,26 @@ public class Main {
                             print_help();
                             break;
                         case 7: {
-                            String pwd = pwd_scan.next();
+                            String pwd = pwd_scan.nextLine();
                             if (password(pwd) == true) {
                                 validate.check_all();
 
                             } else {
-                                System.out.println("비밀번호가 올바르지 않습니다.\n");
+                            	System.out.println("비밀번호가 올바르지 않습니다.\n");
                                 break;
                             }
                         }
-                        default:
-                            continue;
+                        default: {
+                        	continue;   
+                        }
+
                     }
                 }
             } else {
                 System.out.println("해당 명령어는 존재하지 않습니다.\n");
                 continue;
             }
-        }
-
+        } while(true);
     }
 
     public static void print_menu() {
