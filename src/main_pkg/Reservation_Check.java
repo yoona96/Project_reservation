@@ -7,7 +7,7 @@ import java.util.*;
 public class Reservation_Check {
 
 	private File_IO file = new File_IO();
-	private String[][][] db = new String[11][11][20];
+	private String[][][] db = new String[11][12][20];
 	private ArrayList<int[]> user_inform[] = new ArrayList[3]; // 0: 당일, 1: 내일, 2: 모레
 	private String user_name;
 	private String phone_num;
@@ -81,7 +81,7 @@ public class Reservation_Check {
 			user_inform[i] = new ArrayList();
 
 			for (int j = 0; j < 20; j++) {
-				for (int k = 0; k < 11; k++) {
+				for (int k = 0; k < 12; k++) {
 					if (user_name.equals(db[4][k][j]) && phone_num.equals(db[5][k][j])) {
 						int[] pos = new int[2]; // k와 j가 순서대로 들어갑니다.
 						pos[0] = k; // pos[0]: time

@@ -10,7 +10,7 @@ public class textDB {
         this.day = today;
     }
 
-    private String[][][] day  = new String[11][11][20];
+    private String[][][] day  = new String[11][12][20];
 
 
     public String[][] get_menu() {
