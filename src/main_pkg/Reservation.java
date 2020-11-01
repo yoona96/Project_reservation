@@ -539,7 +539,7 @@ public class Reservation {
 			// check if format is right
 			if (line.contains("	") || line.contains(" ")) {
 				// for the format of input String
-				line_split = line.split("\t");
+				line_split = line.trim().split("	");
 				if (line_split.length != 2) {
 					System.out.println("입력하신 문자열이 올바르지 않습니다. 이름+<tab> 1개+전화번호의 형식에 맞춰서 정확히 입력하세요!");
 					continue;
