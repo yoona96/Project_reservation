@@ -173,7 +173,9 @@ public class Reservation_Check {
 					}
 				}
 				StringBuffer str_buf = new StringBuffer(menu_inform);
-				str_buf.delete(str_buf.length() - 2, str_buf.length());
+				if(str_buf.length() > 0) {
+					str_buf.delete(str_buf.length() - 2, str_buf.length());
+				}
 				System.out.println(str_buf);
 				
 				DecimalFormat formatter = new DecimalFormat("###,###");
