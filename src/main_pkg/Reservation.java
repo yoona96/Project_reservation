@@ -189,7 +189,7 @@ public class Reservation {
         				}else {
         					continue;
         				}
-    				}else {
+    				}else if(attached_table >= 16 && attached_table <20){
     					if(Integer.parseInt(count) > 8) {
     						//only more than 8 people can use attached tables for 12 people
     						available_tables.append(attached_table);
