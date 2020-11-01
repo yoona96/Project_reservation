@@ -164,7 +164,7 @@ public class Reservation {
     	}
     	if(available_tables.length() == 0) {
     		for(attached_table = 0; attached_table < 20; attached_table++) { //tables can be attached
-    			if(tmp[2][tmp_time][attached_table].contentEquals("0") && tmp[2][tmp_time][attached_table++].contentEquals("0")) {
+    			if(attached_table%2 == 0 && tmp[2][tmp_time][attached_table].contentEquals("0") && tmp[2][tmp_time][attached_table++].contentEquals("0")) {
 					//if attached tables are both empty
     				if(attached_table >= 0 && attached_table < 6) {
     					//table 1~6
