@@ -1,5 +1,6 @@
 package main_pkg;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,7 +13,7 @@ public class Cancel_Reservation {
 	private String table_number;	// table number for changing reservation
 	private String[] user_time_data = new String[2];	// Temporary data for return values in input_reservation_date
 	
-	public void cancel_reservation_main() {	
+	public void cancel_reservation_main() throws UnsupportedEncodingException {
 		Reservation_Check RC = new Reservation_Check();	
 		user_inform = RC.show_reservation_inform("Cancel");	// Get Reserved information
 		while(true) {

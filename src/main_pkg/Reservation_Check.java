@@ -1,5 +1,6 @@
 package main_pkg;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -11,8 +12,8 @@ public class Reservation_Check {
 	private String user_name;
 	private String phone_num;
 
-	private void input_inform(String section) {
-		Scanner scan = new Scanner(System.in);
+	private void input_inform(String section) throws UnsupportedEncodingException {
+		Scanner scan = new Scanner(System.in, "euc-kr");
 
 		boolean check = true;
 
@@ -26,7 +27,11 @@ public class Reservation_Check {
 
 			System.out.print("예약 시 사용하신 이름과 전화번호를 입력해 주세요(ex. 김건국          010-1234-5678):");
 			String str = scan.nextLine();
-			StringTokenizer token = new StringTokenizer(str, "\t");
+			byte euc_byte[] = str.getBytes("euc-kr");
+			String str_from_euc = new String(euc_byte,"euc-kr");
+			byte utf_byte[] = str_from_euc.getBytes("utf-8");
+			String str_from_utf = new String(utf_byte,"utf-8");
+			StringTokenizer token = new StringTokenizer(str_from_utf, "\t");
 			if (token.countTokens() != 2 || str.contains("\t\t")) {
 				System.out.println("이름+<tab> 1개+전화번호의 형식에 맞춰서 정확히 입력하세요.\n");
 				continue;
@@ -117,7 +122,7 @@ public class Reservation_Check {
 		}
 	}
 
-	public ArrayList[] show_reservation_inform(String section) { // Check, Cancel, Change 중 하나
+	public ArrayList[] show_reservation_inform(String section) throws UnsupportedEncodingException { // Check, Cancel, Change 중 하나
 
 		this.input_inform(section);
 		this.sort_user_inform();

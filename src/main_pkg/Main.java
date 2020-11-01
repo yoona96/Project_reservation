@@ -1,13 +1,14 @@
 package main_pkg;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 import main_pkg.File_IO;
 import main_pkg.Validate;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
 
 
         Reservation reservation = new Reservation();
