@@ -71,7 +71,7 @@ public class Reservation {
 			if (input_value[0].matches("[0-9]{4,4}" + "-" + "[0-9]{2,2}" + "-" + "[0-9]{2,2}")
 					|| input_value[0].matches("[0-9]{8,8}")) {
 				// for the format of reservation date
-				reserv_date = input_value[0];
+				reserv_date = input_value[0].replaceAll("-", "");
 			} else {
 				System.out.println("입력하신 문자열이 올바르지 않습니다. <예약 희망일은> yyyy-mm-dd 또는 yyyymmdd의 형식으로 입력해주세요!\n");
 				continue;
