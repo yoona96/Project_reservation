@@ -164,18 +164,20 @@ public class Reservation_Check {
 				}
 
 				System.out.print("주문 메뉴: ");
+				String menu_inform = "";
 				for (int k = 6; k < 11; k++) { // 메뉴 출력을 위한 for문
 					int num = Integer.parseInt(db[k][time][table]); // 메뉴 주문 개수 num에 대입
 					if (num != 0) {
 						price += (Integer.parseInt(menu[1][k - 6]) * num); // 가격에 주문 개수를 곱
-						if (k == 10)
-							System.out.print(menu[0][k - 6] + " " + num); // 메뉴 이름과 주문 개수를 출력
-						else
-							System.out.print(menu[0][k - 6] + " " + num + ", "); // 메뉴 이름과 주문 개수를 출력
+						menu_inform += menu[0][k - 6] + " " + num + ", ";
 					}
 				}
+				StringBuffer str_buf = new StringBuffer(menu_inform);
+				str_buf.delete(str_buf.length() - 2, str_buf.length());
+				System.out.println(str_buf);
+				
 				DecimalFormat formatter = new DecimalFormat("###,###");
-				System.out.println("\n결제 예정 금액: ￦" + formatter.format(price) + "\n");
+				System.out.println("결제 예정 금액: ￦" + formatter.format(price) + "\n");
 				price = 0;
 
 			}
