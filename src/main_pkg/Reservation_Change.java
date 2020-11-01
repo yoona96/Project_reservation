@@ -52,7 +52,7 @@ public class Reservation_Change {
 	private void delete_old_reservation() {
 		File_IO fi=new File_IO();
 		fi.read_file(date);
-		String temp[][][]=new String[11][11][20];
+		String temp[][][]=new String[11][12][20];
 		temp=fi.tb.get_day();
 		
 		temp[2][time_inform][table_inform]="0";

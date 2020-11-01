@@ -27,12 +27,12 @@ public class Main {
             Scanner input_scan = new Scanner(System.in);
             Scanner pwd_scan = new Scanner(System.in);
             String menu_choice;
-            menu_choice = input_scan.next();
+            menu_choice = input_scan.nextLine();
 
 
 
             if (menu_choice.trim().matches("[1-7]")) {
-                int chosen_menu = Integer.parseInt(menu_choice);
+                int chosen_menu = Integer.parseInt(menu_choice.trim());
                 if (chosen_menu >= 1 && chosen_menu <= 7) {
                     switch (chosen_menu) {
                         case 1:

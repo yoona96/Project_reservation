@@ -536,7 +536,7 @@ public class Reservation {
 			System.out.println("[필수 입력 정보]");
 			System.out.print("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
 
-			Scanner sc = new Scanner(System.in);
+			Scanner sc = new Scanner(System.in,"euc-kr");
 			String line = sc.nextLine();
 			String[] line_split = null;
 			line = line.trim();
@@ -847,7 +847,7 @@ public class Reservation {
 		File_IO file2 = new File_IO();
 		file2.read_file(date);
 
-		String[][][] temp = new String[11][11][20];
+		String[][][] temp = new String[11][12][20];
 		temp = file2.tb.get_day();
 		int time_fix = Integer.parseInt(time) - 10;
 		int st_num0_fix = Integer.parseInt(st_num0) - 1;
