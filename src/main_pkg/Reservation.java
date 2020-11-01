@@ -13,11 +13,11 @@ import main_pkg.textDB;
 
 public class Reservation {
 
-	private String count, date, time;
-	private String name;
-	private String phone;
-	private String st_num0;
-	private String st_num1;
+	private String count, date, time; //예약 인원수, 날짜, 시간
+	private String name; //예약자 이름
+	private String phone; //예약자 전화번호
+	private String st_num0; //예약된 테이블 번호
+	private String st_num1; //예약된 테이블이 붙어있는 경우, 붙어있는 테이블의 번호
 	private String[][] menu = new String[4][5]; // menu파일 배열
 	private String[] str_menu_num = new String[5];// 사용자가 입력하는 주문수량 string배열
 	private int[] int_menu_num = new int[5];// 사용자 입력 주문수량 int배열
@@ -106,7 +106,7 @@ public class Reservation {
     			this.date = reserv_date;
     			this.time = sub_time;
     			this.count = reserv_count;
-    			if(search_table(reserv_date, sub_time, reserv_count).isBlank() == false) {
+    			if(search_table(reserv_date, sub_time, reserv_count).isEmpty() == false) {
     				//check if value inputed is available for reservation
         			break;
     			}else {
@@ -130,7 +130,7 @@ public class Reservation {
     	String[][][]
     			tmp = fio.tb.get_day();
 
-    	int attached_table = 0;
+    	
 
     	StringBuilder available_tables = new StringBuilder();
     	//should split it with space(" ") to check each available table number
@@ -162,9 +162,11 @@ public class Reservation {
     			continue;
     		}
     	}
+    	int attached_table;
     	if(available_tables.length() == 0) {
-    		for(attached_table = 0; attached_table < 20; attached_table++) { //tables can be attached
-    			if(attached_table%2 == 0 && tmp[2][tmp_time][attached_table].contentEquals("0") && tmp[2][tmp_time][attached_table++].contentEquals("0")) {
+    		for(attached_table = 0; attached_table < 20; attached_table++) {
+    			//tables can be attached
+    			if(attached_table%2 == 0 && tmp[2][tmp_time][attached_table].equals("0") && tmp[2][tmp_time][attached_table++].equals("0")) {
 					//if attached tables are both empty
     				if(attached_table >= 0 && attached_table < 6) {
     					//table 1~6
@@ -172,28 +174,28 @@ public class Reservation {
     						//only more than 2, less than 5 people can use attached tables for 4 people
     						available_tables.append(attached_table);
     						available_tables.append("-");
-    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(attached_table + 1);
     						available_tables.append(" ");
     					}else {
     						continue;
     					}
-    				}else if (attached_table >= 6 && attached_table <16) {
+    				}else if (attached_table >= 6 && attached_table < 16) {
     					//table 7~16
     					if(Integer.parseInt(count) > 4 && Integer.parseInt(count) < 9) {
         					//only more than 4, less than 9 people can use attached tables for 8 people
     						available_tables.append(attached_table);
     						available_tables.append("-");
-    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(attached_table + 1);
     						available_tables.append(" ");
         				}else {
         					continue;
         				}
-    				}else if(attached_table >= 16 && attached_table <20){
+    				}else if(attached_table >= 16 && attached_table < 20){
     					if(Integer.parseInt(count) > 8) {
     						//only more than 8 people can use attached tables for 12 people
     						available_tables.append(attached_table);
     						available_tables.append("-");
-    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(attached_table + 1);
     						available_tables.append(" ");
     					}else {
     						continue;
@@ -459,6 +461,8 @@ public class Reservation {
 						System.out.println("예약이 불가능한 좌석입니다. 다시 입력해주세요.\n");
 						continue;
 					}
+				} else {
+					System.out.println("예약이 불가능한 좌석입니다. 다시 입력해주세요.\n");
 				}
 			} else {
 				inputed_table_num = inputed_table_num.trim();
