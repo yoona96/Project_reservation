@@ -81,7 +81,7 @@ public class Cancel_Reservation {
 			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
-		if(input_time.matches("[0-9][0-9]")&&Integer.parseInt(input_time)>=10&&Integer.parseInt(input_time)<=20) {
+		if(input_time.matches("[0-9][0-9]")&&Integer.parseInt(input_time)>=10&&Integer.parseInt(input_time)<=21) {
 			input_date=input_date;
 		}
 		else {
@@ -161,7 +161,7 @@ public class Cancel_Reservation {
 	private void file_update() {	// 선택된 예약을 취소하고 해당 내용을 데이터 파일에서 삭제한다. 
 		File_IO IO = new File_IO();
 		IO.read_file(date);
-		String temp[][][] = new String[11][11][20];
+		String temp[][][] = new String[11][12][20];
 		temp = IO.tb.get_day();
 		int int_menu_num[]=new int[5];
 		
