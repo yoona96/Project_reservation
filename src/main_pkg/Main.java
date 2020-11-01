@@ -15,18 +15,22 @@ public class Main {
         Reservation_Check rch = new Reservation_Check();
         Cancel_Reservation cr = new Cancel_Reservation();
         Validate validate = new Validate();
+        
+
 
         validate.check_all();
 
-        while (true) {
-
+        do {
             print_menu();
+
             Scanner input_scan = new Scanner(System.in);
             Scanner pwd_scan = new Scanner(System.in);
-            String menu_choice = input_scan.nextLine();
-            
-            
-            if (menu_choice.matches("[1-7]")) {
+            String menu_choice;
+            menu_choice = input_scan.next();
+
+
+
+            if (menu_choice.trim().matches("[1-7]")) {
                 int chosen_menu = Integer.parseInt(menu_choice);
                 if (chosen_menu >= 1 && chosen_menu <= 7) {
                     switch (chosen_menu) {
@@ -43,7 +47,7 @@ public class Main {
                         	rc.change_main();
                             break;
                         case 5: {
-                            String pwd = pwd_scan.next();
+                            String pwd = pwd_scan.nextLine();
                             if (password(pwd) == true) {
                                 System.exit(0);
                             } else {
@@ -55,25 +59,26 @@ public class Main {
                             print_help();
                             break;
                         case 7: {
-                            String pwd = pwd_scan.next();
+                            String pwd = pwd_scan.nextLine();
                             if (password(pwd) == true) {
                                 validate.check_all();
 
                             } else {
-                                System.out.println("비밀번호가 올바르지 않습니다.\n");
+                            	System.out.println("비밀번호가 올바르지 않습니다.\n");
                                 break;
                             }
                         }
-                        default:
-                            continue;
+                        default: {
+                        	continue;   
+                        }
+
                     }
                 }
             } else {
                 System.out.println("해당 명령어는 존재하지 않습니다.\n");
                 continue;
             }
-        }
-
+        } while(true);
     }
 
     public static void print_menu() {
@@ -95,11 +100,9 @@ public class Main {
     private static boolean password(String pwd) {
 
         if (pwd.trim().equals("1234"))
-            return true;
-        else
-            return false;
-    }
+     
 
+    
     public static void print_help() {
         System.out.println("1. 프로그램 안내");
         System.out.println("- 예약제로만 운영되는 레스토랑을 위한 예약 프로그램입니다.");

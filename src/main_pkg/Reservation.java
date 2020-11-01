@@ -7,10 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
-
 import main_pkg.File_IO;
 import main_pkg.textDB;
-import main_pkg.File_IO;
+
 
 public class Reservation {
 
@@ -86,10 +85,8 @@ public class Reservation {
 				continue;
 			}
 			if (input_value[2].matches("[0-9]") || input_value[2].matches("[0-9][0-9]")) {
-				if (Integer.parseInt(input_value[2]) >= 1 && Integer.parseInt(input_value[2]) <= 12) { // for the format
-																										// of
-																										// reservation
-																										// count
+				if (Integer.parseInt(input_value[2]) >= 1 && Integer.parseInt(input_value[2]) <= 12) {
+					// for the format of reservation count
 					reserv_count = input_value[2];
 				} else {
 					System.out.println("입력하신 문자열이 올바르지 않습니다. 예약 가능 인원은 최소 1명, 최대 12명입니다!\n");
@@ -102,115 +99,109 @@ public class Reservation {
 
 			sub_time = reserv_time.substring(0, 2);
 
-			if ((reserv_date.contentEquals(date_format.plusDays(1).toString())
-					|| reserv_date.replace("-", "").contentEquals(date_format.plusDays(1).toString().replace("-", ""))
-					|| reserv_date.contentEquals(date_format.plusDays(2).toString())
-					|| reserv_date.replace("-", "").contentEquals(date_format.plusDays(2).toString().replace("-", "")))
-					&& (Integer.parseInt(sub_time) >= 10 && Integer.parseInt(sub_time) <= 20)) {
-				// check if value inputed fits data rule
-				this.date = reserv_date;
-				this.time = sub_time;
-				this.count = reserv_count;
-				if (search_table(reserv_date, sub_time, reserv_count).isBlank() == false) {
-					// check if value inputed is available for reservation
-					break;
-				} else {
-					System.out.println("입력하신 시간대에 해당 인원수가 앉을 수 있는 좌석이 존재하지 않습니다. 다른 시간대를 입력해주시기 바랍니다.\n");
-					continue;
-				}
-			} else {
-				System.out
-						.println("입력하신 문자열이 올바르지 않습니다. 예약은 예약접수일 당일을 제외하고 +2일까지 가능하며, 입력 가능한 시간은 10:00 ~ 20:00입니다.\n");
-				continue;
-			}
-		}
-		show_table(reserv_date, sub_time, reserv_count);
-		scanner.close();
-	}
+    		if((reserv_date.contentEquals(date_format.plusDays(1).toString()) || reserv_date.replace("-", "").contentEquals(date_format.plusDays(1).toString().replace("-", ""))
+    			|| reserv_date.contentEquals(date_format.plusDays(2).toString()) || reserv_date.replace("-", "").contentEquals(date_format.plusDays(2).toString().replace("-", "")))
+    			&& (Integer.parseInt(sub_time) >= 10 && Integer.parseInt(sub_time) <= 20)) {
+    			//check if value inputed fits data rule
+    			this.date = reserv_date;
+    			this.time = sub_time;
+    			this.count = reserv_count;
+    			if(search_table(reserv_date, sub_time, reserv_count).isBlank() == false) {
+    				//check if value inputed is available for reservation
+        			break;
+    			}else {
+    				System.out.println("입력하신 시간대에 해당 인원수가 앉을 수 있는 좌석이 존재하지 않습니다. 다른 시간대를 입력해주시기 바랍니다.\n");
+    				continue;
+    			}
+    		}else {
+    			System.out.println("입력하신 문자열이 올바르지 않습니다. 예약은 예약접수일 당일을 제외하고 +2일까지 가능하며, 입력 가능한 시간은 10:00 ~ 20:00입니다.\n");
+    			continue;
+    		}
+    	}
+    	show_table(reserv_date, sub_time, reserv_count);
 
-	/*
-	 * search for available table with inputed day, time, count
-	 */
-	private String search_table(String date, String time, String count) {
-		fio.read_file(date.replaceAll("-", ""));
-		String[][][] tmp = fio.tb.get_day();
+    }
 
-		int attached_table = 0;
+    /*
+     * search for available table with inputed day, time, count
+     */
+    private String search_table(String date, String time, String count){
+    	fio.read_file(date.replaceAll("-", ""));
+    	String[][][]
+    			tmp = fio.tb.get_day();
 
-		StringBuilder available_tables = new StringBuilder();
-		// should split it with space(" ") to check each available table number
-		// for tables attached, format is "(table number)-(table number)"
+    	int attached_table = 0;
 
-		int tmp_count = 1; // index no. of available number of people to use table
-		int tmp_table = 0; // table number
-		int tmp_time = Integer.parseInt(time) - 10;
+    	StringBuilder available_tables = new StringBuilder();
+    	//should split it with space(" ") to check each available table number
+    	//for tables attached, format is "(table number)-(table number)"
 
-		for (tmp_table = 0; tmp_table < 20; tmp_table++) { // check if there are any table available with chosen
-															// day,time,count with availability(3rd value)
-			if (tmp[2][tmp_time][tmp_table].equals("0")) { // if number of people using table is 0
-				if (Integer.parseInt(tmp[tmp_count][tmp_time][tmp_table]) >= Integer.parseInt(count)) {
-					// compare available number or people to use table with inputed number of people
-					if (Integer.parseInt(count) < 3 && (tmp[tmp_count][tmp_time][tmp_table]).contentEquals("4")
-							|| tmp[tmp_count][tmp_time][tmp_table].equals("6")) {
-						// if current number of people is less than 3, cannot use table for 4 or 6
-						// people
-						continue;
-					} else if (Integer.parseInt(count) < 4 && tmp[tmp_count][tmp_time][tmp_table].contentEquals("6")) {
-						// if current number of people is less than 4, cannot use table for 6 people
-						continue;
-					} else { // add string in available_tables
-						available_tables.append(tmp_table + 1);
-						available_tables.append(" ");
-					}
-				} else {
-					continue;
-				}
-			} else {
-				continue;
-			}
-		}
-		if (available_tables.length() == 0) {
-			for (attached_table = 0; attached_table < 20; attached_table++) { // tables can be attached
-				if (tmp[2][tmp_time][attached_table].contentEquals("0")
-						&& tmp[2][tmp_time][attached_table++].contentEquals("0")) {
-					// if attached tables are both empty
-					if (attached_table >= 0 && attached_table < 6) {
-						// table 1~6
-						if (Integer.parseInt(count) > 2 && Integer.parseInt(count) < 5) {
-							// only more than 2, less than 5 people can use attached tables for 4 people
-							available_tables.append(attached_table);
-							available_tables.append("-");
-							available_tables.append(Integer.valueOf(attached_table) + 1);
-							available_tables.append(" ");
-						} else {
-							continue;
-						}
-					} else if (attached_table >= 6 && attached_table < 16) {
-						// table 7~16
-						if (Integer.parseInt(count) > 4 && Integer.parseInt(count) < 9) {
-							// only more than 4, less than 9 people can use attached tables for 8 people
-							available_tables.append(attached_table);
-							available_tables.append("-");
-							available_tables.append(Integer.valueOf(attached_table) + 1);
-							available_tables.append(" ");
-						} else {
-							continue;
-						}
-					} else {
-						if (Integer.parseInt(count) > 8) {
-							// only more than 8 people can use attached tables for 12 people
-							available_tables.append(attached_table);
-							available_tables.append("-");
-							available_tables.append(Integer.valueOf(attached_table) + 1);
-							available_tables.append(" ");
-						} else {
-							continue;
-						}
-					}
-				}
-			}
-		}
 
+    	int tmp_count = 1; //index no. of available number of people to use table
+    	int tmp_table = 0; //table number
+    	int tmp_time = Integer.parseInt(time) - 10;
+
+    	for(tmp_table = 0; tmp_table < 20; tmp_table++) { //check if there are any table available with chosen day,time,count with availability(3rd value)
+    		if(tmp[2][tmp_time][tmp_table].equals("0")) { //if number of people using table is 0
+    			if(Integer.parseInt(tmp[tmp_count][tmp_time][tmp_table]) >= Integer.parseInt(count)){
+    				//compare available number or people to use table with inputed number of people
+    				if(Integer.parseInt(count) < 3 && (tmp[tmp_count][tmp_time][tmp_table]).contentEquals("4") || tmp[tmp_count][tmp_time][tmp_table].equals("6")) {
+    					//if current number of people is less than 3, cannot use table for 4 or 6 people
+    					continue;
+    				}else if(Integer.parseInt(count) < 4 && tmp[tmp_count][tmp_time][tmp_table].contentEquals("6")){
+    					//if current number of people is less than 4, cannot use table for 6 people
+    					continue;
+    				}else { //add string in available_tables
+    					available_tables.append(tmp_table + 1);
+    					available_tables.append(" ");
+    				}
+    			}else {
+    				continue;
+    			}
+    		}else {
+    			continue;
+    		}
+    	}
+    	if(available_tables.length() == 0) {
+    		for(attached_table = 0; attached_table < 20; attached_table++) { //tables can be attached
+    			if(attached_table%2 == 0 && tmp[2][tmp_time][attached_table].contentEquals("0") && tmp[2][tmp_time][attached_table++].contentEquals("0")) {
+					//if attached tables are both empty
+    				if(attached_table >= 0 && attached_table < 6) {
+    					//table 1~6
+    					if(Integer.parseInt(count) > 2 && Integer.parseInt(count) < 5) {
+    						//only more than 2, less than 5 people can use attached tables for 4 people
+    						available_tables.append(attached_table);
+    						available_tables.append("-");
+    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(" ");
+    					}else {
+    						continue;
+    					}
+    				}else if (attached_table >= 6 && attached_table <16) {
+    					//table 7~16
+    					if(Integer.parseInt(count) > 4 && Integer.parseInt(count) < 9) {
+        					//only more than 4, less than 9 people can use attached tables for 8 people
+    						available_tables.append(attached_table);
+    						available_tables.append("-");
+    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(" ");
+        				}else {
+        					continue;
+        				}
+    				}else if(attached_table >= 16 && attached_table <20){
+    					if(Integer.parseInt(count) > 8) {
+    						//only more than 8 people can use attached tables for 12 people
+    						available_tables.append(attached_table);
+    						available_tables.append("-");
+    						available_tables.append(Integer.valueOf(attached_table) + 1);
+    						available_tables.append(" ");
+    					}else {
+    						continue;
+    					}
+    				}
+    			}
+    		}
+    	}
 		return available_tables.toString();
 	}
 
@@ -332,7 +323,7 @@ public class Reservation {
 				continue;
 			}
 		}
-		choose_table_input.close();
+
 	}
 
 	private void choose_table() {
@@ -691,7 +682,7 @@ public class Reservation {
 		}
 
 		menu_confirm();
-		scan.close();
+
 	}
 
 	// 주문시간대 체크
@@ -769,7 +760,7 @@ public class Reservation {
 				continue;
 			}
 		}
-		scan1.close();
+
 	}
 
 	// 예약 확정
@@ -818,7 +809,7 @@ public class Reservation {
 				continue;
 			}
 		}
-		scan2.close();
+
 	}
 
 	// 예약 취소
@@ -849,7 +840,7 @@ public class Reservation {
 				continue;
 			}
 		}
-		scan3.close();
+
 	}
 
 	// 예약 확정후 파일에 새로운 정보 저장

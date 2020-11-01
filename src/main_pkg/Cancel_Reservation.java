@@ -50,15 +50,15 @@ public class Cancel_Reservation {
 		String[] input_value = null;
 		
 		
-		//check if format is right
-		if(reservation_input.contains("	") || reservation_input.contains(" ")) {
-			//for the format of input String
+		// check if format is right
+		if (reservation_input.contains("	") || reservation_input.contains(" ")) {
+			// for the format of input String
 			input_value = reservation_input.trim().split("	");
 		}else {
 			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
-		if(input_value[0].matches("[0-9]{4,4}"+"-"+"[0-9]{2,2}"+"-"+"[0-9]{2,2}") || input_value[0].matches("[0-9]{8,8}")) {
+		if(input_value[0].matches("[0-9]{4,4}" + "-" + "[0-9]{2,2}" + "-" + "[0-9]{2,2}") || input_value[0].matches("[0-9]{8,8}")) {
 			//for the format of reservation date
 			reserv_date = input_value[0];
 		}else {
@@ -72,20 +72,21 @@ public class Cancel_Reservation {
 			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
-		if(!(reserv_date.equals(today))&&!(reserv_date.equals(tomorrow))&&!(reserv_date.contentEquals(after_tomorrow))) {
+	
+		input_date = reserv_date.replace("-", "");
+		input_time = reserv_time.substring(0, 2);
+
+		if(!(input_date.equals(today))&&!(input_date.equals(tomorrow))&&!(input_date.contentEquals(after_tomorrow))) {
 			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
-		if(reserv_time.matches("[0-9][0-9]")&&Integer.parseInt(reserv_time)>=10&&Integer.parseInt(reserv_time)<=20) {
-			reserv_time=reserv_time;
+		if(input_time.matches("[0-9][0-9]")&&Integer.parseInt(input_time)>=10&&Integer.parseInt(input_time)<=20) {
+			input_date=input_date;
 		}
 		else {
 			System.out.println("입력하신 문자열이 올바르지 않습니다. 입력을 확인 후 다시 입력해주세요");
 			continue;
 		}
-			
-		input_date = reserv_date.replace("-", "");
-		input_time = reserv_time.substring(0, 2);
 		break;	
 	}
 		String[] input_data = new String[2];
