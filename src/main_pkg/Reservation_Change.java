@@ -116,7 +116,7 @@ public class Reservation_Change {
 		}
 		return false;
 	}
-	public void change_main() {
+	public void change_main() throws UnsupportedEncodingException {
 		user_inform=rc.show_reservation_inform("Change");
 		while(true) {
 			String str[]=new String[2];
