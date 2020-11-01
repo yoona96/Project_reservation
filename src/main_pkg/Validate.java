@@ -87,12 +87,12 @@ public class Validate {
 				br.close();
 				fr.close();
 
-				if ((two + four + six) != 20 * 11) { // 테이블 총 개수 확인
+				if ((two + four + six) != 20 * 12) { // 테이블 총 개수 확인
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
 					return false;
 				}
 
-				if (two != 6 * 11 || four != 10 * 11 || six != 4 * 11) { // 인원 테이블 수 확인
+				if (two != 6 * 12 || four != 10 * 12 || six != 4 * 12) { // 인원 테이블 수 확인
 					System.out.println("<예약 정보 파일>의 좌석 정보가 올바르지 않습니다. 식당은 2 인용 테이블 "
 							+ "6 개, 4 인용 테이블 10 개, 6 인용 테이블 4 개로 구성되어 있습니다. 따라서 <예약 정보 파일>에도 "
 							+ "각각의 좌석은 해당 개수만큼 존재해야 합니다.");
@@ -147,7 +147,7 @@ public class Validate {
 
 			}
 			case 3: {// 시간
-				if (temp[i].matches("^[0-9]{2}$")&&Integer.parseInt(temp[i]) >= 10 && Integer.parseInt(temp[i]) <= 20)
+				if (temp[i].matches("^[0-9]{2}$")&&Integer.parseInt(temp[i]) >= 10 && Integer.parseInt(temp[i]) <= 21)
 					break;
 				else {
 					System.out.println(date + ".txt의 형식이 올바르지 않습니다.");
