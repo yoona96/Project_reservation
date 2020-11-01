@@ -24,7 +24,8 @@ public class Main {
             Scanner input_scan = new Scanner(System.in);
             Scanner pwd_scan = new Scanner(System.in);
             String menu_choice = input_scan.nextLine();
-
+            
+            
             if (menu_choice.matches("[1-7]")) {
                 int chosen_menu = Integer.parseInt(menu_choice);
                 if (chosen_menu >= 1 && chosen_menu <= 7) {
