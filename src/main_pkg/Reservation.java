@@ -312,7 +312,7 @@ public class Reservation {
 			System.out.println("붙어있는 좌석 : (1,2) (3,4) (5,6) (7,8) (9,10) (11,12) (13,14) (15,16) (17,18) (19,20)\n");
 			System.out.print("좌석을 자동으로 할당 받으시겠습니까? (y/n) : ");
 
-			String table_choice = choose_table_input.nextLine();
+			String table_choice = choose_table_input.next();
 
 			if (table_choice.trim().equals("y")) {
 				auto_table();
@@ -536,10 +536,10 @@ public class Reservation {
 			System.out.println("[필수 입력 정보]");
 			System.out.print("이름과 전화번호를 차례대로 입력하세요.(ex.김건국		010-1234-5678 ): ");
 
-			Scanner sc = new Scanner(System.in,"euc-kr");
+			Scanner sc = new Scanner(System.in);
 			String line = sc.nextLine();
 			String[] line_split = null;
-
+			line = line.trim();
 			// check if format is right
 			if (line.contains("	") || line.contains(" ")) {
 				// for the format of input String
