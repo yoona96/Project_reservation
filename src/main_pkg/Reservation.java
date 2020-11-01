@@ -747,7 +747,7 @@ public class Reservation {
 			}
 			System.out.println("\n결제 예정 금액: ￦" + formatter.format(price) + "\n");
 			System.out.print("주문 내역을 확정하고 주문을 완료하시겠습니까?(y/n) :");
-			String menu_confirm = scan1.next();
+			String menu_confirm = scan1.nextLine();
 			String[] yorn_value = new String[0];
 
 			if (menu_confirm.contains(" ") || menu_confirm.contains("")) {
@@ -802,7 +802,7 @@ public class Reservation {
 			System.out.println();
 			System.out.println("결제 예정 금액: ￦" + formatter.format(price) + "\n");
 			System.out.print(rsv + "을 확정하시겠습니까?(y/n): ");
-			String reservation_confirm = scan2.next();
+			String reservation_confirm = scan2.nextLine();
 			String[] yorn_value = new String[0];
 
 			if (reservation_confirm.contains(" ") || reservation_confirm.contains("")) {
