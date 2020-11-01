@@ -314,10 +314,10 @@ public class Reservation {
 
 			String table_choice = choose_table_input.nextLine();
 
-			if (table_choice.equals("y")) {
+			if (table_choice.trim().equals("y")) {
 				auto_table();
 				break;
-			} else if (table_choice.equals("n")) {
+			} else if (table_choice.trim().equals("n")) {
 				choose_table();
 				break;
 			} else {
